@@ -87,7 +87,7 @@ const NAV = [
     ],
   },
   {
-    label: "Koç'ta Hayat",
+    label: "IGG'de Hayat",
     banner: {
       href: "/kocta-hayat",
       title: "IGG'de Hayat",
