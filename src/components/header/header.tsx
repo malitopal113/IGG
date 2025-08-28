@@ -3,13 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-/**
- * IGG Header – Koç tarzı: full-width, menü ortalı
- * - Dropdownlar sadece TIKLAMA ile açılır/kapanır
- * - Hover’da cursor-pointer
- * - Dışarı tıklayınca ve Escape ile kapanır
- */
-
+/* --------- NAV DATA --------- */
 const NAV = [
   {
     label: "Hakkında",
@@ -137,12 +131,14 @@ const NAV = [
       { label: "Kılavuzlar", href: "/medya-merkezi/kilavuzlar" },
     ]],
   },
-];
+] as const;
 
+/* --------- UTILS --------- */
 function classNames(...arr: Array<string | false | null | undefined>) {
   return arr.filter(Boolean).join(" ");
 }
 
+/* --------- HEADER --------- */
 export default function Header() {
   const [scrolled, setScrolled] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -158,17 +154,16 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // route değişince menüleri kapat
+  // rota değişince kapat
   React.useEffect(() => {
     setMobileOpen(false);
     setOpenIndex(null);
     setSearchOpen(false);
   }, [pathname]);
 
-  // dışarı tıkla + Escape ile kapat
+  // dışarı tık + ESC
   React.useEffect(() => {
     if (openIndex === null) return;
-
     const onDocClick = (e: MouseEvent) => {
       const root = headerRef.current;
       if (!root) return;
@@ -185,7 +180,6 @@ export default function Header() {
     };
   }, [openIndex]);
 
-  // link rengi (transparan: beyaz, scroll: koyu)
   const linkColor = scrolled
     ? "text-gray-900 hover:text-gray-700"
     : "text-white hover:text-white/80";
@@ -201,19 +195,13 @@ export default function Header() {
     >
       {/* container-fluid */}
       <div className="w-full px-4 sm:px-6 lg:px-8">
-        {/* 3 bölmeli: sol logo, ortada menü (flex-1 + justify-center), sağda aksiyonlar */}
         <nav className="flex h-16 items-center" aria-label="Main">
-          {/* Sol: Logo + hamburger */}
+          {/* Sol logo + hamburger */}
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center" aria-label="IGG anasayfa">
-              <img
-                src={scrolled ? "/logo.svg" : "/logo-white.svg"}
-                alt="IGG"
-                className="h-8 w-auto"
-              />
+              <img src={scrolled ? "/logo.svg" : "/logo-white.svg"} alt="IGG" className="h-8 w-auto" />
             </Link>
 
-            {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen((s) => !s)}
               className={classNames(
@@ -229,7 +217,7 @@ export default function Header() {
             </button>
           </div>
 
-          {/* Orta: Desktop navbar */}
+          {/* Orta menü */}
           <ul className="hidden lg:flex flex-1 items-center justify-center gap-6">
             {NAV.map((item, idx) => (
               <li key={item.label} className="relative">
@@ -240,73 +228,20 @@ export default function Header() {
                   )}
                   aria-haspopup="true"
                   aria-expanded={openIndex === idx}
-                  aria-controls={`mega-${idx}`}
-                  onClick={() =>
-                    setOpenIndex((s) => (s === idx ? null : idx))
-                  }
+                  onClick={() => setOpenIndex((s) => (s === idx ? null : idx))}
                 >
                   <span>{item.label}</span>
                   <svg width="12" height="12" viewBox="0 0 20 20" aria-hidden="true">
                     <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
                   </svg>
                 </button>
-
-                {/* Mega menu (sadece tıklayınca açılır) */}
-                {openIndex === idx && (
-                  <div
-                    id={`mega-${idx}`}
-                    className="absolute left-1/2 top-full w-[64rem] -translate-x-1/2 pt-4"
-                  >
-                    <div className="rounded-2xl border border-black/10 bg-white shadow-xl">
-                      <div className="grid grid-cols-12 gap-6 p-6">
-                        {/* Banner */}
-                        <Link
-                          href={item.banner.href}
-                          className="col-span-12 lg:col-span-5 overflow-hidden rounded-xl group"
-                        >
-                          <div
-                            className="relative h-40 w-full bg-cover bg-center"
-                            style={{ backgroundImage: `url(${item.banner.image})` }}
-                            aria-hidden
-                          />
-                          <div className="p-4">
-                            <h3 className="text-lg font-semibold">{item.banner.title}</h3>
-                            <span className="text-sm inline-flex items-center gap-1">
-                              Daha fazla bilgi
-                              <svg width="12" height="12" viewBox="0 0 20 20" aria-hidden="true">
-                                <path d="M7 5l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2" />
-                              </svg>
-                            </span>
-                          </div>
-                        </Link>
-
-                        {/* Columns */}
-                        <div className="col-span-12 lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                          {item.columns.map((col, ci) => (
-                            <ul key={ci} className="space-y-2">
-                              {col.map((link) => (
-                                <li key={link.href}>
-                                  <Link href={link.href} className="text-sm hover:text-black/80">
-                                    {link.label}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </li>
             ))}
           </ul>
 
-          {/* Sağ: EN + Search */}
+          {/* Sağ aksiyonlar */}
           <div className={classNames("ml-auto flex items-center gap-2", linkColor)}>
-            <Link href="/en" className="hidden sm:inline text-sm font-medium">
-              EN
-            </Link>
+            <Link href="/en" className="hidden sm:inline text-sm font-medium">EN</Link>
             <button
               onClick={() => setSearchOpen(true)}
               className={classNames(
@@ -321,22 +256,159 @@ export default function Header() {
         </nav>
       </div>
 
-      {/* Mobile panel */}
+      {/* FULL-WIDTH PANEL */}
+      {openIndex !== null && (
+        <MegaPanel item={NAV[openIndex]} onClose={() => setOpenIndex(null)} />
+      )}
+
+      {/* Mobil off-canvas */}
+      <MobileOffCanvas open={mobileOpen} onClose={() => setMobileOpen(false)} />
+
+      {/* Search popup */}
+      {searchOpen && (
+        <div className="fixed inset-0 z-[60] hidden lg:flex items-start justify-center pt-24">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setSearchOpen(false)} />
+          <div className="relative z-10 w-full max-w-3xl rounded-2xl bg-white p-6 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Bir arama yapın…</h2>
+              <button
+                onClick={() => setSearchOpen(false)}
+                className="rounded-md border border-black/10 px-3 py-1 text-sm cursor-pointer"
+                aria-label="Kapat"
+              >
+                KAPAT
+              </button>
+            </div>
+            <form action="/arama" method="get" className="mt-4">
+              <label className="flex items-stretch gap-2 border rounded-xl p-2">
+                <input type="text" name="keyword" className="flex-1 outline-none" placeholder="Aramak istediğiniz kelimeyi girin" />
+                <button type="submit" className="px-4 rounded-md border text-sm cursor-pointer">ARA</button>
+              </label>
+              <div className="mt-4">
+                <h3 className="mb-2 text-sm font-medium text-black/60">Popüler aramalar:</h3>
+                <ul className="flex flex-wrap gap-2">
+                  {[
+                    { label: "FAALİYET RAPORU", href: "/yatirimci-iliskileri/raporlar" },
+                    { label: "SÜRDÜRÜLEBİLİRLİK", href: "/surdurulebilirlik" },
+                    { label: "ŞİRKETLER", href: "/faaliyet-alanlari/sirketler" },
+                  ].map((q) => (
+                    <li key={q.href}>
+                      <Link href={q.href} className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs">
+                        <span>{q.label}</span><span>→</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* animasyon keyframe */}
+      <style jsx global>{`
+        @keyframes megaslide {
+          from { transform: translateY(0.5rem); opacity: 0; }
+          to   { transform: translateY(0);      opacity: 1; }
+        }
+      `}</style>
+    </header>
+  );
+}
+
+/* --------- FULL-WIDTH PANEL COMPONENT --------- */
+function MegaPanel({
+  item,
+  onClose,
+}: {
+  item: (typeof NAV)[number];
+  onClose: () => void;
+}) {
+  return (
+    <div
+      className="fixed inset-x-0 top-16 z-50 origin-top translate-y-2 opacity-0"
+      style={{ animation: "megaslide 180ms ease-out forwards" }}
+    >
+      <div className="w-full bg-white border-t border-black/10 shadow-[0_20px_40px_rgba(0,0,0,.08)]">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-8">
+          <div className="grid grid-cols-12 gap-8">
+            {/* Sol büyük görsel */}
+            <Link
+              href={item.banner.href}
+              className="col-span-12 lg:col-span-6 overflow-hidden rounded-2xl group"
+              onClick={onClose}
+            >
+              <div
+                className="relative h-[320px] lg:h-[420px] w-full bg-cover bg-center rounded-2xl"
+                style={{ backgroundImage: `url(${item.banner.image})` }}
+                aria-hidden
+              />
+              <div className="mt-4">
+                <h3 className="text-3xl lg:text-4xl font-bold">{item.banner.title}</h3>
+                <span className="mt-2 inline-flex items-center gap-2 text-sm text-gray-700">
+                  Daha fazla bilgi
+                  <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="M7 5l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2" />
+                  </svg>
+                </span>
+              </div>
+            </Link>
+
+            {/* Sağ sütunlar */}
+            <div className="col-span-12 lg:col-span-6">
+              <div className="grid grid-cols-1">
+                {item.columns.map((col, ci) => (
+                  <ul key={ci} className="divide-y divide-black/10 rounded-2xl overflow-hidden bg-white">
+                    {col.map((link) => (
+                      <li key={link.href} className="group">
+                        <Link
+                          href={link.href}
+                          onClick={onClose}
+                          className="flex items-center justify-between px-5 py-4 text-[15px] hover:bg-black/[.03]"
+                        >
+                          <span>{link.label}</span>
+                          <svg width="16" height="16" viewBox="0 0 20 20" className="opacity-60 group-hover:opacity-100 transition">
+                            <path d="M7 5l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2" />
+                          </svg>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* --------- MOBILE OFF-CANVAS --------- */
+function MobileOffCanvas({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  return (
+    <>
       <div
         id="mobile-menu"
         className={classNames(
-          "lg:hidden fixed inset-y-0 left-0 z-50 w-80 max-w-[85vw] transform bg-white shadow-xl transition-transform",
-          mobileOpen ? "translate-x-0" : "-translate-x-full"
+          "lg:hidden fixed inset-y-0 left-0 z-[70] w-80 max-w-[85vw] transform bg-white shadow-xl transition-transform",
+          open ? "translate-x-0" : "-translate-x-full"
         )}
         role="dialog"
         aria-modal="true"
       >
         <div className="flex items-center justify-between px-4 h-16 border-b border-black/10">
-          <Link href="/" className="flex items-center" aria-label="IGG anasayfa">
+          <Link href="/" className="flex items-center" aria-label="IGG anasayfa" onClick={onClose}>
             <img src="/logo.svg" alt="IGG" className="h-7 w-auto" />
           </Link>
           <button
-            onClick={() => setMobileOpen(false)}
+            onClick={onClose}
             aria-label="Kapat"
             className="rounded-md border border-black/10 px-3 py-2 text-sm cursor-pointer"
           >
@@ -345,18 +417,10 @@ export default function Header() {
         </div>
 
         <div className="overflow-y-auto p-4">
-          {/* Arama */}
           <form action="/arama" method="get" className="mb-4">
             <label className="flex items-stretch gap-2 border rounded-lg p-2">
-              <input
-                type="text"
-                name="keyword"
-                placeholder="Aramak istediğiniz kelimeyi yazın"
-                className="flex-1 outline-none"
-              />
-              <button type="submit" className="px-3 py-1 rounded-md border text-sm cursor-pointer">
-                ARA
-              </button>
+              <input type="text" name="keyword" placeholder="Aramak istediğiniz kelimeyi yazın" className="flex-1 outline-none" />
+              <button type="submit" className="px-3 py-1 rounded-md border text-sm cursor-pointer">ARA</button>
             </label>
           </form>
 
@@ -373,7 +437,7 @@ export default function Header() {
                       <ul key={ci} className="mb-3 space-y-1">
                         {col.map((link) => (
                           <li key={link.href}>
-                            <Link href={link.href} className="block rounded px-2 py-1 text-sm hover:bg-black/5">
+                            <Link href={link.href} onClick={onClose} className="block rounded px-2 py-1 text-sm hover:bg-black/5">
                               {link.label}
                             </Link>
                           </li>
@@ -386,7 +450,7 @@ export default function Header() {
             ))}
 
             <li>
-              <Link href="/en" className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-black/5">
+              <Link href="/en" onClick={onClose} className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-black/5">
                 EN
               </Link>
             </li>
@@ -394,62 +458,9 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Scrim for mobile & search */}
-      {(mobileOpen || searchOpen) && (
-        <button
-          className="fixed inset-0 z-40 bg-black/40 lg:hidden"
-          aria-label="Kapat"
-          onClick={() => {
-            setMobileOpen(false);
-            setSearchOpen(false);
-          }}
-        />
+      {open && (
+        <button className="fixed inset-0 z-[60] bg-black/40 lg:hidden" aria-label="Kapat" onClick={onClose} />
       )}
-
-      {/* Search popup (desktop-first) */}
-      {searchOpen && (
-        <div className="fixed inset-0 z-50 hidden lg:flex items-start justify-center pt-24">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setSearchOpen(false)} />
-          <div className="relative z-10 w-full max-w-3xl rounded-2xl bg-white p-6 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Bir arama yapın…</h2>
-              <button
-                onClick={() => setSearchOpen(false)}
-                className="rounded-md border border-black/10 px-3 py-1 text-sm cursor-pointer"
-                aria-label="Kapat"
-              >
-                KAPAT
-              </button>
-            </div>
-            <form action="/arama" method="get" className="mt-4">
-              <label className="flex items-stretch gap-2 border rounded-xl p-2">
-                <input type="text" name="keyword" className="flex-1 outline-none" placeholder="Aramak istediğiniz kelimeyi girin" />
-                <button type="submit" className="px-4 rounded-md border text-sm cursor-pointer">
-                  ARA
-                </button>
-              </label>
-
-              <div className="mt-4">
-                <h3 className="mb-2 text-sm font-medium text-black/60">Popüler aramalar:</h3>
-                <ul className="flex flex-wrap gap-2">
-                  {[
-                    { label: "FAALİYET RAPORU", href: "/yatirimci-iliskileri/raporlar" },
-                    { label: "SÜRDÜRÜLEBİLİRLİK", href: "/surdurulebilirlik" },
-                    { label: "ŞİRKETLER", href: "/faaliyet-alanlari/sirketler" },
-                  ].map((q) => (
-                    <li key={q.href}>
-                      <Link href={q.href} className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs">
-                        <span>{q.label}</span>
-                        <span>→</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </header>
+    </>
   );
 }
