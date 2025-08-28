@@ -1,10 +1,10 @@
-import HeroSlider from "@/components/home/HeroSlider";
+import HeroSliderBS from "@/components/home/HeroSlider";
 
 export default function Home() {
   return (
     <div >
       
-      <HeroSlider />
+      <HeroSliderBS />
 
 
     </div>

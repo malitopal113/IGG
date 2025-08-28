@@ -4,8 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 /**
- * IGG Header – Koç tarzı: full-width, menü tam ortalı,
- * transparan modda beyaz; scroll sonrası koyu tema.
+ * IGG Header – Koç tarzı: full-width, menü ortalı
+ * - Dropdownlar sadece TIKLAMA ile açılır/kapanır
+ * - Hover’da cursor-pointer
+ * - Dışarı tıklayınca ve Escape ile kapanır
  */
 
 const NAV = [
@@ -147,6 +149,7 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = React.useState(false);
   const [openIndex, setOpenIndex] = React.useState<number | null>(null);
   const pathname = usePathname();
+  const headerRef = React.useRef<HTMLElement | null>(null);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -162,6 +165,26 @@ export default function Header() {
     setSearchOpen(false);
   }, [pathname]);
 
+  // dışarı tıkla + Escape ile kapat
+  React.useEffect(() => {
+    if (openIndex === null) return;
+
+    const onDocClick = (e: MouseEvent) => {
+      const root = headerRef.current;
+      if (!root) return;
+      if (!root.contains(e.target as Node)) setOpenIndex(null);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpenIndex(null);
+    };
+    document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDocClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [openIndex]);
+
   // link rengi (transparan: beyaz, scroll: koyu)
   const linkColor = scrolled
     ? "text-gray-900 hover:text-gray-700"
@@ -169,6 +192,7 @@ export default function Header() {
 
   return (
     <header
+      ref={headerRef}
       className={classNames(
         "fixed inset-x-0 top-0 z-50 transition-all",
         scrolled ? "backdrop-blur bg-white/80 shadow-sm" : "bg-transparent"
@@ -193,7 +217,7 @@ export default function Header() {
             <button
               onClick={() => setMobileOpen((s) => !s)}
               className={classNames(
-                "lg:hidden inline-flex items-center justify-center rounded-md border px-3 py-2 text-sm",
+                "lg:hidden inline-flex items-center justify-center rounded-md border px-3 py-2 text-sm cursor-pointer",
                 scrolled ? "border-black/10" : "border-white/30",
                 linkColor
               )}
@@ -208,39 +232,31 @@ export default function Header() {
           {/* Orta: Desktop navbar */}
           <ul className="hidden lg:flex flex-1 items-center justify-center gap-6">
             {NAV.map((item, idx) => (
-              <li
-                key={item.label}
-                className="relative"
-                onMouseEnter={() => setOpenIndex(idx)}
-                onMouseLeave={() =>
-                  setOpenIndex((s) => (s === idx ? null : s))
-                }
-              >
+              <li key={item.label} className="relative">
                 <button
                   className={classNames(
-                    "inline-flex items-center gap-1 text-sm font-medium focus:outline-none",
+                    "inline-flex items-center gap-1 text-sm font-medium focus:outline-none cursor-pointer",
                     linkColor
                   )}
                   aria-haspopup="true"
                   aria-expanded={openIndex === idx}
+                  aria-controls={`mega-${idx}`}
                   onClick={() =>
                     setOpenIndex((s) => (s === idx ? null : idx))
                   }
                 >
                   <span>{item.label}</span>
                   <svg width="12" height="12" viewBox="0 0 20 20" aria-hidden="true">
-                    <path
-                      d="M5 7l5 5 5-5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
+                    <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
                   </svg>
                 </button>
 
-                {/* Mega menu */}
+                {/* Mega menu (sadece tıklayınca açılır) */}
                 {openIndex === idx && (
-                  <div className="absolute left-1/2 top-full w-[64rem] -translate-x-1/2 pt-4">
+                  <div
+                    id={`mega-${idx}`}
+                    className="absolute left-1/2 top-full w-[64rem] -translate-x-1/2 pt-4"
+                  >
                     <div className="rounded-2xl border border-black/10 bg-white shadow-xl">
                       <div className="grid grid-cols-12 gap-6 p-6">
                         {/* Banner */}
@@ -254,18 +270,11 @@ export default function Header() {
                             aria-hidden
                           />
                           <div className="p-4">
-                            <h3 className="text-lg font-semibold">
-                              {item.banner.title}
-                            </h3>
+                            <h3 className="text-lg font-semibold">{item.banner.title}</h3>
                             <span className="text-sm inline-flex items-center gap-1">
                               Daha fazla bilgi
                               <svg width="12" height="12" viewBox="0 0 20 20" aria-hidden="true">
-                                <path
-                                  d="M7 5l6 5-6 5"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                />
+                                <path d="M7 5l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2" />
                               </svg>
                             </span>
                           </div>
@@ -277,10 +286,7 @@ export default function Header() {
                             <ul key={ci} className="space-y-2">
                               {col.map((link) => (
                                 <li key={link.href}>
-                                  <Link
-                                    href={link.href}
-                                    className="text-sm hover:text-black/80"
-                                  >
+                                  <Link href={link.href} className="text-sm hover:text-black/80">
                                     {link.label}
                                   </Link>
                                 </li>
@@ -304,7 +310,7 @@ export default function Header() {
             <button
               onClick={() => setSearchOpen(true)}
               className={classNames(
-                "inline-flex items-center justify-center rounded-md border px-3 py-2 text-sm",
+                "inline-flex items-center justify-center rounded-md border px-3 py-2 text-sm cursor-pointer",
                 scrolled ? "border-black/10" : "border-white/30"
               )}
               aria-label="Arama"
@@ -332,7 +338,7 @@ export default function Header() {
           <button
             onClick={() => setMobileOpen(false)}
             aria-label="Kapat"
-            className="rounded-md border border-black/10 px-3 py-2 text-sm"
+            className="rounded-md border border-black/10 px-3 py-2 text-sm cursor-pointer"
           >
             ✕
           </button>
@@ -348,14 +354,14 @@ export default function Header() {
                 placeholder="Aramak istediğiniz kelimeyi yazın"
                 className="flex-1 outline-none"
               />
-              <button type="submit" className="px-3 py-1 rounded-md border text-sm">
+              <button type="submit" className="px-3 py-1 rounded-md border text-sm cursor-pointer">
                 ARA
               </button>
             </label>
           </form>
 
           <ul className="space-y-2">
-            {NAV.map((item, idx) => (
+            {NAV.map((item) => (
               <li key={item.label}>
                 <details className="group">
                   <summary className="flex cursor-pointer items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-black/5">
@@ -367,10 +373,7 @@ export default function Header() {
                       <ul key={ci} className="mb-3 space-y-1">
                         {col.map((link) => (
                           <li key={link.href}>
-                            <Link
-                              href={link.href}
-                              className="block rounded px-2 py-1 text-sm hover:bg-black/5"
-                            >
+                            <Link href={link.href} className="block rounded px-2 py-1 text-sm hover:bg-black/5">
                               {link.label}
                             </Link>
                           </li>
@@ -383,10 +386,7 @@ export default function Header() {
             ))}
 
             <li>
-              <Link
-                href="/en"
-                className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-black/5"
-              >
+              <Link href="/en" className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-black/5">
                 EN
               </Link>
             </li>
@@ -409,16 +409,13 @@ export default function Header() {
       {/* Search popup (desktop-first) */}
       {searchOpen && (
         <div className="fixed inset-0 z-50 hidden lg:flex items-start justify-center pt-24">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setSearchOpen(false)}
-          />
+          <div className="absolute inset-0 bg-black/40" onClick={() => setSearchOpen(false)} />
           <div className="relative z-10 w-full max-w-3xl rounded-2xl bg-white p-6 shadow-2xl">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Bir arama yapın…</h2>
               <button
                 onClick={() => setSearchOpen(false)}
-                className="rounded-md border border-black/10 px-3 py-1 text-sm"
+                className="rounded-md border border-black/10 px-3 py-1 text-sm cursor-pointer"
                 aria-label="Kapat"
               >
                 KAPAT
@@ -426,22 +423,14 @@ export default function Header() {
             </div>
             <form action="/arama" method="get" className="mt-4">
               <label className="flex items-stretch gap-2 border rounded-xl p-2">
-                <input
-                  type="text"
-                  name="keyword"
-                  className="flex-1 outline-none"
-                  placeholder="Aramak istediğiniz kelimeyi girin"
-                />
-                <button type="submit" className="px-4 rounded-md border text-sm">
+                <input type="text" name="keyword" className="flex-1 outline-none" placeholder="Aramak istediğiniz kelimeyi girin" />
+                <button type="submit" className="px-4 rounded-md border text-sm cursor-pointer">
                   ARA
                 </button>
               </label>
 
-              {/* Popüler aramalar */}
               <div className="mt-4">
-                <h3 className="mb-2 text-sm font-medium text-black/60">
-                  Popüler aramalar:
-                </h3>
+                <h3 className="mb-2 text-sm font-medium text-black/60">Popüler aramalar:</h3>
                 <ul className="flex flex-wrap gap-2">
                   {[
                     { label: "FAALİYET RAPORU", href: "/yatirimci-iliskileri/raporlar" },
@@ -449,10 +438,7 @@ export default function Header() {
                     { label: "ŞİRKETLER", href: "/faaliyet-alanlari/sirketler" },
                   ].map((q) => (
                     <li key={q.href}>
-                      <Link
-                        href={q.href}
-                        className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs"
-                      >
+                      <Link href={q.href} className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs">
                         <span>{q.label}</span>
                         <span>→</span>
                       </Link>
