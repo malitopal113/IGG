@@ -4,12 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 /**
- * IGG Header – Koc.com.tr header tasarımına yakın, Tailwind ile.
- * Notlar:
- * - Bootstrap/OWL yok; yalnızca Tailwind + minimal TS/JS.
- * - Mega menüler hover (desktop) ve tıklama (mobile) ile açılır.
- * - Arama popup'ı ve mobil off-canvas menü dahildir.
- * - Logo görsellerini /public altında tutun: /logo.svg, /logo-white.svg
+ * IGG Header – Koç tarzı: full-width, menü tam ortalı,
+ * transparan modda beyaz; scroll sonrası koyu tema.
  */
 
 const NAV = [
@@ -159,12 +155,17 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // close menus on route change
+  // route değişince menüleri kapat
   React.useEffect(() => {
     setMobileOpen(false);
     setOpenIndex(null);
     setSearchOpen(false);
   }, [pathname]);
+
+  // link rengi (transparan: beyaz, scroll: koyu)
+  const linkColor = scrolled
+    ? "text-gray-900 hover:text-gray-700"
+    : "text-white hover:text-white/80";
 
   return (
     <header
@@ -174,12 +175,13 @@ export default function Header() {
       )}
       role="banner"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <nav className="flex h-16 items-center justify-between" aria-label="Main">
-          {/* Left: Brand + Mobile toggle */}
+      {/* container-fluid */}
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        {/* 3 bölmeli: sol logo, ortada menü (flex-1 + justify-center), sağda aksiyonlar */}
+        <nav className="flex h-16 items-center" aria-label="Main">
+          {/* Sol: Logo + hamburger */}
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center" aria-label="IGG anasayfa">
-              {/* Renkli ve beyaz logo versiyonlarını duruma göre gösterebilirsiniz */}
               <img
                 src={scrolled ? "/logo.svg" : "/logo-white.svg"}
                 alt="IGG"
@@ -190,33 +192,49 @@ export default function Header() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen((s) => !s)}
-              className="lg:hidden inline-flex items-center justify-center rounded-md border border-black/10 px-3 py-2 text-sm"
+              className={classNames(
+                "lg:hidden inline-flex items-center justify-center rounded-md border px-3 py-2 text-sm",
+                scrolled ? "border-black/10" : "border-white/30",
+                linkColor
+              )}
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               aria-label="Menüyü aç/kapat"
             >
-              <span className="i-[bars]">☰</span>
+              <span>☰</span>
             </button>
           </div>
 
-          {/* Center: Desktop navbar */}
-          <ul className="hidden lg:flex items-center gap-6">
+          {/* Orta: Desktop navbar */}
+          <ul className="hidden lg:flex flex-1 items-center justify-center gap-6">
             {NAV.map((item, idx) => (
               <li
                 key={item.label}
                 className="relative"
                 onMouseEnter={() => setOpenIndex(idx)}
-                onMouseLeave={() => setOpenIndex((s) => (s === idx ? null : s))}
+                onMouseLeave={() =>
+                  setOpenIndex((s) => (s === idx ? null : s))
+                }
               >
                 <button
-                  className="inline-flex items-center gap-1 text-sm font-medium hover:text-black/80 focus:outline-none"
+                  className={classNames(
+                    "inline-flex items-center gap-1 text-sm font-medium focus:outline-none",
+                    linkColor
+                  )}
                   aria-haspopup="true"
                   aria-expanded={openIndex === idx}
-                  onClick={() => setOpenIndex((s) => (s === idx ? null : idx))}
+                  onClick={() =>
+                    setOpenIndex((s) => (s === idx ? null : idx))
+                  }
                 >
                   <span>{item.label}</span>
                   <svg width="12" height="12" viewBox="0 0 20 20" aria-hidden="true">
-                    <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
+                    <path
+                      d="M5 7l5 5 5-5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
                   </svg>
                 </button>
 
@@ -236,11 +254,18 @@ export default function Header() {
                             aria-hidden
                           />
                           <div className="p-4">
-                            <h3 className="text-lg font-semibold">{item.banner.title}</h3>
+                            <h3 className="text-lg font-semibold">
+                              {item.banner.title}
+                            </h3>
                             <span className="text-sm inline-flex items-center gap-1">
                               Daha fazla bilgi
                               <svg width="12" height="12" viewBox="0 0 20 20" aria-hidden="true">
-                                <path d="M7 5l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2" />
+                                <path
+                                  d="M7 5l6 5-6 5"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                />
                               </svg>
                             </span>
                           </div>
@@ -271,14 +296,17 @@ export default function Header() {
             ))}
           </ul>
 
-          {/* Right: EN + Search */}
-          <div className="flex items-center gap-2">
+          {/* Sağ: EN + Search */}
+          <div className={classNames("ml-auto flex items-center gap-2", linkColor)}>
             <Link href="/en" className="hidden sm:inline text-sm font-medium">
               EN
             </Link>
             <button
               onClick={() => setSearchOpen(true)}
-              className="inline-flex items-center justify-center rounded-md border border-black/10 px-3 py-2 text-sm"
+              className={classNames(
+                "inline-flex items-center justify-center rounded-md border px-3 py-2 text-sm",
+                scrolled ? "border-black/10" : "border-white/30"
+              )}
               aria-label="Arama"
             >
               🔍
@@ -339,7 +367,10 @@ export default function Header() {
                       <ul key={ci} className="mb-3 space-y-1">
                         {col.map((link) => (
                           <li key={link.href}>
-                            <Link href={link.href} className="block rounded px-2 py-1 text-sm hover:bg-black/5">
+                            <Link
+                              href={link.href}
+                              className="block rounded px-2 py-1 text-sm hover:bg-black/5"
+                            >
                               {link.label}
                             </Link>
                           </li>
@@ -352,7 +383,10 @@ export default function Header() {
             ))}
 
             <li>
-              <Link href="/en" className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-black/5">
+              <Link
+                href="/en"
+                className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-black/5"
+              >
                 EN
               </Link>
             </li>
@@ -375,7 +409,10 @@ export default function Header() {
       {/* Search popup (desktop-first) */}
       {searchOpen && (
         <div className="fixed inset-0 z-50 hidden lg:flex items-start justify-center pt-24">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setSearchOpen(false)} />
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setSearchOpen(false)}
+          />
           <div className="relative z-10 w-full max-w-3xl rounded-2xl bg-white p-6 shadow-2xl">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Bir arama yapın…</h2>
@@ -402,7 +439,9 @@ export default function Header() {
 
               {/* Popüler aramalar */}
               <div className="mt-4">
-                <h3 className="mb-2 text-sm font-medium text-black/60">Popüler aramalar:</h3>
+                <h3 className="mb-2 text-sm font-medium text-black/60">
+                  Popüler aramalar:
+                </h3>
                 <ul className="flex flex-wrap gap-2">
                   {[
                     { label: "FAALİYET RAPORU", href: "/yatirimci-iliskileri/raporlar" },
@@ -410,7 +449,10 @@ export default function Header() {
                     { label: "ŞİRKETLER", href: "/faaliyet-alanlari/sirketler" },
                   ].map((q) => (
                     <li key={q.href}>
-                      <Link href={q.href} className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs">
+                      <Link
+                        href={q.href}
+                        className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs"
+                      >
                         <span>{q.label}</span>
                         <span>→</span>
                       </Link>
