@@ -160,6 +160,7 @@ export default function Header() {
 
   // scroll state
   React.useEffect(() => {
+    if (typeof window === "undefined") return;
     const onScroll = () => setScrolled(window.scrollY > 10);
     onScroll();
     window.addEventListener("scroll", onScroll);
@@ -176,6 +177,7 @@ export default function Header() {
   // outside click + ESC for mega panel
   React.useEffect(() => {
     if (openIndex === null) return;
+    if (typeof document === "undefined") return; 
     const onDocClick = (e: MouseEvent) => {
       const root = headerRef.current;
       if (!root) return;
