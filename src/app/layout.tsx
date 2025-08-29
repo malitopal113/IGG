@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Cabin } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/header/header";
-import Footer from "@/components/footer/footer";
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import dynamic from "next/dynamic";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const Header = dynamic(() => import("@/components/header/header"), { ssr: false });
+const Footer = dynamic(() => import("@/components/footer/footer"), { ssr: false });
+
+
+
 
 const cabin = Cabin({
   subsets: ["latin"],
