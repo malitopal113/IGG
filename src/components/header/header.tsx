@@ -4,6 +4,9 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import Image from "next/image";
+
+
 /* ---------- NAV DATA ---------- */
 const NAV = [
   {
@@ -66,7 +69,10 @@ const NAV = [
         },
       ],
       [
-        { label: "Sunumlar ve Bültenler", href: "/yatirimci-iliskileri/sunumlar-ve-bultenler" },
+        {
+          label: "Sunumlar ve Bültenler",
+          href: "/yatirimci-iliskileri/sunumlar-ve-bultenler",
+        },
         { label: "Finansal Bilgiler", href: "/yatirimci-iliskileri/finansal-bilgiler" },
         { label: "Duyuru ve Yayınlar", href: "/yatirimci-iliskileri/duyuru-ve-yayinlar" },
         { label: "Raporlar", href: "/yatirimci-iliskileri/raporlar" },
@@ -87,11 +93,13 @@ const NAV = [
       image:
         "https://cdn.koc.com.tr/cmscontainer/kocholding/media/koc/menu-img/koc_ta_hayat.jpg?ext=.jpg",
     },
-    columns: [[
-      { label: "İçinde IGG Var", href: "/kocta-hayat/icinde-igg-var" },
-      { label: "IGG'li Olmak", href: "/kocta-hayat/iggli-olmak" },
-      { label: "Endüstri İlişkileri", href: "/kocta-hayat/endustri-iliskileri" },
-    ]],
+    columns: [
+      [
+        { label: "İçinde IGG Var", href: "/kocta-hayat/icinde-igg-var" },
+        { label: "IGG'li Olmak", href: "/kocta-hayat/iggli-olmak" },
+        { label: "Endüstri İlişkileri", href: "/kocta-hayat/endustri-iliskileri" },
+      ],
+    ],
   },
   {
     label: "Sürdürülebilirlik",
@@ -125,12 +133,14 @@ const NAV = [
       image:
         "https://cdn.koc.com.tr/cmscontainer/kocholding/media/koc/menu-img/medya_merkezi.jpg?ext=.jpg",
     },
-    columns: [[
-      { label: "Haberler", href: "/medya-merkezi/haberler" },
-      { label: "Basın Bültenleri", href: "/medya-merkezi/basin-bultenleri" },
-      { label: "Bizden Haberler", href: "/medya-merkezi/bizden-haberler" },
-      { label: "Kılavuzlar", href: "/medya-merkezi/kilavuzlar" },
-    ]],
+    columns: [
+      [
+        { label: "Haberler", href: "/medya-merkezi/haberler" },
+        { label: "Basın Bültenleri", href: "/medya-merkezi/basin-bultenleri" },
+        { label: "Bizden Haberler", href: "/medya-merkezi/bizden-haberler" },
+        { label: "Kılavuzlar", href: "/medya-merkezi/kilavuzlar" },
+      ],
+    ],
   },
 ] as const;
 
@@ -145,6 +155,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [searchOpen, setSearchOpen] = React.useState(false);
   const [openIndex, setOpenIndex] = React.useState<number | null>(null);
+  const [animSeed, setAnimSeed] = React.useState(0); // her açılışta animasyonu tetiklemek için
   const pathname = usePathname();
   const headerRef = React.useRef<HTMLElement | null>(null);
 
@@ -169,7 +180,6 @@ export default function Header() {
     const onDocClick = (e: MouseEvent) => {
       const root = headerRef.current;
       if (!root) return;
-      // Header görünür kalsın, ama header dışına tıklanırsa kapat
       if (!(e.target instanceof Node)) return;
       const clickedInsideHeader = root.contains(e.target);
       const isPanel =
@@ -187,10 +197,19 @@ export default function Header() {
     };
   }, [openIndex]);
 
+  // tıklayınca aç/kapa + her açılışta animasyon seed yükselt
+  const toggleMenu = (idx: number) => {
+    setOpenIndex((s) => {
+      const next = s === idx ? null : idx;
+      if (next !== null) setAnimSeed((n) => n + 1);
+      return next;
+    });
+  };
+
   // Link rengi: panel açıkken siyah; değilse scrolled veya transparent
   const linkColor =
     openIndex !== null
-      ? "text-black hover:text-gray-700"
+      ? "text-black hover:text-gray-800"
       : scrolled
       ? "text-gray-900 hover:text-gray-700"
       : "text-white hover:text-white/80";
@@ -201,23 +220,19 @@ export default function Header() {
       <header
         ref={headerRef}
         className={classNames(
-          "fixed inset-x-0 top-0 z-50 transition-all",
+          "fixed inset-x-0 top-0 z-[60] transition-all",
           scrolled || openIndex !== null
-            ? "backdrop-blur bg-white/80 shadow-sm"
+            ? "backdrop-blur bg-white shadow-sm"
             : "bg-transparent"
         )}
         role="banner"
       >
-        <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8 p-5">
           <nav className="flex h-16 items-center" aria-label="Main">
             {/* Left: brand + hamburger */}
             <div className="flex items-center gap-3">
               <Link href="/" className="flex items-center" aria-label="IGG anasayfa">
-                <img
-                  src={scrolled || openIndex !== null ? "/logo.svg" : "/logo-white.svg"}
-                  alt="IGG"
-                  className="h-8 w-auto"
-                />
+                <Image src="/assets/menu/logo.svg" alt="IGG" width={120} height={32} priority className="h-20 w-auto" />
               </Link>
 
               <button
@@ -237,25 +252,48 @@ export default function Header() {
 
             {/* Center: navbar */}
             <ul className="hidden lg:flex flex-1 items-center justify-center gap-6">
-              {NAV.map((item, idx) => (
-                <li key={item.label} className="relative">
-                  <button
-                    className={classNames(
-                      "inline-flex items-center gap-1 text-sm font-medium focus:outline-none cursor-pointer",
-                      linkColor
-                    )}
-                    aria-haspopup="true"
-                    aria-expanded={openIndex === idx}
-                    onClick={() => setOpenIndex((s) => (s === idx ? null : idx))}
-                  >
-                    <span>{item.label}</span>
-                    <svg width="12" height="12" viewBox="0 0 20 20" aria-hidden="true">
-                      <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
-                    </svg>
-                  </button>
-                </li>
-              ))}
-            </ul>
+  {NAV.map((item, idx) => {
+    const base = item.banner.href;
+    const activeByPath =
+      pathname === base || (pathname?.startsWith(base + "/") ?? false);
+    const active = activeByPath || openIndex === idx;
+
+    return (
+      <li key={item.label} className="relative">
+        <button
+          className={classNames(
+            "inline-flex items-center gap-1 text-base font-medium focus:outline-none cursor-pointer",
+            linkColor
+          )}
+          aria-haspopup="true"
+          aria-expanded={openIndex === idx}
+          aria-controls={`mega-panel-${idx}`}
+          onClick={() => toggleMenu(idx)}
+        >
+          {/* Sadece label altında çizgi */}
+          <span
+            className={classNames(
+              "relative",
+              active &&
+                "after:content-[''] after:absolute after:left-0 after:-bottom-2 after:h-[2px] after:w-full after:bg-[#F9423A]"
+            )}
+          >
+            {item.label}
+          </span>
+
+          {/* Ok: active ise #F9423A */}
+          <svg
+            width="15" height="15" viewBox="0 0 20 20" aria-hidden="true"
+            className={classNames(active ? "text-[#F9423A]" : "text-[#F9423A]")}
+          >
+            <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
+          </svg>
+        </button>
+      </li>
+    );
+  })}
+</ul>
+
 
             {/* Right: EN + search */}
             <div className={classNames("ml-auto flex items-center gap-2", linkColor)}>
@@ -277,9 +315,13 @@ export default function Header() {
         </div>
       </header>
 
-      {/* FULL-WIDTH MEGA PANEL (header'ın ALTINDA) */}
+      {/* FULL-WIDTH MEGA PANEL (header ALTINDA, en üstten aşağı açılır) */}
       {openIndex !== null && (
-        <MegaPanelTop key={openIndex} item={NAV[openIndex]} onClose={() => setOpenIndex(null)} />
+        <MegaPanelTop
+          key={`panel-${openIndex}-${animSeed}`}
+          item={NAV[openIndex]}
+          onClose={() => setOpenIndex(null)}
+        />
       )}
 
       {/* MOBILE OFF-CANVAS */}
@@ -320,7 +362,7 @@ export default function Header() {
       {/* Animations */}
       <style jsx global>{`
         @keyframes megaslideTop {
-          from { transform: translateY(-16px); opacity: 0; }
+          from { transform: translateY(-24px); opacity: 0; }
           to   { transform: translateY(0);      opacity: 1; }
         }
       `}</style>
@@ -328,7 +370,7 @@ export default function Header() {
   );
 }
 
-/* ---------- FULL-WIDTH PANEL (TOP: 64px) ---------- */
+/* ---------- FULL-WIDTH MEGA PANEL (TOP: 0 — header z-[60] üstte kalır) ---------- */
 function MegaPanelTop({
   item,
   onClose,
@@ -337,68 +379,105 @@ function MegaPanelTop({
   onClose: () => void;
 }) {
   return (
-    <div
-      data-mega-panel="true"
-      className="fixed inset-x-0 top-16 z-40"
-      style={{ animation: "megaslideTop 320ms ease-out forwards" }}
-    >
-      <div className="w-full bg-white border-t border-black/10 shadow-[0_20px_40px_rgba(0,0,0,.08)]">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-8">
-          <div className="grid grid-cols-12 gap-8">
-            {/* Sol: büyük görsel + başlık */}
-            <Link
-              href={item.banner.href}
-              className="col-span-12 lg:col-span-6 overflow-hidden rounded-2xl group"
-              onClick={onClose}
-            >
-              <div
-                className="relative h-[320px] lg:h-[420px] w-full bg-cover bg-center rounded-2xl"
-                style={{ backgroundImage: `url(${item.banner.image})` }}
-                aria-hidden
-              />
-              <div className="mt-4">
-                <h3 className="text-3xl lg:text-4xl font-bold">{item.banner.title}</h3>
-                <span className="mt-2 inline-flex items-center gap-2 text-sm text-gray-700">
-                  Daha fazla bilgi
-                  <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
-                    <path d="M7 5l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2" />
-                  </svg>
-                </span>
-              </div>
-            </Link>
+    <>
+      {/* SCRIM: header'ı örtmesin diye z-[40] (panelin ALTINDA) */}
+      <button
+        aria-label="Kapat"
+        onClick={onClose}
+        className="fixed inset-0 z-[40] bg-black/40"
+      />
 
-            {/* Sağ: liste sütunları */}
-            <div className="col-span-12 lg:col-span-6">
-              <div className="grid grid-cols-1">
-                {item.columns.map((col, ci) => (
-                  <ul key={ci} className="divide-y divide-black/10 rounded-2xl overflow-hidden bg-white">
-                    {col.map((link) => (
-                      <li key={link.href} className="group">
-                        <Link
-                          href={link.href}
-                          onClick={onClose}
-                          className="flex items-center justify-between px-5 py-4 text-[15px] hover:bg-black/[.03]"
-                        >
-                          <span>{link.label}</span>
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 20 20"
-                            className="opacity-60 group-hover:opacity-100 transition"
-                          >
-                            <path d="M7 5l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2" />
-                          </svg>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ))}
-              </div>
+      {/* PANEL: header'ın altında z-[50], en üstten aşağı animasyon */}
+      <div
+        data-mega-panel="true"
+        className="fixed inset-x-0 top-25 z-[50] origin-top animate-[megaslideTop_700ms_ease-out_forwards]"
+      >
+        <div className="w-full bg-white border-t border-black/10 shadow-[0_20px_40px_rgba(0,0,0,.08)]">
+          <div className="w-full max-w-none pl-0 pr-4 sm:pr-6 lg:pr-8 xl:pr-12 2xl:pr-16 py-8">
+            <div className="grid grid-cols-12 gap-8">
+              {/* Sol: büyük görsel + başlık */}
+              <Link
+  href={item.banner.href}
+  className="col-span-12 lg:col-span-4 xl:col-span-5 overflow-hidden group"
+  onClick={onClose}
+>
+  <div className="relative h-[300px] lg:h-[380px] w-full">
+    {/* Görsel (hover yok) */}
+    <div
+      className="absolute inset-0 bg-center bg-cover"
+      style={{ backgroundImage: `url(${item.banner.image})` }}
+      aria-hidden
+    />
+
+    {/* Alttan yukarı gradient */}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" aria-hidden />
+
+    {/* Metin overlay */}
+    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8">
+      <h3 className="text-white text-4xl lg:text-5xl font-extrabold drop-shadow-md">
+        {item.banner.title}
+      </h3>
+
+      {/* “Daha fazla bilgi” + sadece buna özel hover */}
+<span className="relative mt-3 inline-flex items-center gap-2 text-white/95 text-sm lg:text-md group/daha">
+  Daha fazla bilgi
+  <svg
+    width="16" height="16" viewBox="0 0 20 20" aria-hidden="true"
+    className="shrink-0 transition-transform duration-200 group-hover/daha:translate-x-1"
+  >
+    {/* OK rengi güncellendi */}
+    <path d="M7 5l6 5-6 5" fill="none" stroke="#F9423A" strokeWidth="2" />
+  </svg>
+
+  {/* Kırmızı çizgi: yazıyla TAM aynı soldan başlasın, biraz daha kalın */}
+  <span
+    aria-hidden
+    className="pointer-events-none absolute -bottom-2 left-0 h-[2px] w-[450px] lg:w-[500px] bg-[#F9423A]"
+  />
+</span>
+    </div>
+  </div>
+</Link>
+
+              {/* Sağ: akış aşağı -> sonra sağ sütuna; arkaplan yok */}
+<div className="col-span-12 lg:col-span-8 xl:col-span-7">
+  {/* sütunlar: md'de 2, xl'de 3; dikeyden sağa akar */}
+  <div className="columns-1 md:columns-3 xl:columns-2 gap-x-10 [column-fill:_balance]">
+    {item.columns.flat().map((link) => (
+      <Link
+        key={link.href}
+        href={link.href}
+        onClick={onClose}
+        // her bir madde tam blok; satır sonlarında bölünmesin
+        className="group block py-3  transition-colors"
+        style={{ breakInside: "avoid" }}
+      >
+        <span className="flex items-center justify-between">
+          <span className="text-gray-900">
+            {link.label}
+          </span>
+
+          {/* OK: varsayılan gri, hover’da #F9423A */}
+          <svg
+            width="14" height="14" viewBox="0 0 20 20" aria-hidden="true"
+            className="ml-3 text-gray-300 group-hover:text-[#F9423A] transition-colors"
+          >
+            <path d="M7 5l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2" />
+          </svg>
+        </span>
+
+        {/* Alt çizgi: varsayılan gri, hover’da #F9423A */}
+        <span className="block h-px bg-gray-200 mt-3 group-hover:bg-[#F9423A] transition-colors" />
+      </Link>
+    ))}
+  </div>
+</div>
+
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div>      
+    </>
   );
 }
 
@@ -423,9 +502,9 @@ function MobileOffCanvas({
       >
         <div className="flex items-center justify-between px-4 h-16 border-b border-black/10">
           <Link href="/" className="flex items-center" aria-label="IGG anasayfa" onClick={onClose}>
-            <img src="/logo.svg" alt="IGG" className="h-7 w-auto" />
+            <img src="/assets/menu/logo.svg" alt="IGG" className="h-7 w-auto" />
           </Link>
-        <button
+          <button
             onClick={onClose}
             aria-label="Kapat"
             className="rounded-md border border-black/10 px-3 py-2 text-sm cursor-pointer"

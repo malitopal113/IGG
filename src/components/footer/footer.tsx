@@ -1,5 +1,7 @@
+'use client';
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 function SocialIcons({ className = "h-6 w-6 mb-5 mt-2" }: { className?: string }) {
   const iconProps = { className, strokeWidth: 2, fill: "none", stroke: "currentColor" } as const;
@@ -87,8 +89,8 @@ export default function FooterClassic() {
               />
               <button type="submit" className="px-4 bg-gray-700 hover:bg-gray-600 cursor-pointer text-white text-sm">→</button>
             </form>
-            <Link href="/home-page" className="flex justify-center items-center gap-3 pt-4 mt-15">
-              <img src="/logo-igg.svg" alt="IGG Logo" className="h-10 w-auto" />
+            <Link href="/" className="flex justify-center items-center gap-3 pt-4 mt-5">
+              <Image src="/assets/menu/logo.svg" alt="IGG" width={120} height={32} priority className="h-20 w-auto" />
               
             </Link>
           </div>
