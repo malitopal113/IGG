@@ -1,9 +1,8 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-// TS için tip dosyasını eklemiştik: src/types/bootstrap-carousel.d.ts
-// Bazı bundler ayarlarında .js uzantısı gerekebilir:
-import Carousel from "bootstrap/js/dist/carousel.js";
+
+import type Carousel from "bootstrap/js/dist/carousel";
 
 type Slide = {
   id: string;
@@ -72,42 +71,47 @@ export default function HeroSliderBS() {
   const [playing, setPlaying] = React.useState(true);
 
   React.useEffect(() => {
+    // Client guard
+    if (typeof window === "undefined" || typeof document === "undefined") return;
     const el = rootRef.current;
     if (!el) return;
 
-    // Carousel instance
-    const inst = new Carousel(el, {
-      interval: 3000,
-      wrap: true,
-      pause: false,
-      touch: true,
-      keyboard: true,
-      ride: false, // CSS animasyonunu biz yapıyoruz
-    });
-    instRef.current = inst;
+    let cleanup: (() => void) | undefined;
 
-    // autoplay başlat
-    inst.cycle();
+    (async () => {
+      // ⬇️ Bootstrap Carousel’i sadece client’ta yükle
+      const { default: Carousel } = await import("bootstrap/js/dist/carousel.js");
+      const inst = new Carousel(el, {
+        interval: 3000,
+        wrap: true,
+        pause: false,
+        touch: true,
+        keyboard: true,
+        ride: false,
+      });
+      instRef.current = inst;
 
-    const onSlid = () => {
-      const items = Array.from(
-        el.querySelectorAll<HTMLElement>(".carousel-item")
-      );
-      const idx = Math.max(
-        0,
-        items.findIndex((i) => i.classList.contains("active"))
-      );
-      setActive(idx);
-    };
+      // autoplay
+      inst.cycle();
 
-    // İlk index set + event
-    onSlid();
-    el.addEventListener("slid.bs.carousel", onSlid);
+      const onSlid = () => {
+        const items = Array.from(el.querySelectorAll<HTMLElement>(".carousel-item"));
+        const idx = Math.max(0, items.findIndex((i) => i.classList.contains("active")));
+        setActive(idx);
+      };
+
+      onSlid();
+      el.addEventListener("slid.bs.carousel", onSlid);
+
+      cleanup = () => {
+        el.removeEventListener("slid.bs.carousel", onSlid);
+        inst.dispose();
+        instRef.current = null;
+      };
+    })();
 
     return () => {
-      el.removeEventListener("slid.bs.carousel", onSlid);
-      inst.dispose();
-      instRef.current = null;
+      cleanup?.();
     };
   }, []);
 
@@ -140,10 +144,8 @@ export default function HeroSliderBS() {
                 <img src={s.imgDesktop} alt={s.title} className="slide-img" />
               </picture>
 
-              {/* Karartma */}
               <div className="overlay" />
 
-              {/* Ön plan içerik */}
               <div className="fg">
                 <div className="container mx-auto px-4 text-white max-w-3xl">
                   <span className="uppercase text-xs md:text-sm tracking-wide opacity-90">
@@ -170,12 +172,8 @@ export default function HeroSliderBS() {
         </div>
 
         {/* Oklar */}
-        <button className="control prev" onClick={prev} aria-label="Prev">
-          ‹
-        </button>
-        <button className="control next" onClick={next} aria-label="Next">
-          ›
-        </button>
+        <button className="control prev" onClick={prev} aria-label="Prev">‹</button>
+        <button className="control next" onClick={next} aria-label="Next">›</button>
 
         {/* Pause/Play */}
         <button className="pp" onClick={togglePlay} aria-label={playing ? "Pause" : "Play"}>
@@ -203,119 +201,24 @@ export default function HeroSliderBS() {
 
       {/* Scoped CSS */}
       <style jsx>{`
-        #heroCarousel {
-          height: 75vh;
-          position: relative;
-        }
-        @media (min-width: 992px) {
-          #heroCarousel {
-            height: 90vh;
-          }
-        }
-        #heroCarousel .carousel-inner {
-          position: relative;
-          height: 100%;
-          overflow: hidden;
-        }
-        #heroCarousel .carousel-item {
-          position: absolute;
-          inset: 0;
-          opacity: 0;
-          transition: opacity 600ms ease;
-        }
-        #heroCarousel .carousel-item.active {
-          opacity: 1;
-        }
-        #heroCarousel .slide-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-        }
-        #heroCarousel .overlay {
-          position: absolute;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.4);
-          pointer-events: none;
-        }
-        #heroCarousel .fg {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          pointer-events: none; /* tıklanabilir elemanlar için altına özel */
-        }
-        #heroCarousel .fg a {
-          pointer-events: auto;
-        }
-        /* oklar */
-        #heroCarousel .control {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 20;
-          width: 44px;
-          height: 44px;
-          line-height: 44px;
-          text-align: center;
-          border-radius: 9999px;
-          background: rgba(0, 0, 0, 0.45);
-          color: #fff;
-          font-size: 28px;
-          border: none;
-        }
-        #heroCarousel .control.prev {
-          left: 8px;
-        }
-        #heroCarousel .control.next {
-          right: 8px;
-        }
-        /* pause/play */
-        #heroCarousel .pp {
-          position: absolute;
-          left: 12px;
-          bottom: 12px;
-          z-index: 20;
-          width: 36px;
-          height: 36px;
-          border-radius: 9999px;
-          background: rgba(0, 0, 0, 0.45);
-          color: #fff;
-          border: none;
-          font-size: 16px;
-        }
-        /* göstergeler */
-        #heroCarousel .indicators {
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 12px;
-          display: flex;
-          align-items: flex-end;
-          justify-content: space-between;
-          z-index: 20;
-        }
-        #heroCarousel .indicators .num {
-          color: #fff;
-          margin-left: 16px;
-        }
-        #heroCarousel .indicators .dots {
-          display: flex;
-          gap: 0;
-          margin-right: 16px;
-          width: 50%;
-          height: 3px;
-        }
-        #heroCarousel .indicators .dots button {
-          height: 3px;
-          border: 0;
-          margin: 0;
-          padding: 0;
-          background: rgba(255, 255, 255, 0.6);
-        }
-        #heroCarousel .indicators .dots button.active {
-          background: #fff;
-        }
+        #heroCarousel { height: 75vh; position: relative; }
+        @media (min-width: 992px) { #heroCarousel { height: 90vh; } }
+        #heroCarousel .carousel-inner { position: relative; height: 100%; overflow: hidden; }
+        #heroCarousel .carousel-item { position: absolute; inset: 0; opacity: 0; transition: opacity 600ms ease; }
+        #heroCarousel .carousel-item.active { opacity: 1; }
+        #heroCarousel .slide-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        #heroCarousel .overlay { position: absolute; inset: 0; background: rgba(0,0,0,.4); pointer-events: none; }
+        #heroCarousel .fg { position: absolute; inset: 0; display: flex; align-items: center; pointer-events: none; }
+        #heroCarousel .fg a { pointer-events: auto; }
+        #heroCarousel .control { position: absolute; top: 50%; transform: translateY(-50%); z-index: 20; width: 44px; height: 44px; line-height: 44px; text-align: center; border-radius: 9999px; background: rgba(0,0,0,.45); color: #fff; font-size: 28px; border: none; }
+        #heroCarousel .control.prev { left: 8px; }
+        #heroCarousel .control.next { right: 8px; }
+        #heroCarousel .pp { position: absolute; left: 12px; bottom: 12px; z-index: 20; width: 36px; height: 36px; border-radius: 9999px; background: rgba(0,0,0,.45); color: #fff; border: none; font-size: 16px; }
+        #heroCarousel .indicators { position: absolute; left: 0; right: 0; bottom: 12px; display: flex; align-items: flex-end; justify-content: space-between; z-index: 20; }
+        #heroCarousel .indicators .num { color: #fff; margin-left: 16px; }
+        #heroCarousel .indicators .dots { display: flex; gap: 0; margin-right: 16px; width: 50%; height: 3px; }
+        #heroCarousel .indicators .dots button { height: 3px; border: 0; margin: 0; padding: 0; background: rgba(255,255,255,.6); }
+        #heroCarousel .indicators .dots button.active { background: #fff; }
       `}</style>
     </section>
   );

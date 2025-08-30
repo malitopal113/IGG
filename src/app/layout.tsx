@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Cabin } from "next/font/google";
 import "./globals.css";
-import dynamic from "next/dynamic";
-
-const Header = dynamic(() => import("@/components/header/header"), { ssr: false });
-const Footer = dynamic(() => import("@/components/footer/footer"), { ssr: false });
+import Header from "@/components/header/header";
+import Footer from "@/components/footer/footer";
 
 
 

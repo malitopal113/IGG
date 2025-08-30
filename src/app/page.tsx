@@ -1,8 +1,4 @@
-import dynamic from "next/dynamic";
-
-const HeroSliderBS = dynamic(() => import("@/components/home/HeroSlider"), {
-  ssr: false, // ⬅️ kritik
-});
+import HeroSliderBS from "@/components/home/HeroSlider";
 
 export default function Home() {
   return (
