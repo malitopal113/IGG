@@ -254,7 +254,7 @@ const closeSearch = () => {
               <button
   onClick={() => setSearchOpen(true)}
   aria-label="Open search"
-  className="inline-flex items-center justify-center rounded-full p-2 hover:bg-[#F9423A]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9423A]/40 transition"
+  className="inline-flex items-center justify-center rounded-full p-2 hover:bg-[#F9423A]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9423A]/40 transition cursor-pointer"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"
