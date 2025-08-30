@@ -70,6 +70,16 @@ export default function Header() {
   const pathname = usePathname();
   const headerRef = React.useRef<HTMLElement | null>(null);
 
+  const [isSearchClosing, setIsSearchClosing] = React.useState(false);
+
+const closeSearch = () => {
+  setIsSearchClosing(true);
+  setTimeout(() => {
+    setSearchOpen(false);     // artık gerçekten kapat
+    setIsSearchClosing(false);
+  }, 450); // animasyon süresi ile aynı
+};
+
   // scroll state
   React.useEffect(() => {
     if (typeof window === "undefined") return;
@@ -171,58 +181,96 @@ export default function Header() {
       pathname === base || (pathname?.startsWith(base + "/") ?? false);
     const active = activeByPath || openIndex === idx;
 
+    const hasPanel = item.columns?.some(col => col.length > 0);
+
     return (
       <li key={item.label} className="relative">
-        <button
-          className={classNames(
-            "inline-flex items-center gap-1 text-base font-medium focus:outline-none cursor-pointer",
-            linkColor
-          )}
-          aria-haspopup="true"
-          aria-expanded={openIndex === idx}
-          aria-controls={`mega-panel-${idx}`}
-          onClick={() => toggleMenu(idx)}
-        >
-          {/* Sadece label altında çizgi */}
-          <span
+        {hasPanel ? (
+          // MEGA MENÜLÜ ÖĞELER (About Us, Activity Fields)
+          <button
             className={classNames(
-              "relative",
-              active &&
-                "after:content-[''] after:absolute after:left-0 after:-bottom-2 after:h-[2px] after:w-full after:bg-[#F9423A]"
+              "inline-flex items-center gap-1 text-base font-medium focus:outline-none cursor-pointer",
+              linkColor
+            )}
+            aria-haspopup="true"
+            aria-expanded={openIndex === idx}
+            aria-controls={`mega-panel-${idx}`}
+            onClick={() => toggleMenu(idx)}
+          >
+            <span
+              className={classNames(
+                "relative",
+                active &&
+                  "after:content-[''] after:absolute after:left-0 after:-bottom-2 after:h-[2px] after:w-full after:bg-[#F9423A]"
+              )}
+            >
+              {item.label}
+            </span>
+            <svg
+              width="15" height="15" viewBox="0 0 20 20" aria-hidden="true"
+              className={classNames(active ? "text-[#F9423A]" : "text-[#F9423A]")}
+            >
+              <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
+            </svg>
+          </button>
+        ) : (
+          // PANELSİZ ÖĞE (Contact Us → direkt sayfaya gider)
+          <Link
+            href={item.banner.href}
+            className={classNames(
+              "inline-flex items-center gap-1 text-base font-medium cursor-pointer",
+              linkColor
             )}
           >
-            {item.label}
-          </span>
-
-          {/* Ok: active ise #F9423A */}
-          <svg
-            width="15" height="15" viewBox="0 0 20 20" aria-hidden="true"
-            className={classNames(active ? "text-[#F9423A]" : "text-[#F9423A]")}
-          >
-            <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
-          </svg>
-        </button>
+            <span
+              className={classNames(
+                "relative",
+                active &&
+                  "after:content-[''] after:absolute after:left-0 after:-bottom-2 after:h-[2px] after:w-full after:bg-[#F9423A]"
+              )}
+            >
+              {item.label}
+            </span>
+            <svg
+              width="15" height="15" viewBox="0 0 20 20" aria-hidden="true"
+              className={classNames(active ? "text-[#F9423A]" : "text-[#F9423A]")}
+            >
+              <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
+            </svg>
+          </Link>
+        )}
       </li>
     );
   })}
 </ul>
 
 
+
             {/* Right: EN + search */}
-            <div className={classNames("ml-auto flex items-center gap-2", linkColor)}>
-              <Link href="/en" className="hidden sm:inline text-sm font-medium">
+            <div className={classNames("ml-auto flex items-center gap-4", linkColor)}>
+              <Link href="/en" className="hidden sm:inline text-md font-medium">
                 EN
               </Link>
               <button
-                onClick={() => setSearchOpen(true)}
-                className={classNames(
-                  "inline-flex items-center justify-center rounded-md border px-3 py-2 text-sm cursor-pointer",
-                  scrolled || openIndex !== null ? "border-black/10" : "border-white/30"
-                )}
-                aria-label="Arama"
-              >
-                🔍
-              </button>
+  onClick={() => setSearchOpen(true)}
+  aria-label="Open search"
+  className="inline-flex items-center justify-center rounded-full p-2 hover:bg-[#F9423A]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9423A]/40 transition"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    className="h-9 w-9"
+    fill="none"
+    stroke="#F9423A"
+    strokeWidth="1"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="11" cy="11" r="7" />
+    <path d="M20 20L16.8 16.8" />
+  </svg>
+</button>
+
             </div>
           </nav>
         </div>
@@ -241,36 +289,99 @@ export default function Header() {
       <MobileOffCanvas open={mobileOpen} onClose={() => setMobileOpen(false)} />
 
       {/* SEARCH POPUP (desktop) */}
-      {searchOpen && (
-        <div className="fixed inset-0 z-[60] hidden lg:flex items-start justify-center pt-24">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setSearchOpen(false)} />
-          <div className="relative z-10 w-full max-w-3xl rounded-2xl bg-white p-6 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Bir arama yapın…</h2>
-              <button
-                onClick={() => setSearchOpen(false)}
-                className="rounded-md border border-black/10 px-3 py-1 text-sm cursor-pointer"
-                aria-label="Kapat"
-              >
-                KAPAT
-              </button>
-            </div>
-            <form action="/arama" method="get" className="mt-4">
-              <label className="flex items-stretch gap-2 border rounded-xl p-2">
-                <input
-                  type="text"
-                  name="keyword"
-                  className="flex-1 outline-none"
-                  placeholder="Aramak istediğiniz kelimeyi girin"
-                />
-                <button type="submit" className="px-4 rounded-md border text-sm cursor-pointer">
-                  ARA
-                </button>
-              </label>
-            </form>
+      {(searchOpen || isSearchClosing) && (
+  <>
+    {/* Dışarı tıkla-kapat scrim (tam ekran) */}
+     <button
+      aria-label="Kapat"
+      onClick={closeSearch}
+      className={classNames(
+        "fixed inset-0 z-[75] hidden lg:block",
+        isSearchClosing ? "scrim-out" : "scrim-in"
+      )}
+    />
+
+    {/* Üstten açılan KISMİ panel (header'ı örter, mega menü yüksekliğinde) */}
+    <div
+      className={classNames(
+        "fixed inset-x-0 top-0 z-[80] hidden lg:block",
+        "h-[420px] md:h-[460px] lg:h-[520px] xl:h-[560px]",
+        isSearchClosing ? "search-slide-out" : "search-slide-in"
+      )}
+    >
+      {/* kırmızı arka plan */}
+      <div className="absolute inset-0 bg-[#F9423A]" />
+
+      {/* içerik */}
+      <div className="relative h-full w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 lg:pt-24">
+        <div className="flex items-start justify-between">
+          <h2 className="text-white text-4xl sm:text-5xl font-extrabold">
+            Search now...
+          </h2>
+          <button
+            onClick={closeSearch}
+            aria-label="Kapat"
+            className="fixed top-15 right-15 text-white/90 hover:text-white inline-flex items-center gap-2 text-xl font-bold tracking-wide cursor-pointer"
+          >
+            CLOSE <span className="text-base font-bold leading-none">✕</span>
+          </button>
+        </div>
+
+        {/* arama kutusu */}
+        <form action="/arama" method="get" className="mt-8">
+          <label className="flex items-center bg-white rounded-2xl shadow-xl h-[72px] pl-5 pr-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+              className="h-5 w-5 mr-2" fill="none" stroke="#F9423A" strokeWidth="2"
+              strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="M20 20L16.8 16.8" />
+            </svg>
+
+            <input
+              type="text"
+              name="keyword"
+              className="flex-1 h-full bg-transparent outline-none text-lg placeholder:text-gray-400"
+              placeholder="Type the word you want to search for"
+            />
+
+            <button
+              type="submit"
+              className="ml-2 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[#F9423A] hover:bg-[#F9423A]/10 cursor-pointer"
+            >
+              SEARCH
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#F9423A" strokeWidth="2">
+                <path d="M7 5l6 5-6 5" />
+              </svg>
+            </button>
+          </label>
+        </form>
+
+        {/* Popüler aramalar (opsiyonel) */}
+        <div className="mt-10">
+          <p className="text-white text-xl font-semibold">Popular searches:</p>
+          <div className="mt-4 flex flex-wrap gap-3 cursor-pointer">
+            <a href="/arama?keyword=faaliyet%20raporu" className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow">
+              ACTIVITY REPORT
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#F9423A" strokeWidth="2"><path d="M7 5l6 5-6 5" /></svg>
+            </a>
+            <a href="/arama?keyword=s%C3%BCrd%C3%BCr%C3%BClebilirlik" className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow">
+              SUSTAINABILITY
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#F9423A" strokeWidth="2"><path d="M7 5l6 5-6 5" /></svg>
+            </a>
+            <a href="/arama?keyword=%C5%9Firketler" className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow">
+              COMPANIES
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#F9423A" strokeWidth="2"><path d="M7 5l6 5-6 5" /></svg>
+            </a>
           </div>
         </div>
-      )}
+      </div>
+    </div>
+  </>
+)}
+
+
 
       {/* Animations */}
       <style jsx global>{`
@@ -278,6 +389,17 @@ export default function Header() {
           from { transform: translateY(-24px); opacity: 0; }
           to   { transform: translateY(0);      opacity: 1; }
         }
+          @keyframes megaslideOut {
+    from { transform: translateY(0);      opacity: 1; }
+    to   { transform: translateY(-24px);  opacity: 0; }
+  }
+  @keyframes scrimIn  { from {opacity: 0;} to {opacity: 1;} }
+  @keyframes scrimOut { from {opacity: 1;} to {opacity: 0;} }
+
+  .search-slide-in  { animation: megaslideTop 350ms ease-out forwards;  transform-origin: top; }
+  .search-slide-out { animation: megaslideOut 150ms ease-in  forwards;  transform-origin: top; }
+  .scrim-in  { animation: scrimIn  200ms ease-out forwards; }
+  .scrim-out { animation: scrimOut 200ms ease-in  forwards; }
       `}</style>
     </>
   );
