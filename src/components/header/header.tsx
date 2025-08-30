@@ -7,141 +7,53 @@ import Image from "next/image";
 
 
 /* ---------- NAV DATA ---------- */
+/* ---------- NAV DATA (EN) ---------- */
 const NAV = [
   {
-    label: "Hakkında",
+    label: "About Us",
     banner: {
-      href: "/hakkinda",
-      title: "Hakkında",
+      href: "/about-us",
+      title: "About Us",
       image:
         "https://cdn.koc.com.tr/cmscontainer/kocholding/media/koc/menu-img/hakkinda_2.jpg?ext=.jpg",
     },
     columns: [
       [
-        { label: "Biz Kimiz?", href: "/hakkinda/biz-kimiz" },
-        { label: "Tarihçe", href: "/hakkinda/tarihce" },
-        { label: "Yönetim Kurulu", href: "/hakkinda/yonetim-kurulu" },
-        { label: "Organizasyon Şeması", href: "/hakkinda/organizasyon-semasi" },
-      ],
-      [
-        {
-          label: "Etik İlkeler ve Uyum Politikaları",
-          href: "/hakkinda/etik-ilkeler-ve-uyum-politikalari",
-        },
+        { label: "Our History", href: "/about-us/our-history" },
+        { label: "Mission & Vision", href: "/about-us/mission-vision" },
+        { label: "Our Abilities", href: "/about-us/our-abilities" },
       ],
     ],
   },
   {
-    label: "Faaliyet Alanları",
+    label: "Activity Fields",
     banner: {
-      href: "/faaliyet-alanlari",
-      title: "Faaliyet Alanları",
+      href: "/activity-fields",
+      title: "Activity Fields",
       image:
         "https://cdn.koc.com.tr/cmscontainer/kocholding/media/koc/menu-img/faaliyet_alanlari_2.jpg?ext=.jpg",
     },
     columns: [
       [
-        { label: "Sektörler", href: "/faaliyet-alanlari/sektorler" },
-        { label: "Şirketler", href: "/faaliyet-alanlari/sirketler" },
-        { label: "Markalar", href: "/faaliyet-alanlari/markalar" },
-        { label: "Uluslararası Ağ", href: "/faaliyet-alanlari/uluslararasi-ag" },
-      ],
-      [{ label: "Yabancı Ortaklar", href: "/faaliyet-alanlari/yabanci-ortaklar" }],
-    ],
-  },
-  {
-    label: "Yatırımcı İlişkileri",
-    banner: {
-      href: "/yatirimci-iliskileri",
-      title: "Yatırımcı İlişkileri",
-      image:
-        "https://cdn.koc.com.tr/cmscontainer/kocholding/media/koc/menu-img/yatirimci-iliskileri-menu.jpg?ext=.jpg",
-    },
-    columns: [
-      [
-        { label: "Ana Sayfa", href: "/yatirimci-iliskileri" },
-        { label: "Neden IGG?", href: "/yatirimci-iliskileri/neden-igg" },
-        { label: "IGG Hakkında", href: "/yatirimci-iliskileri/igg-hakkinda" },
-        {
-          label: "Hisse Senedi ve Yatırımcı Bilgisi",
-          href: "/yatirimci-iliskileri/hisse-senedi-ve-yatirimci-bilgisi",
-        },
-      ],
-      [
-        {
-          label: "Sunumlar ve Bültenler",
-          href: "/yatirimci-iliskileri/sunumlar-ve-bultenler",
-        },
-        { label: "Finansal Bilgiler", href: "/yatirimci-iliskileri/finansal-bilgiler" },
-        { label: "Duyuru ve Yayınlar", href: "/yatirimci-iliskileri/duyuru-ve-yayinlar" },
-        { label: "Raporlar", href: "/yatirimci-iliskileri/raporlar" },
-      ],
-      [
-        { label: "Yatırımcı Seti", href: "/yatirimci-iliskileri/yatirimci-seti" },
-        { label: "Kurumsal Yönetim", href: "/yatirimci-iliskileri/kurumsal-yonetim" },
-        { label: "Takvim", href: "/yatirimci-iliskileri/takvim" },
-        { label: "İletişim", href: "/yatirimci-iliskileri/iletisim" },
+        { label: "Textile", href: "/activity-fields/textile" },
+        { label: "Trading", href: "/activity-fields/trading" },
+        { label: "Sports Management", href: "/activity-fields/sports-management" },
+        { label: "EPCM", href: "/activity-fields/epcm" },
       ],
     ],
   },
   {
-    label: "IGG'de Hayat",
+    label: "Contact Us",
     banner: {
-      href: "/kocta-hayat",
-      title: "IGG'de Hayat",
-      image:
-        "https://cdn.koc.com.tr/cmscontainer/kocholding/media/koc/menu-img/koc_ta_hayat.jpg?ext=.jpg",
-    },
-    columns: [
-      [
-        { label: "İçinde IGG Var", href: "/kocta-hayat/icinde-igg-var" },
-        { label: "IGG'li Olmak", href: "/kocta-hayat/iggli-olmak" },
-        { label: "Endüstri İlişkileri", href: "/kocta-hayat/endustri-iliskileri" },
-      ],
-    ],
-  },
-  {
-    label: "Sürdürülebilirlik",
-    banner: {
-      href: "/surdurulebilirlik",
-      title: "Sürdürülebilirlik",
-      image:
-        "https://cdn.koc.com.tr/cmscontainer/kocholding/media/koc/menu-img/surdurulebilirlik.jpg?ext=.jpg",
-    },
-    columns: [
-      [
-        { label: "Geleceğe. Birlikte", href: "/surdurulebilirlik" },
-        { label: "İş için. Birlikte", href: "/surdurulebilirlik/is-icin-birlikte" },
-        { label: "İnsan için. Birlikte", href: "/surdurulebilirlik/insan-icin-birlikte" },
-        { label: "Dünya için. Birlikte", href: "/surdurulebilirlik/dunya-icin-birlikte" },
-      ],
-      [
-        { label: "Toplum için. Birlikte", href: "/surdurulebilirlik/toplum-icin-birlikte" },
-        { label: "Politika ve Raporlar", href: "/surdurulebilirlik/politika-ve-raporlar" },
-        { label: "Vakfımız", href: "/surdurulebilirlik/vakif" },
-        { label: "Müzeler", href: "/surdurulebilirlik/muzeler" },
-      ],
-      [{ label: "Sponsorluklar", href: "/surdurulebilirlik/sponsorluklar" }],
-    ],
-  },
-  {
-    label: "Medya Merkezi",
-    banner: {
-      href: "/medya-merkezi",
-      title: "Medya Merkezi",
+      href: "/contact-us",
+      title: "Contact Us",
       image:
         "https://cdn.koc.com.tr/cmscontainer/kocholding/media/koc/menu-img/medya_merkezi.jpg?ext=.jpg",
     },
-    columns: [
-      [
-        { label: "Haberler", href: "/medya-merkezi/haberler" },
-        { label: "Basın Bültenleri", href: "/medya-merkezi/basin-bultenleri" },
-        { label: "Bizden Haberler", href: "/medya-merkezi/bizden-haberler" },
-        { label: "Kılavuzlar", href: "/medya-merkezi/kilavuzlar" },
-      ],
-    ],
+    columns: [],
   },
 ] as const;
+
 
 /* ---------- UTILS ---------- */
 function classNames(...arr: Array<string | false | null | undefined>) {
