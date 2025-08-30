@@ -355,7 +355,7 @@ function MegaPanelTop({
               {/* Sağ: akış aşağı -> sonra sağ sütuna; arkaplan yok */}
 <div className="col-span-12 lg:col-span-8 xl:col-span-7">
   {/* sütunlar: md'de 2, xl'de 3; dikeyden sağa akar */}
-  <div className="columns-1 md:columns-3 xl:columns-2 gap-x-10 [column-fill:_balance]">
+  <div className="columns-1 md:columns-3 xl:columns-1 gap-x-10 [column-fill:_balance]">
     {item.columns.flat().map((link) => (
       <Link
         key={link.href}
