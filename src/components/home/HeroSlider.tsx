@@ -137,6 +137,7 @@ export default function HeroSliderBS() {
               <div className="overlay" />
 
               <div className="fg hero-content">
+               <div className="fg-content">
                 <div className="container mx-auto  text-white max-w-3xl">
                   {/* Sadece subtitle + title 30px içeri */}
                   
@@ -167,6 +168,7 @@ export default function HeroSliderBS() {
                     </div>
                   </div>
                 </div>
+               </div>
               </div>
             </div>
           ))}
@@ -204,7 +206,7 @@ export default function HeroSliderBS() {
       <style jsx>{`
         #heroCarousel { height: 100vh; position: relative; }
         @media (min-width: 992px) { #heroCarousel { height: 100vh; } }
-        #heroCarousel .carousel-inner { position: relative; height: 100%; overflow: hidden; display: flex;  transition: transform 1200ms cubic-bezier(.22,.61,.36,1); will-change: transform;}
+        #heroCarousel .carousel-inner { position: relative; height: 100%; height: 100dvh; overflow: hidden; display: flex;  transition: transform 1200ms cubic-bezier(.22,.61,.36,1); will-change: transform;}
 
         /* SLIDE katmanı: görünmeyenler gerçekten devre dışı */
         #heroCarousel .carousel-item {
@@ -231,6 +233,7 @@ export default function HeroSliderBS() {
           position: absolute; inset: 0;
           display: flex; align-items: flex-start; justify-content: flex-start;
           padding-top: 32vh; /* yukarıdan başlat */
+         
         }
 
         /* Badge (IGG Stories) */
@@ -274,7 +277,31 @@ export default function HeroSliderBS() {
         #heroCarousel .indicators .dots { display: flex; gap: 0; margin-right: 16px; width: 50%; height: 3px; }
         #heroCarousel .indicators .dots button { height: 3px; border: 0; margin: 0; padding: 0; background: rgba(255,255,255,.6); }
         #heroCarousel .indicators .dots button.active { background: #fff; }
-        #heroCarousel .hero-content {padding-right: 20vw; }
+        
+        @keyframes fgEnter {
+            0%   { opacity: 0; transform: translateY(24px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+        #heroCarousel .carousel-item .fg-content {
+  opacity: 0;
+  transform: translateY(24px);
+  margin-left: 1vh;
+}
+  @media (min-width: 768px) {
+  #heroCarousel .carousel-item .fg-content {
+    margin-left: 30vh; /* sadece tablet ve üstünde */
+  }
+}
+      #heroCarousel .carousel-item.active .fg-content {
+  animation: fgEnter 700ms ease-out 1s forwards;
+  padding-right: 20vw;
+}
+
+/* Hareket azalt tercihi olanlar için animasyonu kapat */
+@media (prefers-reduced-motion: reduce) {
+  #heroCarousel .carousel-item .fg-content { opacity: 1; transform: none; }
+  #heroCarousel .carousel-item.active .fg-content { animation: none; }
+}
       `}</style>
     </section>
   );
