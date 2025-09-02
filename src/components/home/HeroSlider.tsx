@@ -17,6 +17,8 @@ type Slide = {
   imgMobile: string;
 };
 
+// TODO: Kendi görsellerini /public/assets/slider altına koy.
+// Örn: /public/assets/slider/slide1.jpg
 const SLIDES: Slide[] = [
   {
     id: "1",
@@ -26,12 +28,9 @@ const SLIDES: Slide[] = [
       "Land Rover's most accomplished Defender, the OCTA, will be soon seen on Indian roads",
     ctaLabel: "Read story",
     ctaHref: "/newsroom/business/defender-octa-jlr",
-    imgDesktop:
-      "/content/dam/tata/images/newsroom/business/desktop/octa05_slideshow_desktop_1920x1080.jpg",
-    imgTablet:
-      "/content/dam/tata/images/newsroom/business/tab/octa05_slideshow_tab_768x1024.jpg",
-    imgMobile:
-      "/content/dam/tata/images/newsroom/business/mobile/octa05_slideshow_mobile_320x568.jpg",
+    imgDesktop: "/assets/slider/igg-trade-slider3.png", // ← burayı kendi yolunla değiştir
+    imgTablet:  "/assets/slider/igg-trade-slider3.png",
+    imgMobile:  "/assets/slider/igg-trade-slider3.png",
   },
   {
     id: "2",
@@ -41,12 +40,9 @@ const SLIDES: Slide[] = [
       "IHCL's skilling programme bridges the talent gap while elevating service standards",
     ctaLabel: "Read story",
     ctaHref: "/newsroom/community/ihcl-skilling-talent",
-    imgDesktop:
-      "/content/dam/tata/images/newsroom/careers/desktop/ihcl-aguada-skilling_banner_desktop_1920x1080.jpeg",
-    imgTablet:
-      "/content/dam/tata/images/newsroom/careers/tab/ihcl-aguada-skilling_banner_tab_768x1024.jpeg",
-    imgMobile:
-      "/content/dam/tata/images/newsroom/careers/mobile/ihcl-aguada-skilling_banner_mobile_320x568.jpeg",
+    imgDesktop: "/assets/slider/igg-textile-slider2.png",
+    imgTablet:  "/assets/slider/igg-textile-slider2.png",
+    imgMobile:  "/assets/slider/igg-textile-slider2.png",
   },
   {
     id: "3",
@@ -56,12 +52,9 @@ const SLIDES: Slide[] = [
       "IGG Power Solar Rooftop helps businesses and households harness the power of the sun",
     ctaLabel: "Read Story",
     ctaHref: "/newsroom/business/tata-power-renewable-solar-rooftop",
-    imgDesktop:
-      "/content/dam/tata/images/newsroom/business/desktop/tata-power-roof-solar2_banner_desktop_1920x1080.jpg",
-    imgTablet:
-      "/content/dam/tata/images/newsroom/business/tab/tata-power-roof-solar2_banner_tab_768x1024.jpg",
-    imgMobile:
-      "/content/dam/tata/images/newsroom/business/mobile/tata-power-roof-solar2_banner_mobile_320x568.jpg",
+    imgDesktop: "/assets/slider/igg-textile-slider1.png",
+    imgTablet:  "/assets/slider/igg-textile-slider1.png",
+    imgMobile:  "/assets/slider/igg-textile-slider1.png",
   },
 ];
 
