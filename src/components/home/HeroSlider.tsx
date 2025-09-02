@@ -151,7 +151,7 @@ export default function HeroSliderBS() {
 
                   {/* Dikey çizgi + açıklama + CTA */}
                   <div className="mt-6 ml-15 flex">
-                    <div className="h-auto w-[1px] bg-amber-500 mr-4" />
+                    <div className="h-auto w-[1px] bg-amber-500 mr-4 line-delay" />
                     <div>
                       <p className="text-white/90 max-w-xl">{s.desc}</p>
                         <Link
@@ -295,6 +295,13 @@ export default function HeroSliderBS() {
       #heroCarousel .carousel-item.active .fg-content {
   animation: fgEnter 700ms ease-out 1s forwards;
   padding-right: 20vw;
+}
+  #heroCarousel .carousel-item .line-delay {
+  opacity: 0;
+  transform: translateY(24px);
+}
+#heroCarousel .carousel-item.active .line-delay {
+  animation: fgEnter 700ms ease-out 2s forwards; /* 2s delay */
 }
 
 /* Hareket azalt tercihi olanlar için animasyonu kapat */
