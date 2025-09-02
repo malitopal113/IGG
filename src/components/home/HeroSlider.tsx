@@ -23,9 +23,9 @@ const SLIDES: Slide[] = [
   {
     id: "1",
     subtitle: "IGG Stories",
-    title: "Rugged Diamond",
+    title: "Global Trading & EPCM Expertise",
     desc:
-      "Land Rover's most accomplished Defender, the OCTA, will be soon seen on Indian roads",
+      "From trading networks to EPCM services, IGG provides reliable solutions that connect businesses across industries and continents.",
     ctaLabel: "Read story",
     ctaHref: "/newsroom/business/defender-octa-jlr",
     imgDesktop: "/assets/slider/igg-trade-slider3.png", // ← burayı kendi yolunla değiştir
@@ -35,9 +35,9 @@ const SLIDES: Slide[] = [
   {
     id: "2",
     subtitle: "IGG Stories",
-    title: "Building Tomorrow’s Hospitality Workforce",
+    title: "Innovating Textile Solutions",
     desc:
-      "IHCL's skilling programme bridges the talent gap while elevating service standards",
+      "IGG combines expertise and technology to deliver sustainable, high-quality textile products that meet global standards.",
     ctaLabel: "Read story",
     ctaHref: "/newsroom/community/ihcl-skilling-talent",
     imgDesktop: "/assets/slider/igg-textile-slider2.png",
@@ -47,9 +47,9 @@ const SLIDES: Slide[] = [
   {
     id: "3",
     subtitle: "IGG Stories",
-    title: "Making Energy While The Sun Shines",
+    title: "Shaping Future Athletes",
     desc:
-      "IGG Power Solar Rooftop helps businesses and households harness the power of the sun",
+      "Through innovative sports management projects, IGG supports young talents and builds strong foundations for tomorrow’s champions.",
     ctaLabel: "Read Story",
     ctaHref: "/newsroom/business/tata-power-renewable-solar-rooftop",
     imgDesktop: "/assets/slider/igg-textile-slider1.png",
@@ -74,7 +74,7 @@ export default function HeroSliderBS() {
     (async () => {
       const { default: Carousel } = await import("bootstrap/js/dist/carousel.js");
       const inst = new Carousel(el, {
-        interval: 3000,
+        interval: false,
         wrap: true,
         pause: false,
         touch: true,
@@ -82,7 +82,7 @@ export default function HeroSliderBS() {
         ride: false,
       });
       instRef.current = inst;
-      inst.cycle();
+      // inst.cycle();
 
       const onSlid = () => {
         const items = Array.from(el.querySelectorAll<HTMLElement>(".carousel-item"));
@@ -143,14 +143,14 @@ export default function HeroSliderBS() {
                     <span className={`subtitle-badge ${latoBadge.className}`}>
                       {s.subtitle}
                     </span>
-                    <h1 className="text-3xl md:text-5xl font-bold mt-2 leading-tight">
+                    <h1 className="text-2xl md:text-4xl font-bold mt-2 leading-tight">
                       {s.title}
                     </h1>
                   
 
                   {/* Dikey çizgi + açıklama + CTA */}
                   <div className="mt-6 ml-15 flex">
-                    <div className="h-auto w-[2px] bg-amber-500 mr-4" />
+                    <div className="h-auto w-[1px] bg-amber-500 mr-4" />
                     <div>
                       <p className="text-white/90 max-w-xl">{s.desc}</p>
                         <Link
@@ -202,9 +202,9 @@ export default function HeroSliderBS() {
 
       {/* Scoped CSS */}
       <style jsx>{`
-        #heroCarousel { height: 75vh; position: relative; }
-        @media (min-width: 992px) { #heroCarousel { height: 90vh; } }
-        #heroCarousel .carousel-inner { position: relative; height: 100%; overflow: hidden; display: flex; transition: transform 0.8s ease-in-out;}
+        #heroCarousel { height: 100vh; position: relative; }
+        @media (min-width: 992px) { #heroCarousel { height: 100vh; } }
+        #heroCarousel .carousel-inner { position: relative; height: 100%; overflow: hidden; display: flex;  transition: transform 1200ms cubic-bezier(.22,.61,.36,1); will-change: transform;}
 
         /* SLIDE katmanı: görünmeyenler gerçekten devre dışı */
         #heroCarousel .carousel-item {
@@ -230,17 +230,17 @@ export default function HeroSliderBS() {
         #heroCarousel .fg {
           position: absolute; inset: 0;
           display: flex; align-items: flex-start; justify-content: flex-start;
-          padding-top: 26vh; /* yukarıdan başlat */
+          padding-top: 32vh; /* yukarıdan başlat */
         }
 
-        /* Badge (Tata Stories) */
+        /* Badge (IGG Stories) */
         #heroCarousel .subtitle-badge{
           display:inline-block;
           background:#043A5B;
           color:#FFFFFF;
           font-style: italic;
           font-size:14px;
-          line-height:16px;
+          line-height:10px;
           padding:4px 8px;
           border-radius:4px;
           letter-spacing:0;
@@ -274,7 +274,7 @@ export default function HeroSliderBS() {
         #heroCarousel .indicators .dots { display: flex; gap: 0; margin-right: 16px; width: 50%; height: 3px; }
         #heroCarousel .indicators .dots button { height: 3px; border: 0; margin: 0; padding: 0; background: rgba(255,255,255,.6); }
         #heroCarousel .indicators .dots button.active { background: #fff; }
-        #heroCarousel .hero-content {padding-right: 18vw; }
+        #heroCarousel .hero-content {padding-right: 20vw; }
       `}</style>
     </section>
   );
