@@ -18,7 +18,7 @@ export default function HomepageInfo() {
         </div>
 
         <div className="industries text-center">
-          <h5 className="heading-2">INFO GROUP GLOBAL-S INDUSTRIES</h5>
+          <h5 className="heading-2">INFO GROUP GLOBALS INDUSTRIES</h5>
           <h5 className="heading-3">SECTORS</h5>
           <div className="separator"></div>
         </div>
@@ -74,7 +74,7 @@ export default function HomepageInfo() {
 
       <style jsx>{`
         [data-component="homepage-info"] {
-          padding: 60px 0 100px;
+          padding: 100px 0 100px;
         }
         .container {
           max-width: 1140px;
@@ -85,37 +85,45 @@ export default function HomepageInfo() {
           font-weight: 600;
           color: #6f6f6f;
           margin-bottom: 15px;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          font-size: 28px;
         }
         .intro .description {
           color: #232323;
-          font-size: 16px;
+          font-size: 18px;
           line-height: 28px;
         }
         .industries .heading-2 {
           font-weight: 600;
           color: #6f6f6f;
           margin-top: 40px;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          font-size: 15px;
         }
         .industries .heading-3 {
           font-weight: 700;
           color: #232323;
           text-transform: uppercase;
-          margin: 10px 0;
+          margin: 10px 0 14px;
+          font-size: 36px;
         }
         .separator {
-          width: 100px;
-          height: 3px;
-          margin: 0 auto 40px;
-          background: #fac246;
+          width: 80px;
+          height: 2px;
+          margin: 12px auto 40px;
+          background: #d8b15a;
         }
         .sectors-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 30px;
+          gap: 70px;
         }
         .sector {
           position: relative;
           overflow: hidden;
+          border-radius: 4px;
         }
         .sector img {
           width: 100%;
@@ -125,53 +133,68 @@ export default function HomepageInfo() {
         .sector .overlay {
           position: absolute;
           inset: 0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
           background: rgba(0, 0, 0, 0.1);
           color: #fff;
-          text-align: center;
-          transition: background 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .sector .overlay span {
-          font-size: 28px;
-          font-weight: 600;
-          margin-bottom: 12px;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          white-space: nowrap;
+          opacity: 1;
+          font-size: clamp(28px, 4vw, 44px);
+          font-weight: 700;
+          text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+          transition: transform 0.5s ease, opacity 0.5s ease;
         }
         .sector .overlay a {
-          background: #fff;
+          position: absolute;
+          left: 50%;
+          top: 100% !important; /* kartın en altından başlasın */
+          transform: translate(-50%, -50%);
+          opacity: 0 !important;
+          pointer-events: none;
           color: #232323;
           text-decoration: none;
-          padding: 8px 18px;
+          padding: 5px 29px;
           border-radius: 999px;
-          font-size: 12px;
-          font-weight: 600;
+          font-size: 15px;
+          font-weight: 700;
+          letter-spacing: .5px;
+          line-height: inherit;
+          background: #fff;
+          border: 2px solid #fff;
+          transition: top 0.5s ease, opacity 0.5s ease, background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+          will-change: top, opacity, transform;
         }
-        .sector:hover .overlay {
-          background: rgba(0, 0, 0, 0.3);
+        .sector:hover .overlay span {
+          transform: translate(-50%, calc(-50% - 40px)); /* yukarı kayarak kaybolsun */
+          opacity: 0 !important;
+        }
+        .sector:hover .overlay a {
+          top: 50% !important; /* alttan ortaya gelsin */
+          opacity: 1 !important;
+          pointer-events: auto;
+          /* Görsel/renk değişimini burada değil, sadece a:hover'da yapacağız */
+          background: #fff;
+          border: 2px solid #fff;
+          color: #232323;
+        }
+        /* Sadece linkin üstüne gelince renk/çerçeve değişsin */
+        .sector .overlay a:hover {
+          background: transparent;
+          border-color: #fff;
+          color: #fff;
         }
         @media (max-width: 767px) {
           .sectors-grid {
             grid-template-columns: 1fr;
           }
         }
-      `}</style>
-      {/* Additional global styles for homepage-info */}
-      <style jsx global>{`
-        [data-component="homepage-info"] .heading-1 { text-transform: uppercase; letter-spacing: .06em; font-size: 12px; color: #6f6f6f; }
-        [data-component="homepage-info"] .heading-2 { text-transform: uppercase; letter-spacing: .06em; font-size: 12px; color: #6f6f6f; margin-top: 40px; }
-        [data-component="homepage-info"] .heading-3 { font-size: 36px; font-weight: 700; color: #232323; margin-bottom: 14px; }
-        [data-component="homepage-info"] .pofo-separator { background-color: #d8b15a; width: 80px; height: 2px; margin: 12px auto 40px; }
-        /* --- Card title bottom-left, button hidden (like reference) --- */
-        [data-component="homepage-info"] .featurebox17 .blog-box-image { position: absolute; inset: 0; }
-        [data-component="homepage-info"] .featurebox17 .blog-box-image span { position: absolute; left: 28px; bottom: 28px; font-size: clamp(28px, 4vw, 44px) !important; }
-        [data-component="homepage-info"] .featurebox17 .blog-box-content a.btn { display: none; }
-        /* --- Card spacing & look --- */
-        [data-component="homepage-info"] .featurebox17 { overflow: hidden; border-radius: 4px; }
-        [data-component="homepage-info"] .pofo-featurebox-equal-height { margin-top: 10px; }
-        /* --- Container width a bit larger like ref --- */
-        [data-component="homepage-info"] .wpb_wrapper { max-width: 1200px; }
       `}</style>
     </section>
   );
