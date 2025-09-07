@@ -26,34 +26,34 @@ export default function HomepageInfo() {
         <div className="sectors-grid">
           <div className="sector">
             <img
-              src="https://infogroupglobal.com/wp-content/uploads/2023/10/Textile-category-jpg.webp"
+              src="./assets/home-info/textile2.png"
               alt="Textile"
             />
             <div className="overlay">
               <span>Textile</span>
-              <a href="https://www.infogroupglobal.com/textile">Discover</a>
+              <a href="./assets/home-info/textile2.png">Discover</a>
             </div>
           </div>
 
           <div className="sector">
             <img
-              src="https://infogroupglobal.com/wp-content/uploads/2023/10/Trading-category-jpg.webp"
+              src="./assets/home-info/trading.png"
               alt="Trading"
             />
             <div className="overlay">
               <span>Trading</span>
-              <a href="https://www.infogroupglobal.com/trading">Discover</a>
+              <a href="./assets/home-info/trading.png">Discover</a>
             </div>
           </div>
 
           <div className="sector">
             <img
-              src="https://infogroupglobal.com/wp-content/uploads/2023/10/Energy-Categories-11.png"
+              src="./assets/home-info/sport.png"
               alt="Sports Management"
             />
             <div className="overlay">
               <span>Sports Management</span>
-              <a href="https://www.infogroupglobal.com/portfolio/sports-management/">
+              <a href="./assets/home-info/sport.png">
                 Discover
               </a>
             </div>
@@ -61,12 +61,12 @@ export default function HomepageInfo() {
 
           <div className="sector">
             <img
-              src="https://infogroupglobal.com/wp-content/uploads/2025/06/IGG_EPCM-2.webp"
+              src="./assets/home-info/epcm.png"
               alt="EPCM"
             />
             <div className="overlay">
               <span>EPCM</span>
-              <a href="https://infogroupglobal-epcm.com/">Discover</a>
+              <a href="./assets/home-info/epcm.png">Discover</a>
             </div>
           </div>
         </div>
