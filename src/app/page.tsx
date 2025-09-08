@@ -1,6 +1,7 @@
 import HeroSliderBS from "@/components/home/HeroSlider";
 import HomepageInfo from "@/components/home/HomepageInfo";
 import Sector from "@/components/home/Sectors";
+import ActivityCountries from "@/components/home/ActivityCountries";
 export default function Home() {
   return (
     <div >
@@ -8,6 +9,8 @@ export default function Home() {
       <HeroSliderBS />
       <HomepageInfo />
       <Sector />
+      <ActivityCountries />
+
 
     </div>
   );
