@@ -15,8 +15,8 @@ type NewsItem = {
   description: string;
   href: string;
   alt: string;
-  imgWide: string;   // >= md
-  imgSquare: string; // < md
+  imgWide: string;
+  imgSquare: string;
 };
 
 const ORANGE = "#ff8000";
@@ -89,21 +89,19 @@ export default function Abilities() {
   const prev = useCallback(() => setActive((i) => (i - 1 + count) % count), [count]);
 
   const activeItem = useMemo(() => ITEMS[active], [active]);
-
   const prefersReduced = useReducedMotion();
+  const pad2 = (n: number) => n.toString().padStart(2, "0");
+  const linePatternId = useId();
 
   const fadeUp: Variants = {
     hidden: { opacity: 0, y: 18 },
     show: { opacity: 1, y: 0, transition: { duration: prefersReduced ? 0.01 : 0.45, ease: EASE_OUT } },
   };
-
   const imageFx: Variants = {
     enter: { opacity: 0, scale: 1.12, transition: { duration: 0.001 } },
     center: { opacity: 1, scale: 1, transition: { duration: prefersReduced ? 0.01 : 0.6, ease: EASE_OUT } },
     exit:   { opacity: 0, scale: 1.2, transition: { duration: prefersReduced ? 0.01 : 0.4, ease: EASE_OUT } },
   };
-
-  const linePatternId = useId();
 
   return (
     <section className="relative overflow-hidden scroll-mt-16" style={sectionStyle}>
@@ -125,7 +123,7 @@ export default function Abilities() {
           variants={container}
           initial="hidden"
           animate="show"
-          className="mb-8 flex items-start justify-between md:mb-5"
+          className="mb-2 md:mb-5 flex items-start justify-between"
         >
           <motion.div variants={fadeUp}>
             <h3 className="text-[clamp(2rem,2rem+1.2vw,2.5rem)] font-black leading-none tracking-tight">
@@ -136,7 +134,7 @@ export default function Abilities() {
             </div>
           </motion.div>
 
-          {/* Segmented nav – (değişmedi) */}
+          {/* DESKTOP segmented nav (aynen) */}
           {(() => {
             const isPrevDisabled = active === 0;
             const isNextDisabled = active === count - 1;
@@ -154,7 +152,6 @@ export default function Abilities() {
 
             return (
               <motion.div variants={fadeUp} className="hidden md:flex items-center mr-25">
-                {/* Prev */}
                 <button
                   type="button"
                   aria-label="Previous"
@@ -167,17 +164,10 @@ export default function Abilities() {
                     <span className="absolute inset-0 -z-0 origin-left scale-x-0 bg-[#111314] transition-transform duration-300 ease-out group-hover:scale-x-100" />
                   )}
                   <svg viewBox="0 0 24 24" className="relative z-10 h-4 w-4 transition-colors duration-300 group-hover:text-[color:var(--papaya)]">
-                    <path
-                      d="M10.02,10.67c-.73,.74-.73,1.93,0,2.67l7.98,8-2.66,2.67L6.03,14.67c-.07-2.73,0-2.73,0-5.33L15.34,0l2.66,2.67-7.98,8Z"
-                      fill="currentColor"
-                    />
+                    <path d="M10.02,10.67c-.73,.74-.73,1.93,0,2.67l7.98,8-2.66,2.67L6.03,14.67c-.07-2.73,0-2.73,0-5.33L15.34,0l2.66,2.67-7.98,8Z" fill="currentColor"/>
                   </svg>
                 </button>
-
-                {/* divider */}
                 <span className="h-9 w-px bg-black/10 -mx-px" />
-
-                {/* Next */}
                 <button
                   type="button"
                   aria-label="Next"
@@ -190,35 +180,47 @@ export default function Abilities() {
                     <span className="absolute inset-0 -z-0 origin-right scale-x-0 bg-[#111314] transition-transform duration-300 ease-out group-hover:scale-x-100" />
                   )}
                   <svg viewBox="0 0 24 24" className="relative z-10 h-4 w-4 transition-colors duration-300 group-hover:text-[color:var(--papaya)]">
-                    <path
-                      d="M13.98,13.33c.73-.74,.73-1.93,0-2.67L6,2.67,8.66,0l9.31,9.33c.07,2.73,0,2.73,0,5.33l-9.31,9.33-2.66-2.67,7.98-8Z"
-                      fill="currentColor"
-                    />
+                    <path d="M13.98,13.33c.73-.74,.73-1.93,0-2.67L6,2.67,8.66,0l9.31,9.33c.07,2.73,0,2.73,0,5.33l-9.31,9.33-2.66-2.67,7.98-8Z" fill="currentColor"/>
                   </svg>
                 </button>
               </motion.div>
             );
           })()}
+
+          {/* MOBIL prev/next — başlıkla aynı satırda sağda */}
+          <div className="md:hidden flex items-center gap-0 self-start">
+            <button
+              onClick={prev}
+              className="h-8 w-10 flex items-center justify-center bg-white text-neutral-600 active:opacity-90"
+              aria-label="Previous"
+              title="Previous"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4">
+                <path d="M10.02,10.67c-.73,.74-.73,1.93,0,2.67l7.98,8-2.66,2.67L6.03,14.67c-.07-2.73,0-2.73,0-5.33L15.34,0l2.66,2.67-7.98,8Z" fill="currentColor"/>
+              </svg>
+            </button>
+            <button
+              onClick={next}
+              className="h-8 w-10 flex items-center justify-center bg-[color:var(--papaya)] text-white active:opacity-90"
+              aria-label="Next"
+              title="Next"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4">
+                <path d="M13.98,13.33c.73-.74,.73-1.93,0-2.67L6,2.67,8.66,0l9.31,9.33c.07,2.73,0,2.73,0,5.33l-9.31,9.33-2.66-2.67,7.98-8Z" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
         </motion.div>
 
         {/* image + cards */}
         <div className="grid grid-cols-1 items-start gap-0 lg:grid-cols-[minmax(880px,1fr)_minmax(520px,0.9fr)]">
           {/* LEFT IMAGE */}
-          <div
-            className={
-              // CHANGED: negatif marginler küçültüldü (15–16"ta kenara yapışmasın)
-              "relative lg:pr-0 lg:-ml-8 xl:-ml-12 2xl:-ml-20" // was lg:-ml-16 xl:-ml-20 2xl:-ml-44
-            }
-          >
-            <div
-              className={
-                // CHANGED: yükseklik alt sınırı artırıldı (15.6"ta düşmesin)
-                "relative min-h-[560px] h-[clamp(560px,40vw,750px)] overflow-hidden z-0"
-              } // was h-[clamp(500px,35vw,750px)]
-            >
+          <div className="relative lg:pr-0 lg:-ml-8 xl:-ml-12 2xl:-ml-20 md:mb-0 mb-[110px]">
+            <div className="relative min-h-[560px] h-[clamp(560px,40vw,750px)] overflow-hidden z-0">
               <svg aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.10]" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                 <rect width="100%" height="100%" fill={`url(#${linePatternId})`} />
               </svg>
+
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.picture key={active} variants={imageFx} initial="enter" animate="center" exit="exit" className="absolute inset-0">
                   <source media="(min-width: 768px)" srcSet={activeItem.imgWide} />
@@ -226,14 +228,40 @@ export default function Abilities() {
                 </motion.picture>
               </AnimatePresence>
             </div>
+
+            {/* MOBIL overlay kart — daha aşağı, daha az overlap */}
+            <motion.div
+              className="md:hidden absolute left-3 right-3 -bottom-[110px] z-20 rounded-sm border border-black/10 bg-white/95 backdrop-blur-sm p-4 shadow h-[180px] cursor-grab active:cursor-grabbing"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.1}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -120) next();
+                else if (info.offset.x > 120) prev();
+              }}
+            >
+              <div className="text-[10px] font-semibold tracking-widest text-[color:var(--papaya)]">
+                {pad2(active + 1)}
+                <span className="mx-1 text-neutral-300">/</span>
+                {pad2(ITEMS.length)}
+              </div>
+
+              <Link href={activeItem.href} className="block mt-1 h-[calc(100%-18px)] overflow-hidden">
+                <h6 className="text-[0.98rem] font-extrabold leading-6 text-black line-clamp-2">
+                  {activeItem.title}
+                </h6>
+                <p className="mt-2 text-[0.92rem] leading-6 text-neutral-700 line-clamp-3">
+                  {activeItem.description}
+                </p>
+              </Link>
+            </motion.div>
           </div>
 
-          {/* RIGHT CARDS */}
-          <div className="relative z-10 mt-2 lg:mt-5">
+          {/* RIGHT CARDS — desktop */}
+          <div className="relative z-10 mt-4 lg:mt-6 hidden md:block">
             <ul className="flex flex-col">
               {ITEMS.map((it, i) => {
                 const isHover = hovered === i;
-
                 return (
                   <li key={it.href} className="relative w-100">
                     <Link
@@ -245,7 +273,6 @@ export default function Abilities() {
                       onBlur={() => setHovered(null)}
                     >
                       <div className="relative rounded-sm border border-black/10 bg-white pl-15 pr-20 lg:pr-14 py-8 lg:h-[142px] shadow-[0_1px_0_rgba(0,0,0,0.03)]">
-                        {/* SOLDAN ÇIKAN EK — turuncu ve sadece hover'da */}
                         <div className="pointer-events-none absolute top-0 right-full h-full overflow-visible">
                           <motion.span
                             className="relative block h-full bg-[color:var(--papaya)]"
@@ -255,7 +282,6 @@ export default function Abilities() {
                           />
                         </div>
 
-                        {/* içerik sabit */}
                         <div className="relative pr-8">
                           <h6 className="line-clamp-2 text-[0.95rem] font-extrabold tracking-[0.02em] leading-6 text-black">
                             {it.title}
@@ -265,7 +291,6 @@ export default function Abilities() {
                           </p>
                         </div>
 
-                        {/* SAĞ ÜST OK — her zaman görünür; hover’da ↘ döner ve wiggle */}
                         <motion.svg
                           viewBox="0 0 24 24"
                           className="pointer-events-none absolute right-3 top-3 h-5 w-5 text-neutral-700 group-hover:text-[color:var(--papaya)]"
@@ -285,45 +310,16 @@ export default function Abilities() {
                           }}
                           style={{ zIndex: 31 }}
                         >
-                          <path
-                            d="M.89,23.26L22.14,2.01m0,0l-.97-.97H1.3m20.83,.97l.97,.97V23.51"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          />
+                          <path d="M.89,23.26L22.14,2.01m0,0l-.97-.97H1.3m20.83,.97l.97,.97V23.51" fill="none" stroke="currentColor" strokeWidth="2"/>
                         </motion.svg>
                       </div>
                     </Link>
-
-                    {/* divider */}
                     {i < ITEMS.length - 1 && <div className="h-px bg-black/10" />}
                   </li>
                 );
               })}
             </ul>
           </div>
-        </div>
-
-        {/* mobile nav (değişmedi) */}
-        <div className="mt-6 flex justify-end gap-2 md:hidden">
-          <button
-            aria-label="Previous"
-            onClick={prev}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-black/10 bg-white shadow-sm"
-          >
-            <svg viewBox="0 0 24 24" className="h-4 w-4">
-              <path d="M10.02,10.67c-.73,.74-.73,1.93,0,2.67l7.98,8-2.66,2.67L6.03,14.67c-.07-2.73,0-2.73,0-5.33L15.34,0l2.66,2.67-7.98,8Z" fill="currentColor" />
-            </svg>
-          </button>
-          <button
-            aria-label="Next"
-            onClick={next}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-[color:var(--papaya)] bg-[color:var(--papaya)] text-white"
-          >
-            <svg viewBox="0 0 24 24" className="h-4 w-4">
-              <path d="M13.98,13.33c.73-.74,.73-1.93,0-2.67L6,2.67,8.66,0l9.31,9.33c.07,2.73,0,2.73,0,5.33l-9.31,9.33-2.66-2.67,7.98-8Z" fill="currentColor" />
-            </svg>
-          </button>
         </div>
       </div>
     </section>
