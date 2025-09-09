@@ -121,28 +121,86 @@ export default function Abilities() {
 
       <div className="relative mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
         {/* header + nav */}
-        <motion.div variants={container} initial="hidden" animate="show" className="mb-8 flex items-start justify-between md:mb-5">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="mb-8 flex items-start justify-between md:mb-5"
+        >
           <motion.div variants={fadeUp}>
             <h3 className="text-[clamp(2rem,2rem+1.2vw,2.5rem)] font-black leading-none tracking-tight">
               LATEST NEWS
             </h3>
             <div className="mt-2 text-[clamp(1.6rem,1.3rem+0.6vw,2rem)] font-semibold tracking-wide">
-              <span className="text-[color:var(--papaya)] font-extrabold">Info Global Group</span> 
+              <span className="text-[color:var(--papaya)] font-extrabold">Info Global Group</span>
             </div>
           </motion.div>
 
-          <motion.div variants={fadeUp} className="hidden md:flex items-center gap-2 mr-25">
-            <button aria-label="Previous" onClick={prev} className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-black/10 bg-white shadow-sm hover:bg-black/5">
-              <svg viewBox="0 0 24 24" className="h-4 w-4">
-                <path d="M10.02,10.67c-.73,.74-.73,1.93,0,2.67l7.98,8-2.66,2.67L6.03,14.67c-.07-2.73,0-2.73,0-5.33L15.34,0l2.66,2.67-7.98,8Z" fill="currentColor" />
-              </svg>
-            </button>
-            <button aria-label="Next" onClick={next} className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-[color:var(--papaya)] bg-[color:var(--papaya)] text-white shadow-sm hover:opacity-90">
-              <svg viewBox="0 0 24 24" className="h-4 w-4">
-                <path d="M13.98,13.33c.73-.74,.73-1.93,0-2.67L6,2.67,8.66,0l9.31,9.33c.07,2.73,0,2.73,0,5.33l-9.31,9.33-2.66-2.67,7.98-8Z" fill="currentColor" />
-              </svg>
-            </button>
-          </motion.div>
+          {/* Segmented nav – notchs removed, pointer always, animated black hover */}
+          {(() => {
+            const isPrevDisabled = active === 0;
+            const isNextDisabled = active === count - 1;
+
+            const baseBtn =
+              "relative group inline-flex h-9 w-14 items-center justify-center  select-none overflow-hidden cursor-pointer";
+
+            const prevClasses = isPrevDisabled
+              ? `${baseBtn} bg-white text-neutral-400`
+              : `${baseBtn} bg-[color:var(--papaya)] text-white`;
+
+            const nextClasses = isNextDisabled
+              ? `${baseBtn} bg-white text-neutral-400`
+              : `${baseBtn} bg-[color:var(--papaya)] text-white`;
+
+            return (
+              <motion.div variants={fadeUp} className="hidden md:flex items-center mr-25">
+                {/* Prev */}
+                <button
+                  type="button"
+                  aria-label="Previous"
+                  aria-disabled={isPrevDisabled}
+                  onClick={() => !isPrevDisabled && prev()}
+                  className={prevClasses}
+                  title="Previous"
+                >
+                  {/* hover black overlay (from left) */}
+                  {!isPrevDisabled && (
+                    <span className="absolute inset-0 -z-0 origin-left scale-x-0 bg-[#111314] transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                  )}
+                  <svg viewBox="0 0 24 24" className="relative z-10 h-4 w-4 transition-colors duration-300 group-hover:text-[color:var(--papaya)]">
+                    <path
+                      d="M10.02,10.67c-.73,.74-.73,1.93,0,2.67l7.98,8-2.66,2.67L6.03,14.67c-.07-2.73,0-2.73,0-5.33L15.34,0l2.66,2.67-7.98,8Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </button>
+
+                {/* divider */}
+                <span className="h-9 w-px bg-black/10 -mx-px" />
+
+                {/* Next */}
+                <button
+                  type="button"
+                  aria-label="Next"
+                  aria-disabled={isNextDisabled}
+                  onClick={() => !isNextDisabled && next()}
+                  className={nextClasses}
+                  title="Next"
+                >
+                  {/* hover black overlay (from right) */}
+                  {!isNextDisabled && (
+                    <span className="absolute inset-0 -z-0 origin-right scale-x-0 bg-[#111314] transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                  )}
+                  <svg viewBox="0 0 24 24" className="relative z-10 h-4 w-4 transition-colors duration-300 group-hover:text-[color:var(--papaya)]">
+                    <path
+                      d="M13.98,13.33c.73-.74,.73-1.93,0-2.67L6,2.67,8.66,0l9.31,9.33c.07,2.73,0,2.73,0,5.33l-9.31,9.33-2.66-2.67,7.98-8Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </button>
+              </motion.div>
+            );
+          })()}
         </motion.div>
 
         {/* image + cards */}
@@ -162,7 +220,7 @@ export default function Abilities() {
             </div>
           </div>
 
-          {/* RIGHT CARDS (başlangıçta overlap yok; hover'da turuncu ek çıkar) */}
+          {/* RIGHT CARDS */}
           <div className="relative z-10 mt-2 lg:mt-5">
             <ul className="flex flex-col">
               {ITEMS.map((it, i) => {
@@ -182,11 +240,11 @@ export default function Abilities() {
                         {/* SOLDAN ÇIKAN EK — turuncu ve sadece hover'da */}
                         <div className="pointer-events-none absolute top-0 right-full h-full overflow-visible">
                           <motion.span
-                            className="relative block h-full bg-[color:var(--papaya)]"
-                            animate={{ width: isHover && !prefersReduced ? 12 : 0 }}
-                            transition={{ duration: 0.2, ease: EASE_OUT }}
-                            style={{ zIndex: 30 }}
-                          />
+                              className="relative block h-full bg-[color:var(--papaya)]"
+                              animate={{ width: isHover && !prefersReduced ? 12 : 0 }}      // ✅ HOOK DEĞERİNİ KULLAN
+                              transition={{ duration: 0.2, ease: EASE_OUT }}
+                              style={{ zIndex: 30 }}
+                            />
                         </div>
 
                         {/* içerik sabit */}
@@ -205,7 +263,7 @@ export default function Abilities() {
                           className="pointer-events-none absolute right-3 top-3 h-5 w-5 text-neutral-700 group-hover:text-[color:var(--papaya)]"
                           animate={
                             isHover && !prefersReduced
-                              ? { rotate: 45, x: [0, 4, 0] } // ↗ -> ↘
+                              ? { rotate: 45, x: [0, 4, 0] }
                               : { rotate: 0, x: 0 }
                           }
                           transition={{
@@ -227,7 +285,6 @@ export default function Abilities() {
                           />
                         </motion.svg>
                       </div>
-
                     </Link>
 
                     {/* divider */}
@@ -239,14 +296,22 @@ export default function Abilities() {
           </div>
         </div>
 
-        {/* mobile nav */}
+        {/* mobile nav (değişmedi) */}
         <div className="mt-6 flex justify-end gap-2 md:hidden">
-          <button aria-label="Previous" onClick={prev} className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-black/10 bg-white shadow-sm">
+          <button
+            aria-label="Previous"
+            onClick={prev}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-black/10 bg-white shadow-sm"
+          >
             <svg viewBox="0 0 24 24" className="h-4 w-4">
               <path d="M10.02,10.67c-.73,.74-.73,1.93,0,2.67l7.98,8-2.66,2.67L6.03,14.67c-.07-2.73,0-2.73,0-5.33L15.34,0l2.66,2.67-7.98,8Z" fill="currentColor" />
             </svg>
           </button>
-          <button aria-label="Next" onClick={next} className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-[color:var(--papaya)] bg-[color:var(--papaya)] text-white">
+          <button
+            aria-label="Next"
+            onClick={next}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-[color:var(--papaya)] bg-[color:var(--papaya)] text-white"
+          >
             <svg viewBox="0 0 24 24" className="h-4 w-4">
               <path d="M13.98,13.33c.73-.74,.73-1.93,0-2.67L6,2.67,8.66,0l9.31,9.33c.07,2.73,0,2.73,0,5.33l-9.31,9.33-2.66-2.67,7.98-8Z" fill="currentColor" />
             </svg>
