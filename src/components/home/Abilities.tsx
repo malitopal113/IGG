@@ -129,14 +129,14 @@ export default function Abilities() {
         >
           <motion.div variants={fadeUp}>
             <h3 className="text-[clamp(2rem,2rem+1.2vw,2.5rem)] font-black leading-none tracking-tight">
-              LATEST NEWS
+              Our Abilities
             </h3>
             <div className="mt-2 text-[clamp(1.6rem,1.3rem+0.6vw,2rem)] font-semibold tracking-wide">
               <span className="text-[color:var(--papaya)] font-extrabold">Info Global Group</span>
             </div>
           </motion.div>
 
-          {/* Segmented nav – notchs removed, pointer always, animated black hover */}
+          {/* Segmented nav – (değişmedi) */}
           {(() => {
             const isPrevDisabled = active === 0;
             const isNextDisabled = active === count - 1;
@@ -163,7 +163,6 @@ export default function Abilities() {
                   className={prevClasses}
                   title="Previous"
                 >
-                  {/* hover black overlay (from left) */}
                   {!isPrevDisabled && (
                     <span className="absolute inset-0 -z-0 origin-left scale-x-0 bg-[#111314] transition-transform duration-300 ease-out group-hover:scale-x-100" />
                   )}
@@ -187,7 +186,6 @@ export default function Abilities() {
                   className={nextClasses}
                   title="Next"
                 >
-                  {/* hover black overlay (from right) */}
                   {!isNextDisabled && (
                     <span className="absolute inset-0 -z-0 origin-right scale-x-0 bg-[#111314] transition-transform duration-300 ease-out group-hover:scale-x-100" />
                   )}
@@ -206,8 +204,18 @@ export default function Abilities() {
         {/* image + cards */}
         <div className="grid grid-cols-1 items-start gap-0 lg:grid-cols-[minmax(880px,1fr)_minmax(520px,0.9fr)]">
           {/* LEFT IMAGE */}
-          <div className="relative lg:pr-0 lg:-ml-16 xl:-ml-20 2xl:-ml-44">
-            <div className="relative h-[clamp(500px,35vw,750px)] overflow-hidden z-0">
+          <div
+            className={
+              // CHANGED: negatif marginler küçültüldü (15–16"ta kenara yapışmasın)
+              "relative lg:pr-0 lg:-ml-8 xl:-ml-12 2xl:-ml-20" // was lg:-ml-16 xl:-ml-20 2xl:-ml-44
+            }
+          >
+            <div
+              className={
+                // CHANGED: yükseklik alt sınırı artırıldı (15.6"ta düşmesin)
+                "relative min-h-[560px] h-[clamp(560px,40vw,750px)] overflow-hidden z-0"
+              } // was h-[clamp(500px,35vw,750px)]
+            >
               <svg aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.10]" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                 <rect width="100%" height="100%" fill={`url(#${linePatternId})`} />
               </svg>
@@ -240,11 +248,11 @@ export default function Abilities() {
                         {/* SOLDAN ÇIKAN EK — turuncu ve sadece hover'da */}
                         <div className="pointer-events-none absolute top-0 right-full h-full overflow-visible">
                           <motion.span
-                              className="relative block h-full bg-[color:var(--papaya)]"
-                              animate={{ width: isHover && !prefersReduced ? 12 : 0 }}      // ✅ HOOK DEĞERİNİ KULLAN
-                              transition={{ duration: 0.2, ease: EASE_OUT }}
-                              style={{ zIndex: 30 }}
-                            />
+                            className="relative block h-full bg-[color:var(--papaya)]"
+                            animate={{ width: isHover && !prefersReduced ? 12 : 0 }}
+                            transition={{ duration: 0.2, ease: EASE_OUT }}
+                            style={{ zIndex: 30 }}
+                          />
                         </div>
 
                         {/* içerik sabit */}
