@@ -138,7 +138,7 @@ export default function Sector() {
             transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
             className={`
               absolute z-20 right-1/2 md:right-16 left-1/2 md:left-auto
-              top-[58%] md:top-[56%]
+              top-[58%] md:top-[75%]
               -translate-y-1/2 -translate-x-1/2 md:translate-x-0
               text-white max-w-3xl px-6 text-center md:text-right
               will-change-transform will-change-opacity
