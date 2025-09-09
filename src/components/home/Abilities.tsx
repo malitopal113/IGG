@@ -149,7 +149,7 @@ export default function Abilities() {
         <div className="grid grid-cols-1 items-start gap-0 lg:grid-cols-[minmax(880px,1fr)_minmax(520px,0.9fr)]">
           {/* LEFT IMAGE */}
           <div className="relative lg:pr-0 lg:-ml-16 xl:-ml-20 2xl:-ml-44">
-            <div className="relative h-[clamp(520px,38vw,820px)] overflow-hidden z-0">
+            <div className="relative h-[clamp(500px,35vw,750px)] overflow-hidden z-0">
               <svg aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.10]" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                 <rect width="100%" height="100%" fill={`url(#${linePatternId})`} />
               </svg>
