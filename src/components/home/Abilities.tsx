@@ -131,7 +131,7 @@ export default function Abilities() {
             </div>
           </motion.div>
 
-          <motion.div variants={fadeUp} className="hidden md:flex items-center gap-2 ">
+          <motion.div variants={fadeUp} className="hidden md:flex items-center gap-2 mr-25">
             <button aria-label="Previous" onClick={prev} className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-black/10 bg-white shadow-sm hover:bg-black/5">
               <svg viewBox="0 0 24 24" className="h-4 w-4">
                 <path d="M10.02,10.67c-.73,.74-.73,1.93,0,2.67l7.98,8-2.66,2.67L6.03,14.67c-.07-2.73,0-2.73,0-5.33L15.34,0l2.66,2.67-7.98,8Z" fill="currentColor" />
