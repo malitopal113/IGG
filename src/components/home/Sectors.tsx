@@ -73,7 +73,7 @@ export default function Sector() {
   const goTo = (idx: number) => setCurrent(idx);
 
   return (
-    <section id="section3" className="relative w-full h-[calc(100vh-80px)] font-roboto text-[#1D1D1B]">
+    <section id="sectors" className="relative w-full h-[calc(100vh)] font-roboto text-[#1D1D1B]">
       {/* Background slides */}
       <div className="relative w-full h-full overflow-hidden">
         {slides.map((slide, index) => (

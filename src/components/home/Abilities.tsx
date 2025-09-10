@@ -104,7 +104,7 @@ export default function Abilities() {
   };
 
   return (
-    <section className="relative overflow-hidden scroll-mt-16" style={sectionStyle}>
+    <section id="abilities" className="relative overflow-hidden  " style={sectionStyle}>
       {/* bg pattern */}
       <svg aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.12]" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
         <defs>

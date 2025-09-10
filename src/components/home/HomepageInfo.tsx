@@ -4,7 +4,7 @@ import React from "react";
 
 export default function HomepageInfo() {
   return (
-    <section data-component="homepage-info">
+    <section data-component="homepage-info" id="homepage-info">
       <div className="container">
         <div className="intro text-center">
           <h5 className="heading-1">ABOUT INFO GROUP GLOBAL</h5>

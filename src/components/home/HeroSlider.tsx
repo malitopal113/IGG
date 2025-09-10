@@ -142,7 +142,7 @@ export default function HeroSliderBS() {
 };
 
   return (
-    <section className="relative w-screen overflow-hidden">
+    <section id="heroSlider" className="relative w-screen overflow-hidden">
       <div id="heroCarousel" className="carousel" ref={rootRef}>
         <div className="carousel-inner"
         

@@ -19,7 +19,7 @@ export default function ActivityCountries() {
   return (
     <section
       id="activity-countries"
-      className="relative h-[858px] w-full font-roboto text-white"
+      className="relative h-[100vh] w-full font-roboto text-white"
       style={{
         backgroundImage: "url('/assets/map.png')", // kendi görsel yolunu buraya koy
         backgroundSize: "cover",
