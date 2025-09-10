@@ -186,7 +186,7 @@ export default function ContactPage() {
                     whileHover={{ y: -1 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#dca14a] px-5 py-2.5 text-sm font-semibold text-neutral-900 shadow-lg shadow-amber-500/20 transition hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#dca14a]/40"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#dca14a] px-5 py-2.5 text-sm font-semibold text-neutral-900 shadow-lg shadow-amber-500/20 transition hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#dca14a]/40 cursor-pointer"
                     disabled={status === "loading"}
                   >
                     {status === "loading" ? "Sending…" : "Send Message"}
@@ -237,13 +237,13 @@ export default function ContactPage() {
                        lg:row-span-2 self-stretch flex flex-col"
           >
             <div className="border-b border-white/10 p-4 sm:p-5">
-              <h3 className="text-sm font-semibold text-[#e9c88a]">Map</h3>
-              <p className="mt-1 text-xs text-neutral-300/80">Paste your Google Maps embed code below.</p>
+              <h3 className="text-sm font-semibold text-[#e9c88a] text-center">Map</h3>
+              <p className="mt-1 text-xs text-neutral-300/80"></p>
             </div>
             <div className="w-full flex-1 min-h-[300px]">
               <iframe
                 title="IGG Location"
-                src="https://www.google.com/maps?q=New+York&output=embed"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2517.260443542921!2d4.449920376936248!3d50.88188985620549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3dde4d1f086e7%3A0xb570e64072f47312!2sOFIX%20Private%20%26%20Flex%20Workspaces!5e0!3m2!1snl!2sbe!4v1757523123029!5m2!1snl!2sbe"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-full w-full border-0"
