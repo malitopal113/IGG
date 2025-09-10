@@ -136,7 +136,7 @@ export default function Sector() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 24 }}
             transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-            className={`
+            className={` 
               absolute z-20 right-1/2 md:right-16 left-1/2 md:left-auto
               top-[58%] md:top-[75%]
               -translate-y-1/2 -translate-x-1/2 md:translate-x-0
