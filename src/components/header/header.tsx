@@ -45,7 +45,7 @@ const NAV = [
   {
     label: "Contact Us",
     banner: {
-      href: "/contact-us",
+      href: "/contact",
       title: "Contact Us",
       image:
         "https://cdn.koc.com.tr/cmscontainer/kocholding/media/koc/menu-img/medya_merkezi.jpg?ext=.jpg",
