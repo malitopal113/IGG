@@ -21,7 +21,7 @@ const NAV = [
       [
         { label: "Our History", href: "/about-us/our-history" },
         { label: "Mission & Vision", href: "/about-us/mission-vision" },
-        { label: "Our Abilities", href: "/about-us/our-abilities" },
+        { label: "Our Abilities", href: "/#abilities" },
       ],
     ],
   },
