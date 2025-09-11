@@ -35,7 +35,7 @@ export default function FooterClassic() {
     <footer className="bg-[#252525] text-[#ffffff]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Top: 4 Columns (3 left, 1 right) */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-4  gap-10">
           {/* Business */}
           <div>
             <h5 className="text-lg font-semibold mb-4">Business</h5>
@@ -98,7 +98,7 @@ export default function FooterClassic() {
 
         {/* Bottom: Legal */}
         <div className="text-center text-sm mt-6 border-t border-gray-700 pt-4">
-          © 2019-2026 IGG Sons Private Limited. All Rights Reserved.
+          Proudly created with <a target="_blank" href="https://www.mediawingsup.com/"><span className="font-bold text-amber-300">Media WingsUp</span></a> 
         </div>
       </div>
     </footer>

@@ -6,19 +6,8 @@ export default function HomepageInfo() {
   return (
     <section data-component="homepage-info" id="homepage-info">
       <div className="container">
-        <div className="intro text-center">
-          <h5 className="heading-1">ABOUT INFO GROUP GLOBAL</h5>
-          <p className="description">
-            INFO GROUP GLOBAL is a corporate company that has been involved in
-            trade. Has adopted Quality, Speed and Professionalism as its
-            principle. If we express ourselves in one sentence, we say ;
-            <br />
-            <strong>Global Flexibility!</strong>
-          </p>
-        </div>
-
         <div className="industries text-center">
-          <h5 className="heading-2">INFO GROUP GLOBALS INDUSTRIES</h5>
+          
           <h5 className="heading-3">SECTORS</h5>
           <div className="separator"></div>
         </div>
@@ -74,60 +63,59 @@ export default function HomepageInfo() {
 
       <style jsx>{`
         [data-component="homepage-info"] {
-          padding: 100px 0 100px;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          overflow: hidden;
         }
         .container {
           max-width: 1140px;
           margin: 0 auto;
-          padding: 0 15px;
-        }
-        .intro .heading-1 {
-          font-weight: 600;
-          color: #6f6f6f;
-          margin-bottom: 15px;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          font-size: 28px;
-        }
-        .intro .description {
-          color: #232323;
-          font-size: 18px;
-          line-height: 28px;
+          padding: 60px 0;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
         }
         .industries .heading-2 {
           font-weight: 600;
           color: #6f6f6f;
-          margin-top: 40px;
+          margin-top: 20px;
           text-transform: uppercase;
           letter-spacing: 0.06em;
-          font-size: 15px;
+          font-size: 13px;
         }
         .industries .heading-3 {
           font-weight: 700;
           color: #232323;
           text-transform: uppercase;
-          margin: 10px 0 14px;
-          font-size: 36px;
+          margin: 45px 0 15px;
+          font-size: 30px;
         }
         .separator {
-          width: 80px;
+          width: 70px;
           height: 2px;
-          margin: 12px auto 40px;
+          margin: 0 auto ;
           background: #d8b15a;
         }
         .sectors-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 70px;
+          gap: 18px;
+          flex: 1;
+          align-items: center;
         }
         .sector {
           position: relative;
           overflow: hidden;
           border-radius: 4px;
+          height: 280px; /* kartların yüksekliğini artırdım */
         }
         .sector img {
           width: 100%;
-          height: auto;
+          height: 100%;
+          object-fit: cover;
           display: block;
         }
         .sector .overlay {
@@ -146,7 +134,7 @@ export default function HomepageInfo() {
           transform: translate(-50%, -50%);
           white-space: nowrap;
           opacity: 1;
-          font-size: clamp(28px, 4vw, 44px);
+          font-size: clamp(22px, 3vw, 34px);
           font-weight: 700;
           text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
           transition: transform 0.5s ease, opacity 0.5s ease;
@@ -154,16 +142,16 @@ export default function HomepageInfo() {
         .sector .overlay a {
           position: absolute;
           left: 50%;
-          top: 100% !important; /* kartın en altından başlasın */
+          top: 100% !important;
           transform: translate(-50%, -50%);
           opacity: 0 !important;
           pointer-events: none;
           color: #232323;
           text-decoration: none;
-          padding: 5px 29px;
+          padding: 5px 26px;
           border-radius: 999px;
-          font-size: 15px;
-          font-weight: 700;
+          font-size: 14px;
+          font-weight: 600;
           letter-spacing: .5px;
           line-height: inherit;
           background: #fff;
@@ -172,28 +160,34 @@ export default function HomepageInfo() {
           will-change: top, opacity, transform;
         }
         .sector:hover .overlay span {
-          transform: translate(-50%, calc(-50% - 40px)); /* yukarı kayarak kaybolsun */
+          transform: translate(-50%, calc(-50% - 30px));
           opacity: 0 !important;
         }
         .sector:hover .overlay a {
-          top: 50% !important; /* alttan ortaya gelsin */
+          top: 50% !important;
           opacity: 1 !important;
           pointer-events: auto;
-          /* Görsel/renk değişimini burada değil, sadece a:hover'da yapacağız */
           background: #fff;
           border: 2px solid #fff;
           color: #232323;
         }
-        /* Sadece linkin üstüne gelince renk/çerçeve değişsin */
         .sector .overlay a:hover {
           background: transparent;
           border-color: #fff;
           color: #fff;
         }
-        @media (max-width: 767px) {
+        @media (max-width: 991px) {
           .sectors-grid {
             grid-template-columns: 1fr;
+            gap: 20px;
           }
+          .sector { height: 260px; }
+          .industries .heading-3 { font-size: 26px; }
+        }
+        @media (max-width: 767px) {
+          .sectors-grid { gap: 18px; }
+          .sector { height: 220px; }
+          .industries .heading-3 { font-size: 22px; }
         }
       `}</style>
     </section>

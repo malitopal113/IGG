@@ -208,10 +208,10 @@ export default function ContactPage() {
             {/* Info tiles under form (keeps left column tall) */}
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-2">
               {[
-                { title: "Phone", content: "+32 000 00 00", href: "tel:+3200000000" },
-                { title: "Email", content: "info@igg.example", href: "mailto:info@igg.example" },
-                { title: "Business Hours", content: "Weekdays 9:00 – 17:00" },
-                { title: "Address", content: "(Brussels, Belgium)" },
+                { title: "Phone", content: "+32 472 32 00 51", href: "tel:+32472320051" },
+                { title: "Email", content: "info@infogroupglobal.com", href: "mailto:info@infogroupglobal.com" },
+                { title: "Business Hours", content: "Monday to Friday  – 9 AM to 5 PM" },
+                { title: "Address", content: "Excelsiorlaan 1, 1930 Zaventem / BELGIUM" },
               ].map((c, i) => (
                 <motion.a
                   key={i}
@@ -243,7 +243,7 @@ export default function ContactPage() {
             <div className="w-full flex-1 min-h-[300px]">
               <iframe
                 title="IGG Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2517.260443542921!2d4.449920376936248!3d50.88188985620549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3dde4d1f086e7%3A0xb570e64072f47312!2sOFIX%20Private%20%26%20Flex%20Workspaces!5e0!3m2!1snl!2sbe!4v1757523123029!5m2!1snl!2sbe"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5034.601375288372!2d4.453662076936203!3d50.881144956259206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3dcfc72accba1%3A0x2e3eebe65d002270!2sExcelsiorlaan%201%2C%201930%20Zaventem!5e0!3m2!1snl!2sbe!4v1757555715136!5m2!1snl!2sbe" 
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-full w-full border-0"

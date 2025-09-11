@@ -26,6 +26,24 @@ export default function ScrollSpyNav() {
   const [autoShowId, setAutoShowId] = useState<string | null>(null);  // scroll/tık ile görünen
   const idleTimerRef = useRef<number | null>(null);
 
+  // ↓↓↓ YENİ: sayfa altına yaklaşınca tüm bileşeni gizlemek için
+  const [nearBottom, setNearBottom] = useState(false);
+  useEffect(() => {
+    const checkBottom = () => {
+      const doc = document.documentElement;
+      const reached = window.innerHeight + window.scrollY >= doc.scrollHeight - 30; // 30px eşik
+      setNearBottom(reached);
+    };
+    checkBottom();
+    window.addEventListener("scroll", checkBottom, { passive: true });
+    window.addEventListener("resize", checkBottom);
+    return () => {
+      window.removeEventListener("scroll", checkBottom);
+      window.removeEventListener("resize", checkBottom);
+    };
+  }, []);
+  // ↑↑↑ YENİ
+
   const handleClick = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     setActiveId(id);                 // tek tıkta aktiflik
@@ -91,7 +109,11 @@ export default function ScrollSpyNav() {
   return (
     <section
       aria-label="In-page navigation"
-      className="hidden [@media(min-width:1000px)]:block fixed right-10 top-1/2 z-50 hidden -translate-y-1/2 md:block"
+      className={[
+        "hidden [@media(min-width:1000px)]:block fixed right-10 top-1/2 z-50 hidden -translate-y-1/2 md:block",
+        "transition-opacity duration-300",                 // yumuşak gizleme/gösterme
+        nearBottom ? "opacity-0 pointer-events-none" : "opacity-100",
+      ].join(" ")}
     >
       {/* Küçültülmüş sabit genişlik (senin ayarın) */}
       <div className="relative w-[110px]">
