@@ -17,8 +17,8 @@ const BANNER: Banner = {
   desc:
     "With a commitment to quality, speed, and professionalism, IGG delivers reliable solutions that connect industries across Europe and beyond.",
   imgDesktop: "/assets/aboutus/ourhistory/about-hero1-3.png",
-  imgTablet:  "/assets/slider/about-hero-tablet.jpg",
-  imgMobile:  "/assets/slider/about-hero-mobile.jpg",
+  imgTablet:  "/assets/aboutus/ourhistory/about-hero1-3.png",
+  imgMobile:  "/assets/aboutus/ourhistory/about-hero1-3.png",
 };
 
 export default function Hero1() {
@@ -220,7 +220,7 @@ export default function Hero1() {
         /* Küçük ekran ayarları */
         @media (max-width: 640px){
           #heroCarousel .arrowSection{ bottom:7rem; right:1rem; }
-          #heroCarousel .slide-img { object-position: right center;}
+          #heroCarousel .slide-img { object-position: 75% center;}
         }
           
       `}</style>
