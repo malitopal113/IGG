@@ -8,7 +8,14 @@ import Image from "next/image";
 
 /* ---------- NAV DATA ---------- */
 /* ---------- NAV DATA (EN) ---------- */
-const NAV = [
+type NavLink = { label: string; href: string };
+type NavItem = {
+  label: string;
+  banner: { href: string; title: string; image: string };
+  columns: NavLink[][];
+};
+
+const NAV: NavItem[] = [
   {
     label: "About Us",
     banner: {
@@ -19,7 +26,7 @@ const NAV = [
     },
     columns: [
       [
-        { label: "Our History", href: "/about-us/our-history" },
+        { label: "Our History", href: "/aboutus/ourhistory" },
         { label: "Mission & Vision", href: "/about-us/mission-vision" },
         { label: "Our Abilities", href: "/#abilities" },
       ],

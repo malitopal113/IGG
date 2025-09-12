@@ -186,9 +186,22 @@ export default function HomepageInfo() {
         }
         @media (max-width: 767px) {
           .sectors-grid { gap: 18px; }
-          .sector { height: 220px; }
-          .industries .heading-3 { font-size: 22px; }
+          .sector { height: 160px; }
+          .industries .heading-3 { font-size: 22px; margin: 45px 0 25px; }
+          .container {
+          
+          
+          padding: 20px 20px;
+          margin-bottom: 40px;
+      
         }
+          .separator {
+          
+          margin: 20px auto ;
+          
+        }
+        }
+          
       `}</style>
     </section>
   );
