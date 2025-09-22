@@ -81,9 +81,11 @@ export default function Hero1() {
             window.scrollTo({ top: y, behavior: "smooth" });
           }}
         >
-          <div className="arrowContainer">
+
+          {/* // Arrow section is closed  */}
+          {/* <div className="arrowContainer">
             <span></span><span></span><span></span><span></span>
-          </div>
+          </div> */}
         </div>
       </div>
 
