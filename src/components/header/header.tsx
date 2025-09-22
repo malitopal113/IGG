@@ -208,14 +208,14 @@ const closeSearch = () => {
               className={classNames(
                 "relative",
                 active &&
-                  "after:content-[''] after:absolute after:left-0 after:-bottom-2 after:h-[2px] after:w-full after:bg-[#F9423A]"
+                  "after:content-[''] after:absolute after:left-0 after:-bottom-2 after:h-[2px] after:w-full after:bg-[#FFBF00]"
               )}
             >
               {item.label}
             </span>
             <svg
               width="15" height="15" viewBox="0 0 20 20" aria-hidden="true"
-              className={classNames(active ? "text-[#F9423A]" : "text-[#F9423A]")}
+              className={classNames(active ? "text-[#FFBF00]" : "text-[#FFBF00]")}
             >
               <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
             </svg>
@@ -240,7 +240,7 @@ const closeSearch = () => {
             </span>
             <svg
               width="15" height="15" viewBox="0 0 20 20" aria-hidden="true"
-              className={classNames(active ? "text-[#F9423A]" : "text-[#F9423A]")}
+              className={classNames(active ? "text-[#FFBF00]" : "text-[#FFBF00]")}
             >
               <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
             </svg>
@@ -268,7 +268,7 @@ const closeSearch = () => {
     viewBox="0 0 24 24"
     className="h-9 w-9"
     fill="none"
-    stroke="#F9423A"
+    stroke="#FFBF00"
     strokeWidth="1"
     strokeLinecap="round"
     strokeLinejoin="round"
@@ -317,10 +317,10 @@ const closeSearch = () => {
       )}
     >
       {/* kırmızı arka plan */}
-      <div className="absolute inset-0 bg-[#F9423A]" />
+      <div className="absolute inset-0 bg-[#FFBF00]" />
 
       {/* içerik */}
-      <div className="relative h-full w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 lg:pt-24">
+      <div className="relative h-full w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 lg:pt-20">
         <div className="flex items-start justify-between">
           <h2 className="text-white text-4xl sm:text-5xl font-extrabold">
             Search now...
@@ -339,7 +339,7 @@ const closeSearch = () => {
           <label className="flex items-center bg-white rounded-2xl shadow-xl h-[72px] pl-5 pr-2">
             <svg
               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-              className="h-5 w-5 mr-2" fill="none" stroke="#F9423A" strokeWidth="2"
+              className="h-5 w-5 mr-2" fill="none" stroke="#FFBF00" strokeWidth="2"
               strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
             >
               <circle cx="11" cy="11" r="7" />
@@ -355,10 +355,10 @@ const closeSearch = () => {
 
             <button
               type="submit"
-              className="ml-2 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[#F9423A] hover:bg-[#F9423A]/10 cursor-pointer"
+              className="ml-2 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[#FFBF00] hover:bg-[#F9423A]/10 cursor-pointer"
             >
               SEARCH
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#F9423A" strokeWidth="2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#FFBF00" strokeWidth="2">
                 <path d="M7 5l6 5-6 5" />
               </svg>
             </button>
@@ -371,15 +371,15 @@ const closeSearch = () => {
           <div className="mt-4 flex flex-wrap gap-3 cursor-pointer">
             <a href="/arama?keyword=faaliyet%20raporu" className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow">
               ACTIVITY REPORT
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#F9423A" strokeWidth="2"><path d="M7 5l6 5-6 5" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#FFBF00" strokeWidth="2"><path d="M7 5l6 5-6 5" /></svg>
             </a>
             <a href="/arama?keyword=s%C3%BCrd%C3%BCr%C3%BClebilirlik" className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow">
               SUSTAINABILITY
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#F9423A" strokeWidth="2"><path d="M7 5l6 5-6 5" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#FFBF00" strokeWidth="2"><path d="M7 5l6 5-6 5" /></svg>
             </a>
             <a href="/arama?keyword=%C5%9Firketler" className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow">
               COMPANIES
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#F9423A" strokeWidth="2"><path d="M7 5l6 5-6 5" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#FFBF00" strokeWidth="2"><path d="M7 5l6 5-6 5" /></svg>
             </a>
           </div>
         </div>
@@ -468,13 +468,13 @@ function MegaPanelTop({
     className="shrink-0 transition-transform duration-200 group-hover/daha:translate-x-1"
   >
     {/* OK rengi güncellendi */}
-    <path d="M7 5l6 5-6 5" fill="none" stroke="#F9423A" strokeWidth="2" />
+    <path d="M7 5l6 5-6 5" fill="none" stroke="#FFBF00" strokeWidth="2" />
   </svg>
 
   {/* Kırmızı çizgi: yazıyla TAM aynı soldan başlasın, biraz daha kalın */}
   <span
     aria-hidden
-    className="pointer-events-none absolute -bottom-2 left-0 h-[2px] w-[450px] lg:w-[500px] bg-[#F9423A]"
+    className="pointer-events-none absolute -bottom-2 left-0 h-[2px] w-[450px] lg:w-[500px] bg-[#FFBF00]"
   />
 </span>
     </div>
@@ -502,14 +502,14 @@ function MegaPanelTop({
           {/* OK: varsayılan gri, hover’da #F9423A */}
           <svg
             width="14" height="14" viewBox="0 0 20 20" aria-hidden="true"
-            className="ml-3 text-gray-300 group-hover:text-[#F9423A] transition-colors"
+            className="ml-3 text-gray-300 group-hover:text-[#FFBF00] transition-colors"
           >
             <path d="M7 5l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2" />
           </svg>
         </span>
 
         {/* Alt çizgi: varsayılan gri, hover’da #F9423A */}
-        <span className="block h-px bg-gray-200 mt-3 group-hover:bg-[#F9423A] transition-colors" />
+        <span className="block h-px bg-gray-200 mt-3 group-hover:bg-[#FFBF00] transition-colors" />
       </Link>
     ))}
   </div>
