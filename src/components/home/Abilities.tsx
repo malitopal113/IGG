@@ -129,7 +129,7 @@ export default function Abilities() {
             {/* <h3 className="text-[clamp(2rem,2rem+1.2vw,2.5rem)] font-black leading-none tracking-tight">
               Our Abilities
             </h3> */}
-            <div className="mt-2 text-[clamp(1.6rem,1.3rem+0.6vw,2rem)] font-semibold tracking-wide">
+            <div className="mt-2 text-[clamp(2rem,2rem+0.6vw,3rem)] font-semibold tracking-wide">
               <span className="text-[color:#FFBF00] font-extrabold">Our Abilities</span>
             </div>
           </motion.div>
