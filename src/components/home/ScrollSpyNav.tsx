@@ -110,7 +110,7 @@ export default function ScrollSpyNav() {
     <section
       aria-label="In-page navigation"
       className={[
-        "hidden [@media(min-width:1000px)]:block fixed right-10 top-1/2 z-50 hidden -translate-y-1/2 md:block",
+        "hidden [@media(min-width:1000px)]:block fixed right-10 top-1/2 z-40 hidden -translate-y-1/2 md:block",
         "transition-opacity duration-300",                 // yumuşak gizleme/gösterme
         nearBottom ? "opacity-0 pointer-events-none" : "opacity-100",
       ].join(" ")}

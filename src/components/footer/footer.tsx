@@ -32,7 +32,7 @@ function SocialIcons({ className = "h-6 w-6 mb-5 mt-2" }: { className?: string }
 
 export default function FooterClassic() {
   return (
-    <footer className="bg-[#252525] text-[#ffffff]">
+    <footer className="bg-[#000] text-[#ffffff]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Top: 4 Columns (3 left, 1 right) */}
         <div className="grid grid-cols-1 md:grid-cols-4  gap-10">
@@ -90,7 +90,7 @@ export default function FooterClassic() {
               <button type="submit" className="px-4 bg-gray-700 hover:bg-gray-600 cursor-pointer text-white text-sm">→</button>
             </form>
             <Link href="/" className="flex justify-center items-center gap-3 pt-4 mt-5">
-              <Image src="/assets/menu/logo.svg" alt="IGG" width={120} height={32} priority className="h-20 w-auto" />
+              <Image src="/assets/menu/logo-igg.svg" alt="IGG" width={120} height={32} priority className="h-20 w-auto" />
               
             </Link>
           </div>
@@ -98,7 +98,7 @@ export default function FooterClassic() {
 
         {/* Bottom: Legal */}
         <div className="text-center text-sm mt-6 border-t border-gray-700 pt-4">
-          Proudly created with <a target="_blank" href="https://www.mediawingsup.com/"><span className="font-bold text-amber-300">Media WingsUp</span></a> 
+          ©  Info Global Group Private Limited. All Rights Reserved. <a target="_blank" href="https://www.mediawingsup.com/"><span className="font-bold text-amber-300"></span></a> 
         </div>
       </div>
     </footer>

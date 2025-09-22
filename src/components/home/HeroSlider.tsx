@@ -79,6 +79,7 @@ export default function HeroSliderBS() {
     clearInterval(autoRef.current);
     autoRef.current = null;
   }
+
   };
 
   React.useEffect(() => {
@@ -369,8 +370,9 @@ export default function HeroSliderBS() {
   bottom:16px;
   width:min(380px, 60vw);
   padding:10px 12px 8px;
+  
   border-radius:12px;
-  background: rgba(0,0,0,.35);
+  background: rgba(0,0,0,.05);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   color:#fff;
@@ -439,7 +441,7 @@ export default function HeroSliderBS() {
 #heroCarousel .arrowSection{
   position:absolute;
   bottom:2rem;
-  right:24rem;
+  right:15rem;
   z-index:10;
   cursor:pointer;
 }

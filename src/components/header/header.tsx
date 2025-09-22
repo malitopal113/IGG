@@ -150,7 +150,7 @@ const closeSearch = () => {
       <header
         ref={headerRef}
         className={classNames(
-          "fixed inset-x-0 top-0 z-[60] transition-all",
+          "fixed inset-x-0 top-0 z-[50] transition-all",
           scrolled || openIndex !== null
             ? "backdrop-blur bg-white shadow-sm"
             : "bg-transparent"
@@ -162,7 +162,7 @@ const closeSearch = () => {
             {/* Left: brand + hamburger */}
             <div className="flex items-center gap-3">
               <Link href="/" className="flex items-center" aria-label="IGG anasayfa">
-                <Image src="/assets/menu/logo.svg" alt="IGG" width={120} height={32} priority className="h-20 w-auto" />
+                <Image src="/assets/menu/logo-igg.svg" alt="IGG" width={120} height={32} priority className="h-20 w-auto" />
               </Link>
 
               <button
