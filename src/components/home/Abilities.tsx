@@ -19,7 +19,7 @@ type NewsItem = {
   imgSquare: string;
 };
 
-const ORANGE = "#ff8000";
+const ORANGE = "#FFBF00";
 const EASE_OUT: Easing = cubicBezier(0.16, 1, 0.3, 1);
 
 const container: Variants = {
@@ -126,16 +126,16 @@ export default function Abilities() {
           className="mb-2 md:mb-5 flex items-start justify-between"
         >
           <motion.div variants={fadeUp}>
-            <h3 className="text-[clamp(2rem,2rem+1.2vw,2.5rem)] font-black leading-none tracking-tight">
+            {/* <h3 className="text-[clamp(2rem,2rem+1.2vw,2.5rem)] font-black leading-none tracking-tight">
               Our Abilities
-            </h3>
+            </h3> */}
             <div className="mt-2 text-[clamp(1.6rem,1.3rem+0.6vw,2rem)] font-semibold tracking-wide">
-              <span className="text-[color:var(--papaya)] font-extrabold">Info Global Group</span>
+              <span className="text-[color:#FFBF00] font-extrabold">Our Abilities</span>
             </div>
           </motion.div>
 
           {/* DESKTOP segmented nav (aynen) */}
-          {(() => {
+          {/* {(() => {
             const isPrevDisabled = active === 0;
             const isNextDisabled = active === count - 1;
 
@@ -185,10 +185,10 @@ export default function Abilities() {
                 </button>
               </motion.div>
             );
-          })()}
+          })()} */}
 
           {/* MOBIL prev/next — başlıkla aynı satırda sağda */}
-          <div className="md:hidden flex items-center gap-0 self-start">
+          {/* <div className="md:hidden flex items-center gap-0 self-start">
             <button
               onClick={prev}
               className="h-8 w-10 flex items-center justify-center bg-white text-neutral-600 active:opacity-90"
@@ -209,7 +209,7 @@ export default function Abilities() {
                 <path d="M13.98,13.33c.73-.74,.73-1.93,0-2.67L6,2.67,8.66,0l9.31,9.33c.07,2.73,0,2.73,0,5.33l-9.31,9.33-2.66-2.67,7.98-8Z" fill="currentColor"/>
               </svg>
             </button>
-          </div>
+          </div> */}
         </motion.div>
 
         {/* image + cards */}
