@@ -98,7 +98,7 @@ export default function FooterClassic() {
 
         {/* Bottom: Legal */}
         <div className="text-center text-sm mt-6 border-t border-gray-700 pt-4">
-          ©  Info Global Group Private Limited. All Rights Reserved. <a target="_blank" href="https://www.mediawingsup.com/"><span className="font-bold text-amber-300"></span></a> 
+          ©  Info Global Group Private Limited. All Rights Reserved. <a className="font-bold  text-amber-300" target="_blank" href="https://www.mediawingsup.com/"><span className="font-bold  text-amber-300"></span></a> 
         </div>
       </div>
     </footer>
