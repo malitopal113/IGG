@@ -160,7 +160,7 @@ export default function Header() {
         )}
         role="banner"
       >
-        <div className="w-full px-4 sm:px-6 lg:px-8 p-3">
+        <div className="w-full px-4 sm:px-6 lg:px-8 p-5">
           <nav className="flex h-16 items-center" aria-label="Main">
             {/* Left: brand + hamburger */}
             <div className="flex items-center gap-3">

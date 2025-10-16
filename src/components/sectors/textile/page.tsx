@@ -102,7 +102,7 @@ export default function TextilePage() {
           <CornerCap />
 
           <div className="relative w-full overflow-hidden">
-            <div className="relative h-[58vh] min-h-[420px] lg:h-[62vh]">
+            <div className="relative h-[58vh] min-h-[420px] lg:h-[52vh]">
               {/* Arkaplan görsel – “alana sığsın” diye kadrajı biraz üstte tuttuk */}
               <Image
                 src={activeTab.image!}
@@ -116,7 +116,7 @@ export default function TextilePage() {
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/65 via-black/40 to-transparent" />
 
               {/* Metin */}
-              <div className="relative z-20 mx-auto max-w-[1200px] px-6 pt-16 sm:pt-20 md:pt-34">
+              <div className="relative z-20 mx-auto max-w-[1200px] px-6 pt-40 sm:pt-30 md:pt-34">
                 <p className="animate-fadeUp text-lg sm:text-xl md:text-2xl text-white/90">We are IGG.</p>
                 <h1 className="animate-fadeUpDelay mt-5 text-3xl sm:text-4xl md:text-5xl lg:text-[64px] leading-[1.05] tracking-[0.04em]">
                   ADVANCED TEXTILE SOLUTIONS
@@ -159,11 +159,11 @@ export default function TextilePage() {
                   aria-controls={`panel-${tab.key}`}
                   onClick={() => setActive(tab.key)}
                   className={[
-                    "relative uppercase font-semibold",
-                    "lg:text-[10px] lg:tracking-[0.10em] lg:px-1.5 lg:py-1.5",
-                    "xl:text-[11px] xl:tracking-[0.14em] xl:px-2 xl:py-1.5",
+                    "relative uppercase font-bold",
+                    "lg:text-[12px] lg:tracking-[0.10em] lg:px-1.5 lg:py-1.5",
+                    "xl:text-[12px] xl:tracking-[0.14em] xl:px-2 xl:py-1.5",
                     "transition-colors outline-none hover:cursor-pointer",
-                    isActiveTab ? "text-[#1a1a1a]" : "text-slate-400 hover:text-slate-700",
+                    isActiveTab ? "text-[#1a1a1a]" : "text-slate-400 hover:text-slate-800",
                   ].join(" ")}
                   style={{ whiteSpace: "nowrap" }}
                   title={tab.label}
