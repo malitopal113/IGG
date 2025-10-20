@@ -27,6 +27,17 @@ const TABS: Tab[] = [
 
 const DEFAULT_TAB: TabKey = "overview";
 
+/** Her sekme için Next Chapter arkaplan görseli */
+const NEXT_BG: Record<TabKey, string> = {
+  overview: "/assets/sectors/textile/next/overview.jpg",
+  "racing-merchandise": "/assets/sectors/textile/next/racing-merchandise.jpg",
+  workwear: "/assets/sectors/textile/next/workwear.jpg",
+  "military-police-security-wear": "/assets/sectors/textile/next/military-police-security-wear.jpg",
+  "corporate-wear-uniforms": "/assets/sectors/textile/next/corporate-wear-uniforms.jpg",
+  "promotional-wear-accessories": "/assets/sectors/textile/next/promotional-wear-accessories.jpg",
+  "sports-teamwear": "/assets/sectors/textile/next/sports-teamwear.jpg",
+};
+
 /** ---- URL hash tab state ---- */
 function useTabState() {
   const readFromHash = useCallback((): TabKey | null => {
@@ -122,6 +133,82 @@ const OVERVIEW_BLOCKS: Block[] = [
   },
 ];
 
+/** ---- NEXT CHAPTER (bottom CTA for every tab) ---- */
+function NextChapter({
+  active,
+  setActive,
+}: {
+  active: TabKey;
+  setActive: (k: TabKey) => void;
+}) {
+  const idx = TABS.findIndex((t) => t.key === active);
+  const nextIdx = (idx + 1) % TABS.length;
+  const next = TABS[nextIdx];
+
+  const bg = NEXT_BG[next.key] ?? "/assets/sectors/textile/next/fallback.jpg";
+
+  const goNext = () => {
+    setActive(next.key);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <section
+      role="button"
+      tabIndex={0}
+      onClick={goNext}
+      onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && goNext()}
+      className="group relative mt-8 w-full overflow-hidden cursor-pointer select-none outline-none"
+      aria-label={`Next chapter: ${next.label}`}
+    >
+      {/* BG image */}
+      <div className="absolute inset-0">
+        <Image
+          src={bg}
+          alt={next.alt ?? next.label}
+          fill
+          className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+          priority={false}
+        />
+      </div>
+
+      {/* soldan siyah panel + sağ geçişli maske */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/0" />
+
+      {/* içerik alanı (yükseklik: daha tok) */}
+      <div className="relative z-10 flex items-center w-full px-6 sm:px-10 md:px-16 lg:px-24 py-16 sm:py-20 lg:py-24 text-white">
+        {/* sol: ok + “Next chapter” */}
+        <div className="flex flex-col items-start gap-3 pr-8">
+          <span className="text-2xl sm:text-3xl md:text-4xl leading-none transition-transform duration-300 group-hover:translate-x-1">
+            →
+          </span>
+          <p className="text-sm sm:text-base md:text-2xl font-medium tracking-wide">Next chapter</p>
+
+          {/* next label - mobilde de gözüksün diyorsan kaldırma */}
+          <p className="mt-1 text-sm text-white/80 sm:hidden">{next.label}</p>
+        </div>
+
+        {/* dikey çizgi - hover’da uzar/çoğalır */}
+        <div className="relative hidden sm:block mr-8">
+          <div className="h-28 w-px bg-white/30 origin-top transition-transform duration-500 group-hover:scale-y-110" />
+        </div>
+
+        {/* sağ: başlık + başlığın solundaki incelen yatay çizgi */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-4">
+            <span className="block h-px w-8 bg-white/40 transition-all duration-500 group-hover:w-24" />
+            <h3 className="truncate text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-light tracking-widest uppercase">
+              {next.label}
+            </h3>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function TextilePage() {
   const { active, setActive } = useTabState();
   const activeTab = useMemo(() => TABS.find((t) => t.key === active)!, [active]);
@@ -150,7 +237,7 @@ export default function TextilePage() {
         <section className="relative isolate">
           <CornerCap />
           <div className="relative w-full overflow-hidden">
-            <div className="relative h-[58vh] min-h-[420px] lg:h-[52vh]">
+            <div className="relative h-[60vh] min-h-[460px] lg:h-[54vh]">
               <Image
                 src={activeTab.image!}
                 alt={activeTab.alt || "Overview"}
@@ -245,6 +332,9 @@ export default function TextilePage() {
           </div>
         )}
       </section>
+
+      {/* ===== NEXT CHAPTER ===== */}
+      <NextChapter active={active} setActive={setActive} />
 
       {/* small fade animations */}
       <style jsx>{`
@@ -350,7 +440,6 @@ function ParagraphAsset({ block }: { block: Block }) {
       <div
         className={[
           "grid md:grid-cols-12 items-start gap-6",
-          // emulate "row-reverse" look on md+ when reverse
           block.reverse ? "md:[direction:rtl]" : "md:[direction:ltr]",
         ].join(" ")}
       >
