@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import Image from "next/image";
 
-/** -----------------------------------------------------------------------
- *  TABS
- * --------------------------------------------------------------------- */
+/* =========================
+   TABS
+========================= */
 type TabKey =
   | "overview"
   | "racing-merchandise"
@@ -29,7 +29,7 @@ const TABS: Tab[] = [
 
 const DEFAULT_TAB: TabKey = "overview";
 
-/** “Next chapter” background images (her sekmenin sonunda kullanılan arka plan) */
+/* Her sekme için “Next chapter” arkaplan görseli */
 const NEXT_BG: Record<TabKey, string> = {
   overview: "/assets/sectors/textile/next/overview.jpg",
   "racing-merchandise": "/assets/sectors/textile/next/racing-merchandise.jpg",
@@ -40,9 +40,9 @@ const NEXT_BG: Record<TabKey, string> = {
   "sports-teamwear": "/assets/sectors/textile/next/sports-teamwear.jpg",
 };
 
-/** -----------------------------------------------------------------------
- *  URL HASH TAB STATE
- * --------------------------------------------------------------------- */
+/* =========================
+   TAB STATE (URL hash ile)
+========================= */
 function useTabState() {
   const readFromHash = useCallback((): TabKey | null => {
     if (typeof window === "undefined") return null;
@@ -71,9 +71,9 @@ function useTabState() {
   return { active, setActive };
 }
 
-/** -----------------------------------------------------------------------
- *  CORNER CAP (sol-üst diyagonal)
- * --------------------------------------------------------------------- */
+/* =========================
+   CORNER CAP (diagonal)
+========================= */
 function CornerCap() {
   return (
     <svg
@@ -87,34 +87,27 @@ function CornerCap() {
   );
 }
 
-/** -----------------------------------------------------------------------
- *  CONTENT MODEL
- * --------------------------------------------------------------------- */
-type Block = {
+/* =========================
+   CONTENT TYPES
+========================= */
+type ContentBlock = {
   title: string;
   body: string;
-  image: string; // /assets/... ile başlayan yol
+  image: string;
   alt: string;
   reverse?: boolean;
+  level?: 2 | 3;
 };
 
-type Content = {
+type TabContent = {
   intro: string[];
-  blocks: Block[];
+  blocks: ContentBlock[];
 };
 
-/** -----------------------------------------------------------------------
- *  CONTENT — TÜM SEKME METİNLERİ VE GÖRSELLERİ
- *
- *  🔧 DÜZENLEME YERİ:
- *  - Aşağıdaki her sekmenin altındaki `intro` paragraflarını ve `blocks` içindeki
- *    `title`, `body`, `image`, `alt` alanlarını düzenleyebilirsin.
- *  - ÖNERİLEN KLASÖRLER:
- *    /public/assets/sectors/textile/<tab>/<dosyalar>.jpg|png
- *    Örn: /assets/sectors/textile/racing/hero-1.jpg
- * --------------------------------------------------------------------- */
-const CONTENT: Record<TabKey, Content> = {
-  /** ---- OVERVIEW (mevcut onaylanan içerik bire bir) ---- */
+/* =========================
+   CONTENT BY TAB
+========================= */
+const CONTENT: Record<TabKey, TabContent> = {
   overview: {
     intro: [
       "Designed by a team of visionary engineers and designers, IGG Textile Division represents a new standard in fabric innovation — precise, sustainable, and built for performance. Modern yet timeless, it unites craftsmanship with advanced technology under one purpose: redefining textile excellence.",
@@ -126,264 +119,297 @@ const CONTENT: Record<TabKey, Content> = {
         body:
           "The collaboration between IGG’s global design experts and advanced textile engineers has created a production environment that blends precision with creativity. Within IGG’s Textile Division, every stage — from material research to final fabrication — reflects the same dedication to perfection. It’s a seamless harmony between technology and craftsmanship that defines the spirit of IGG.",
         image: "/assets/sectors/textile/overview/mtc-hero.png",
-        alt: "MTC exterior by the lake",
+        alt: "Innovation harmony",
+        level: 2,
       },
       {
         title: "Where innovation takes shape",
         body:
           "Producing advanced textiles is a meticulous and demanding process. Yet inside IGG’s state-of-the-art facilities, there’s an atmosphere of calm precision and purpose. Every roll of fabric follows a carefully optimized path through technology-driven production lines. Each material is crafted with exceptional attention to detail — engineered, tested, and refined by our skilled team using the latest innovations to ensure unmatched quality and performance.",
         image: "/assets/sectors/textile/overview/mpc.png",
-        alt: "MPC production line",
+        alt: "Production line",
         reverse: true,
+        level: 3,
       },
       {
         title: "Redefining perfection",
         body:
-          "Perfection often begins with challenging convention. At IGG Textile Division, our engineers and designers constantly question the ordinary to achieve the extraordinary. When a process or pattern doesn’t meet our exacting standards, we don’t compromise — we reinvent. From rethinking fabric structures to recalibrating production techniques, every refinement is made to ensure flawless symmetry, efficiency, and quality.",
+          "Perfection often begins with challenging convention. At IGG Textile Division, our engineers and designers constantly question the ordinary to achieve the extraordinary. When a process or pattern doesn’t meet our exacting standards, we don’t compromise — we reinvent. From rethinking fabric structures to recalibrating production techniques, every refinement is made to ensure flawless symmetry, efficiency, and quality. Because at IGG, perfection is never an accident — it’s a decision.",
         image: "/assets/sectors/textile/overview/blueprint.png",
         alt: "Blueprint",
+        level: 3,
       },
     ],
   },
 
-  /** ---- RACING & MERCHANDISE ---- */
   "racing-merchandise": {
     intro: [
-      "Engineered for performance and built for identity — IGG Racing & Merchandise delivers apparel and accessories that translate track-bred innovation into everyday expression. Durable, functional, and distinctive.",
-      "From premium fabrics to precision finishing, every piece is developed with rigorous attention to comfort, fit, and longevity. We partner with teams and brands to craft collections that feel exceptional — and perform under pressure.",
+      "Built around speed, precision and brand passion, our Racing & Merchandise program blends technical fabrics with premium finishing for teams and fans alike.",
+      "From track-ready layers to collectible lifestyle apparel, we deliver consistent fit, rich color accuracy and durable prints for elite partners.",
     ],
     blocks: [
       {
-        title: "Performance you can wear",
+        title: "Engineered for performance",
         body:
-          "Our racing-led textiles optimize breathability, stretch, and abrasion resistance. We combine advanced knitting and finishing techniques with ergonomic patterning to deliver comfort that holds up from pit lane to daily life.",
-        image: "/assets/sectors/textile/racing/block-1.jpg",
-        alt: "Performance fabrics detail",
+          "Moisture management, breathability and lightweight strength come standard. We leverage advanced yarn blends and ergonomic patterning to keep comfort and mobility at the forefront — from pit lane to podium.",
+        image: "/assets/sectors/textile/racing/engineered.jpg",
+        alt: "Engineered performance",
+        level: 2,
       },
       {
-        title: "Signature details, iconic looks",
+        title: "Bold identity, crisp details",
         body:
-          "Heat-transfer graphics, high-fastness dyes, bonded seams, and laser-cut vents — every detail is purposeful. We align brand language with robust construction so collections look sharp and age beautifully.",
-        image: "/assets/sectors/textile/racing/block-2.jpg",
-        alt: "Merch design table",
+          "Sponsor palettes and team marks are reproduced with exacting fidelity across batches. Heat-transfer, silicone, puff and high-density techniques are matched to fabric behavior for sharp, enduring detail.",
+        image: "/assets/sectors/textile/racing/identity.jpg",
+        alt: "Identity details",
         reverse: true,
+        level: 3,
       },
       {
-        title: "From track to store",
+        title: "From limited drops to full scale",
         body:
-          "Integrated development — from material sourcing to packaging — ensures reliable timelines and consistent quality. Capsule drops, limited editions, and evergreen lines are executed with the same discipline.",
-        image: "/assets/sectors/textile/racing/block-3.jpg",
-        alt: "Retail-ready merchandise",
+          "Whether it’s a capsule drop or a season-long program, our planning and QA frameworks keep quality stable at speed — forecasting, sampling and inline testing at each stage.",
+        image: "/assets/sectors/textile/racing/scale.jpg",
+        alt: "Scale",
+        level: 3,
       },
     ],
   },
 
-  /** ---- WORKWEAR ---- */
   workwear: {
     intro: [
-      "IGG Workwear is built for demanding environments — combining reinforced construction with fabrics tuned for mobility and endurance. Practicality without compromise.",
-      "Each garment is engineered around task-specific needs: tool access, visibility, heat regulation, and protection — so professionals can focus on the job, not the uniform.",
+      "Workwear that stands up to demanding environments without compromising comfort or brand standards.",
+      "We combine abrasion resistance, smart storage and easy-care finishes to keep teams productive and presentable.",
     ],
     blocks: [
       {
         title: "Built to last",
         body:
-          "High-tenacity yarns, ripstop structures, and stress-point reinforcements deliver durable uniforms that stand up to daily wear and repeated laundering — extending lifecycle and lowering total cost.",
-        image: "/assets/sectors/textile/workwear/block-1.jpg",
-        alt: "Heavy-duty fabric close-up",
+          "Reinforced seams, ripstop panels and durable hardware extend lifecycle in high-wear zones. Garments are lab-tested for tear strength and colorfastness to meet daily use.",
+        image: "/assets/sectors/textile/workwear/durable.jpg",
+        alt: "Durable workwear",
+        level: 2,
       },
       {
-        title: "Comfort that works",
+        title: "Utility with comfort",
         body:
-          "Articulated knees, gusseted panels, and breathable linings support all-day movement. Smart blends and moisture control keep workers dry and comfortable across shifts and climates.",
-        image: "/assets/sectors/textile/workwear/block-2.jpg",
-        alt: "Ergonomic patterning",
+          "Stretch zones and articulated knees increase range of motion. Breathable back yokes and mesh linings regulate temperature across shifts and seasons.",
+        image: "/assets/sectors/textile/workwear/utility.jpg",
+        alt: "Utility",
         reverse: true,
+        level: 3,
       },
       {
-        title: "Compliance-ready",
+        title: "Simple care, fast turnaround",
         body:
-          "We align designs with sector standards — visibility, antistatic properties, flame resistance — and validate performance through certified testing protocols and robust quality control.",
-        image: "/assets/sectors/textile/workwear/block-3.jpg",
-        alt: "Compliance testing",
+          "Easy-care coatings reduce shrink and wrinkle. Our modular patterns and color libraries shorten sampling and reorder lead times across sizes.",
+        image: "/assets/sectors/textile/workwear/care.jpg",
+        alt: "Care",
+        level: 3,
       },
     ],
   },
 
-  /** ---- MILITARY / POLICE / SECURITY ---- */
   "military-police-security-wear": {
     intro: [
-      "Mission-ready apparel where reliability, discretion, and comfort meet. IGG develops tactical textiles engineered for versatility and resilience in the field.",
-      "From base layers to outer shells, our systems integrate durability, thermoregulation, and rapid-dry performance — supporting mobility without sacrificing protection.",
+      "Mission-ready apparel systems designed for reliability, mobility and discretion.",
+      "We integrate near-infrared (NIR) considerations, low-noise trims and adaptive pocketing to support diverse missions.",
     ],
     blocks: [
       {
-        title: "Tough where it matters",
+        title: "Mobility under load",
         body:
-          "Tear-resistant weaves, reinforced seams, and hardware specified for silent operation. Coated finishes add weather resilience while maintaining low-profile aesthetics.",
-        image: "/assets/sectors/textile/mps/block-1.jpg",
-        alt: "Tactical fabric close-up",
+          "Gusseted constructions and 4-way stretch panels maintain movement with gear. Reinforced belt paths and bar-tacks resist stress over time.",
+        image: "/assets/sectors/textile/mps/mobility.jpg",
+        alt: "Mobility",
+        level: 2,
       },
       {
-        title: "Adaptive comfort",
+        title: "Low-profile, high control",
         body:
-          "Breathable laminates, moisture-wicking linings, and mechanical stretch increase capability during long operations. Ergonomic pockets and modular attachment points streamline loadout.",
-        image: "/assets/sectors/textile/mps/block-2.jpg",
-        alt: "Tactical patterning",
+          "Quiet hook-and-loop, covered zips and matte snaps reduce signature. Fabric options include NIR-aware shades and quick-dry knits for extended wear.",
+        image: "/assets/sectors/textile/mps/lowprofile.jpg",
+        alt: "Low profile",
         reverse: true,
+        level: 3,
       },
       {
-        title: "Standards and consistency",
+        title: "Standardized, then specialized",
         body:
-          "Batch-to-batch color matching, dimensional stability, and lab-verified performance ensure dependable supply — from small-unit runs to nationwide programs.",
-        image: "/assets/sectors/textile/mps/block-3.jpg",
-        alt: "Quality inspection",
+          "A common fit block ensures consistency; add-on modules adapt garments to role-specific carry and climate without redesign.",
+        image: "/assets/sectors/textile/mps/modular.jpg",
+        alt: "Modular",
+        level: 3,
       },
     ],
   },
 
-  /** ---- CORPORATE WEAR & UNIFORMS ---- */
   "corporate-wear-uniforms": {
     intro: [
-      "IGG Corporate Wear blends brand expression with everyday practicality — tailored silhouettes, refined materials, and consistent fits across sizes and roles.",
-      "We craft wardrobes that look sharp at first wear and continue to perform — wrinkle resistance, easy care finishes, and long-term shape retention.",
+      "Brand-right, comfortable uniforms that scale across roles and regions.",
+      "Color accuracy, consistent fit and easy maintenance make daily wear effortless for teams and operations.",
     ],
     blocks: [
       {
-        title: "Design with identity",
+        title: "Consistent fit at scale",
         body:
-          "From custom colorways to signature trims, we translate brand codes into garments that feel premium and cohesive — across retail, hospitality, aviation and more.",
-        image: "/assets/sectors/textile/corporate/block-1.jpg",
-        alt: "Corporate uniform styles",
+          "We maintain size grids with graded ease for different roles — front-of-house, back-office and field teams — to keep silhouettes aligned across sites.",
+        image: "/assets/sectors/textile/corporate/fit.jpg",
+        alt: "Fit",
+        level: 2,
       },
       {
-        title: "All-day comfort",
+        title: "Fabric that works",
         body:
-          "Breathable blends, soft-touch linings, and stretch panels support movement through long shifts. Our patterns are graded for inclusive size ranges without losing the look.",
-        image: "/assets/sectors/textile/corporate/block-2.jpg",
-        alt: "Fitting details",
+          "Wrinkle-resistant blends with mechanical stretch, stain shields and anti-pilling finishes keep garments neat with minimal care.",
+        image: "/assets/sectors/textile/corporate/fabric.jpg",
+        alt: "Fabric",
         reverse: true,
+        level: 3,
       },
       {
-        title: "Scale with quality",
+        title: "Identity in the details",
         body:
-          "From pilot lots to global rollouts, we maintain color consistency and dimensional stability. Garments arrive ready to wear — labeled, bagged, and serialized for simple distribution.",
-        image: "/assets/sectors/textile/corporate/block-3.jpg",
-        alt: "Production line",
+          "Piping, contrast plackets and custom hardware express brand language subtly. Embroidery and transfer options are tuned to each fabric.",
+        image: "/assets/sectors/textile/corporate/details.jpg",
+        alt: "Details",
+        level: 3,
       },
     ],
   },
 
-  /** ---- PROMOTIONAL WEAR & ACCESSORIES ---- */
   "promotional-wear-accessories": {
     intro: [
-      "Promotional ranges that people actually want to keep — soft-hand fabrics, clean prints, and considered shapes elevate giveaways into long-lived brand touchpoints.",
-      "We optimize for value without sacrificing feel: smart material choices, efficient embellishment, and packaging that looks good on arrival.",
+      "Giveaways and retail-ready promos that feel premium and last longer.",
+      "From tees to caps and totes, we prioritize hand-feel, color and print durability to elevate brand perception.",
     ],
     blocks: [
       {
-        title: "Better basics",
+        title: "Premium basics, better prints",
         body:
-          "T-shirts, hoodies, caps, and totes cut with modern proportions. High-fastness inks and precise embroidery hold color and detail through repeated use.",
-        image: "/assets/sectors/textile/promo/block-1.jpg",
-        alt: "Promo tees and caps",
+          "Ring-spun cottons and combed blends improve drape and softness. Discharge, water-based and hybrid inks deliver color without heavy hand.",
+        image: "/assets/sectors/textile/promo/basics.jpg",
+        alt: "Basics",
+        level: 2,
       },
       {
-        title: "Rapid campaigns",
+        title: "Accessories that travel",
         body:
-          "Agile sampling and parallel production tracks mean fast turnarounds for launches and events — with consistent QC across sizes and colorways.",
-        image: "/assets/sectors/textile/promo/block-2.jpg",
-        alt: "Campaign preparation",
+          "Structured caps, panels and brims maintain form; woven labels and jacquard tapes add perceived value while withstanding daily wear.",
+        image: "/assets/sectors/textile/promo/accessories.jpg",
+        alt: "Accessories",
         reverse: true,
+        level: 3,
       },
       {
-        title: "Sustainable choices",
+        title: "Fast campaigns, low MOQs",
         body:
-          "Recycled fibers, organic cotton options, and reduced-plastic packaging make responsible promotions straightforward — with certifications on request.",
-        image: "/assets/sectors/textile/promo/block-3.jpg",
-        alt: "Sustainable packaging",
+          "Modular color sets and ready trims support quick campaign launches with controlled unit cost — ideal for events and seasonal spikes.",
+        image: "/assets/sectors/textile/promo/fast.jpg",
+        alt: "Fast",
+        level: 3,
       },
     ],
   },
 
-  /** ---- SPORTS & TEAMWEAR ---- */
   "sports-teamwear": {
     intro: [
-      "Elite performance starts with fabric. IGG Teamwear combines moisture management, airflow, and stretch recovery to keep athletes focused from warm-up to whistle.",
-      "We deliver full-kit solutions — game jerseys, training layers, travel wear — each tuned for comfort, durability, and club identity.",
+      "Athlete-led performance wear for training, travel and matchday.",
+      "Moisture-wicking meshes, zoned ventilation and bonded seams keep athletes moving in comfort.",
     ],
     blocks: [
       {
-        title: "Play at full speed",
+        title: "Move, breathe, repeat",
         body:
-          "Engineered meshes, zoned ventilation, and quick-dry finishes help regulate temperature through intense sessions, indoors and out.",
-        image: "/assets/sectors/textile/sports/block-1.jpg",
-        alt: "Breathable mesh detail",
+          "Mapped ventilation and knit structures enhance airflow where it counts. Lightweight blends wick fast and dry quicker between sessions.",
+        image: "/assets/sectors/textile/sports/breathe.jpg",
+        alt: "Breathability",
+        level: 2,
       },
       {
-        title: "Fit that moves",
+        title: "Precision patterns",
         body:
-          "Four-way stretch and ergonomic patterning support natural motion. We offer women’s-specific fits and youth grading for aligned club looks.",
-        image: "/assets/sectors/textile/sports/block-2.jpg",
-        alt: "Ergonomic jersey",
+          "Ergonomic pattern blocks, raglan/saddle sleeves and split hems reduce restriction — tested with feedback loops from squads.",
+        image: "/assets/sectors/textile/sports/pattern.jpg",
+        alt: "Pattern",
         reverse: true,
+        level: 3,
       },
       {
-        title: "Club-ready delivery",
+        title: "Unified identity",
         body:
-          "Batch personalization, numbering, and crest applications are handled in-line. Consistent color standards keep home, away, and third strips perfectly matched.",
-        image: "/assets/sectors/textile/sports/block-3.jpg",
-        alt: "Personalization table",
+          "Crest, numbering and league marks are color-matched and wash-tested across sets to keep squads looking consistent home and away.",
+        image: "/assets/sectors/textile/sports/identity.jpg",
+        alt: "Identity",
+        level: 3,
       },
     ],
   },
 };
 
-/** -----------------------------------------------------------------------
- *  NEXT CHAPTER (sekme sonundaki geniş CTA)
- * --------------------------------------------------------------------- */
-function NextChapter({ active, setActive }: { active: TabKey; setActive: (k: TabKey) => void }) {
+/* =========================
+   NEXT CHAPTER
+========================= */
+function NextChapter({
+  active,
+  setActive,
+}: {
+  active: TabKey;
+  setActive: (k: TabKey) => void;
+}) {
   const idx = TABS.findIndex((t) => t.key === active);
-  const next = TABS[(idx + 1) % TABS.length];
+  const nextIdx = (idx + 1) % TABS.length;
+  const next = TABS[nextIdx];
   const bg = NEXT_BG[next.key] ?? "/assets/sectors/textile/next/fallback.jpg";
+
+  const goNext = () => {
+    setActive(next.key);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && "Image" in window) {
+      const img = new window.Image();
+      img.src = bg;
+    }
+  }, [bg]);
 
   return (
     <section
       role="button"
       tabIndex={0}
-      onClick={() => {
-        setActive(next.key);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }}
-      onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (setActive(next.key), window.scrollTo({ top: 0, behavior: "smooth" }))}
+      onClick={goNext}
+      onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && goNext()}
       className="group relative mt-8 w-full overflow-hidden cursor-pointer select-none outline-none"
       aria-label={`Next chapter: ${next.label}`}
     >
-      <Image
-        src={bg}
-        alt={next.alt ?? next.label}
-        fill
-        sizes="100vw"
-        className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
-      <div className="relative z-10 flex items-center w-full px-6 sm:px-10 md:px-16 lg:px-24 py-16 text-white">
+      <div className="absolute inset-0">
+        <Image
+          src={bg}
+          alt={next.alt ?? next.label}
+          fill
+          sizes="100vw"
+          className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/0" />
+      <div className="relative z-10 flex w-full items-center justify-center sm:justify-start px-6 sm:px-10 md:px-16 lg:px-24 py-16 sm:py-20 lg:py-24 text-white">
         <div className="flex flex-col items-start gap-3 pr-8">
-          <span className="text-2xl md:text-4xl leading-none transition-transform duration-300 group-hover:translate-x-1">
+          <span className="text-2xl sm:text-3xl md:text-4xl leading-none transition-transform duration-300 group-hover:translate-x-1">
             →
           </span>
-          <p className="text-sm md:text-2xl font-medium tracking-wide">Next chapter</p>
+          <p className="text-sm sm:text-base  md:text-2xl font-medium tracking-wide">Next chapter</p>
+          <p className="mt-1 text-sm text-white/80 sm:hidden">{next.label}</p>
         </div>
-        <div className="hidden sm:block mr-8">
+        <div className="relative hidden sm:block mr-8">
           <div className="h-28 w-px bg-white/30 origin-top transition-transform duration-500 group-hover:scale-y-110" />
         </div>
-        <div className="flex-1 min-w-0">
+        <div className="hidden sm:block flex-1 min-w-0">
           <div className="flex items-center gap-4">
-            <span className="block h-[2px] w-8 bg-white/40 transition-all duration-500 group-hover:w-24" />
-            <h3
-              className="truncate font-light uppercase leading-snug"
-              style={{ fontSize: "clamp(20px,5vw,40px)", letterSpacing: "0.08em" }}
-            >
+            <span className="block h-px w-8 bg-white/40 transition-all duration-500 group-hover:w-24" />
+            <h3 className="truncate text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-light tracking-widest uppercase">
               {next.label}
             </h3>
           </div>
@@ -393,16 +419,55 @@ function NextChapter({ active, setActive }: { active: TabKey; setActive: (k: Tab
   );
 }
 
-/** -----------------------------------------------------------------------
- *  MAIN PAGE
- * --------------------------------------------------------------------- */
+/* =========================
+   PAGE
+========================= */
 export default function TextilePage() {
   const { active, setActive } = useTabState();
   const activeTab = useMemo(() => TABS.find((t) => t.key === active)!, [active]);
   const isOverview = active === "overview";
-  const [headerHidden, setHeaderHidden] = useState(false);
 
-  // Overview görsel preload (mevcut davranış)
+  /* Header hide on scroll (>50) + offsets */
+  const [headerH, setHeaderH] = useState<number>(80);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const hdr =
+      (document.querySelector('header[role="banner"]') as HTMLElement) ||
+      (document.querySelector("header") as HTMLElement);
+
+    const measure = () => {
+      const h = hdr ? hdr.getBoundingClientRect().height : 80;
+      setHeaderH(h);
+      document.documentElement.style.setProperty("--header-h", `${h}px`);
+
+      const y = window.scrollY || 0;
+      document.documentElement.classList.toggle("igg-header-hidden", y > 50);
+      const topPx = y > 50 ? 0 : h;
+      document.documentElement.style.setProperty("--subnav-top", `${topPx}px`);
+    };
+
+    const onScroll = () => {
+      const y = window.scrollY || 0;
+      document.documentElement.classList.toggle("igg-header-hidden", y > 50);
+      const topPx = y > 50 ? 0 : headerH;
+      document.documentElement.style.setProperty("--subnav-top", `${topPx}px`);
+    };
+
+    measure();
+    window.addEventListener("load", measure);
+    window.addEventListener("resize", measure, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("load", measure);
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [headerH]);
+
+  /* Preload hero (safe) */
   useEffect(() => {
     if (typeof window !== "undefined" && "Image" in window) {
       const t = TABS.find((x) => x.key === "overview");
@@ -413,36 +478,17 @@ export default function TextilePage() {
     }
   }, []);
 
-  /** scroll 50px sonrası header kaybolma (flicker yok) */
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const hide = window.scrollY > 50;
-          if (hide !== headerHidden) {
-            setHeaderHidden(hide);
-            const root = document.documentElement;
-            root.style.setProperty("--header-h", hide ? "0px" : "80px");
-            if (hide) root.classList.add("hide-main-header");
-            else root.classList.remove("hide-main-header");
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [headerHidden]);
+  /* Mobile dropdown */
+  const [open, setOpen] = useState(false);
+  useEffect(() => setOpen(false), [active]);
 
+  /* Aktif sekmenin içerik kaynağı */
   const content = CONTENT[active];
 
   return (
     <main className="w-full bg-white text-white">
-      {/* fixed header boşluğu */}
-      <div className="mt-[var(--header-h,80px)]" />
+      {/* header boşluğu */}
+      <div style={{ height: `var(--header-h, ${headerH}px)` }} />
 
       {/* HERO */}
       {isOverview ? (
@@ -473,35 +519,46 @@ export default function TextilePage() {
           <div className="relative w-full bg-[linear-gradient(232deg,#181c20,#363f44)]">
             <div className="mx-auto max-w-[1200px] px-6 py-14 md:py-20">
               <p className="text-sm sm:text-base text-white/85">We are IGG.</p>
-              <h1 className="mt-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase">{activeTab.label}</h1>
+              <h1 className="mt-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase">
+                {activeTab.label}
+              </h1>
             </div>
           </div>
         </section>
       )}
 
-      {/* SUB MENU (desktop) — yatay scroll açık; mobil dropdown senin son onayından bağımsızdı */}
+      {/* SUB MENU (sticky + YATAY SCROLL) */}
       <nav
-        className={`sticky bg-white text-[#1a1a1a] shadow-[inset_0_-1px_0_rgba(0,0,0,0.06)] transition-[top] duration-300 ${
-          headerHidden ? "top-0 z-[60]" : "top-[var(--header-h,80px)] z-30"
-        }`}
+        aria-label="Textile sub navigation"
+        className="sticky z-30 bg-white text-[#1a1a1a] shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.06)]"
+        style={{ top: "var(--subnav-top, var(--header-h, 80px))" }}
       >
         <div className="mx-auto w-full xl:max-w-[1200px] xl:px-6">
-          <div className="hidden lg:block">
-            <div className="overflow-x-auto whitespace-nowrap scroll-smooth px-2">
-              <div className="inline-flex items-center gap-8 py-6 min-w-max">
+          {/* Desktop: tek satır, taşarsa yatay scroll */}
+          <div className="hidden  lg:block py-5">
+            {/* ÖNEMLİ: overflow-x-auto + flex-nowrap + gap → gerçek yatay scroll */}
+            <div
+              className="w-full overflow-x-auto overflow-y-hidden pb-4.5 "
+              style={{
+                WebkitOverflowScrolling: "touch",
+                scrollBehavior: "smooth",
+              }}
+            >
+              <div className="w-max flex flex-nowrap items-center gap-6 pr-6 ">
                 {TABS.map((tab) => {
                   const isActive = tab.key === active;
                   return (
                     <button
                       key={tab.key}
                       onClick={() => setActive(tab.key)}
-                      className={`relative uppercase font-bold text-[16px] tracking-[0.12em] transition-colors ${
+                      className={`shrink-0 relative uppercase font-bold transition-colors text-[15px] tracking-[0.12em] py-1.5 ${
                         isActive ? "text-[#1a1a1a]" : "text-slate-400 hover:text-slate-800"
                       }`}
+                      title={tab.label}
                     >
                       {tab.label}
                       {isActive && (
-                        <span className="absolute inset-x-0 -bottom-[12px] mx-auto h-[2px] w-full max-w-[96px] bg-[#1a1a1a]" />
+                        <span className="absolute inset-x-0 -bottom-[10px] mx-auto h-[2px] w-full max-w-[96px] bg-[#1a1a1a]" />
                       )}
                     </button>
                   );
@@ -509,38 +566,36 @@ export default function TextilePage() {
               </div>
             </div>
           </div>
+
+          {/* Mobile: dropdown “Menu” */}
+          <div className="lg:hidden">
+            <MobileDropdown open={open} setOpen={setOpen} active={active} setActive={setActive} />
+          </div>
         </div>
         <div className="h-px w-full bg-black/10" />
       </nav>
 
-      {/* CONTENT (intro + 3 blok) */}
+      {/* CONTENT — tüm sekmeler Overview ile aynı düzen (3 blok) */}
       <section id={`panel-${active}`}>
-        {content ? (
-          <>
-            <IntroText paragraphs={content.intro} />
-            {content.blocks.map((b, i) => (
-              <ParagraphAsset key={i} block={b} />
-            ))}
-          </>
-        ) : (
-          <div className="mx-auto max-w-[1200px] px-6 py-12 text-zinc-700">
-            <h2 className="text-2xl font-semibold text-zinc-800 text-center">{activeTab.label}</h2>
-            <p className="mt-3 text-[15px] leading-7 text-center">
-              This section will be filled with content using the same layout used on Overview.
-            </p>
-          </div>
-        )}
+        <IntroText paragraphs={content.intro} />
+        {content.blocks.map((b, i) => (
+          <ParagraphAsset key={`${active}-${i}`} block={b} />
+        ))}
       </section>
 
       {/* NEXT CHAPTER */}
       <NextChapter active={active} setActive={setActive} />
 
-      {/* Header hide animasyonu */}
+      {/* Global helpers */}
       <style jsx global>{`
-        header[role="banner"] {
-          transition: transform 0.3s ease;
+        /* Header'ı yumuşakça yukarı sakla/göster */
+        header[role="banner"],
+        header {
+          transition: transform 280ms ease;
+          will-change: transform;
         }
-        .hide-main-header header[role="banner"] {
+        html.igg-header-hidden header[role="banner"],
+        html.igg-header-hidden header {
           transform: translateY(-100%);
         }
       `}</style>
@@ -548,9 +603,71 @@ export default function TextilePage() {
   );
 }
 
-/** -----------------------------------------------------------------------
- *  Overview Helpers (tipografi/yerleşim Overview ile aynı)
- * --------------------------------------------------------------------- */
+/* =========================
+   MOBILE DROPDOWN
+========================= */
+function MobileDropdown({
+  open,
+  setOpen,
+  active,
+  setActive,
+}: {
+  open: boolean;
+  setOpen: (v: boolean) => void;
+  active: TabKey;
+  setActive: (k: TabKey) => void;
+}) {
+  return (
+    <>
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls="textile-mobile-submenu"
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center justify-between py-5 px-6 text-slate-700 hover:text-slate-900 hover:cursor-pointer border-b border-black/5"
+      >
+        <span className="text-[13px] tracking-[0.16em] uppercase font-bold">Menu</span>
+        <svg
+          className={`h-4 w-4 shrink-0 transition-transform ${open ? "rotate-180" : "rotate-0"}`}
+          viewBox="0 0 12 6"
+          aria-hidden="true"
+        >
+          <path d="M.3.3a1 1 0 011.4 0L5.4 4h1.2L10.3.3a1 1 0 011.4 0 1 1 0 010 1.4L7.4 6H4.6L.3 1.7A.9.9 0 010 1 .9.9 0 01.3.3z" />
+        </svg>
+      </button>
+
+      {open && (
+        <ul id="textile-mobile-submenu" className="m-0 list-none p-0 pb-4 flex flex-col gap-3 px-6">
+          {TABS.map((tab) => {
+            const isActiveTab = tab.key === active;
+            return (
+              <li key={tab.key}>
+                <button
+                  role="tab"
+                  aria-selected={isActiveTab}
+                  aria-controls={`panel-${tab.key}`}
+                  onClick={() => setActive(tab.key)}
+                  className={[
+                    "text-left",
+                    "text-[13px] tracking-[0.14em] uppercase font-semibold",
+                    "hover:text-slate-900 text-slate-600 hover:cursor-pointer py-2",
+                    isActiveTab ? "text-[#1a1a1a]" : "",
+                  ].join(" ")}
+                >
+                  {tab.label}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </>
+  );
+}
+
+/* =========================
+   CONTENT RENDERERS
+========================= */
 function IntroText({ paragraphs }: { paragraphs: string[] }) {
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-10">
@@ -566,7 +683,8 @@ function IntroText({ paragraphs }: { paragraphs: string[] }) {
   );
 }
 
-function ParagraphAsset({ block }: { block: Block }) {
+function ParagraphAsset({ block }: { block: ContentBlock }) {
+  const Heading = (block.level === 3 ? "h3" : "h2") as "h2" | "h3";
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-10 md:py-14">
       <div
@@ -574,7 +692,7 @@ function ParagraphAsset({ block }: { block: Block }) {
           block.reverse ? "md:[direction:rtl]" : "md:[direction:ltr]"
         }`}
       >
-        {/* Görsel */}
+        {/* Image */}
         <div className="md:col-span-5 [direction:ltr] md:flex md:justify-end">
           <div className="relative w-full h-[420px] md:w-[512px] md:h-[700px] overflow-hidden rounded-sm">
             <Image src={block.image} alt={block.alt} fill className="object-cover" />
@@ -584,16 +702,18 @@ function ParagraphAsset({ block }: { block: Block }) {
         {/* Spacer */}
         <div className="hidden md:block md:col-span-1" />
 
-        {/* Metin (senin hizaların korunuyor) */}
-        <div className="md:col-span-6 [direction:ltr] flex items-center md:pt-[6%] lg:pt-[25%]">
-          <div className="w-full text-center md:text-left">
-            <h2
-              className="uppercase font-[300] text-[2.4rem] leading-[3rem] text-slate-700 text-center md:text-left"
+        {/* Text (dikey ortalı, başlık ortada, paragraf sol) */}
+        <div className="md:col-span-6 [direction:ltr] flex items-center">
+          <div className="w-full">
+            <Heading
+              className="uppercase font-[300] text-[2.4rem] leading-[3rem] text-slate-700 text-center"
               style={{ fontFamily: "mclaren-bespoke, Courier New, Arial" }}
             >
               {block.title}
-            </h2>
-            <p className="mt-15 text-[1.4rem] leading-[2rem] break-words text-zinc-700 text-start">{block.body}</p>
+            </Heading>
+            <p className="mt-15 text-[1.4rem] leading-[2rem] break-words text-zinc-700 text-start">
+              {block.body}
+            </p>
           </div>
         </div>
       </div>
