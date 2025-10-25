@@ -394,7 +394,9 @@ function NextChapter({
           className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
         />
       </div>
+
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/0" />
+
       <div className="relative z-10 flex w-full items-center justify-center sm:justify-start px-6 sm:px-10 md:px-16 lg:px-24 py-16 sm:py-20 lg:py-24 text-white">
         <div className="flex flex-col items-start gap-3 pr-8">
           <span className="text-2xl sm:text-3xl md:text-4xl leading-none transition-transform duration-300 group-hover:translate-x-1">
@@ -403,9 +405,11 @@ function NextChapter({
           <p className="text-sm sm:text-base  md:text-2xl font-medium tracking-wide">Next chapter</p>
           <p className="mt-1 text-sm text-white/80 sm:hidden">{next.label}</p>
         </div>
+
         <div className="relative hidden sm:block mr-8">
           <div className="h-28 w-px bg-white/30 origin-top transition-transform duration-500 group-hover:scale-y-110" />
         </div>
+
         <div className="hidden sm:block flex-1 min-w-0">
           <div className="flex items-center gap-4">
             <span className="block h-px w-8 bg-white/40 transition-all duration-500 group-hover:w-24" />
@@ -535,23 +539,19 @@ export default function TextilePage() {
       >
         <div className="mx-auto w-full xl:max-w-[1200px] xl:px-6">
           {/* Desktop: tek satır, taşarsa yatay scroll */}
-          <div className="hidden  lg:block py-5">
-            {/* ÖNEMLİ: overflow-x-auto + flex-nowrap + gap → gerçek yatay scroll */}
+          <div className="hidden lg:block py-5">
             <div
-              className="w-full overflow-x-auto overflow-y-hidden pb-4.5 "
-              style={{
-                WebkitOverflowScrolling: "touch",
-                scrollBehavior: "smooth",
-              }}
+              className="w-full overflow-x-auto overflow-y-hidden pb-4.5"
+              style={{ WebkitOverflowScrolling: "touch", scrollBehavior: "smooth" }}
             >
-              <div className="w-max flex flex-nowrap items-center gap-6 pr-6 ">
+              <div className="w-max flex flex-nowrap items-center gap-6 pr-6">
                 {TABS.map((tab) => {
                   const isActive = tab.key === active;
                   return (
                     <button
                       key={tab.key}
                       onClick={() => setActive(tab.key)}
-                      className={`shrink-0 relative uppercase font-bold transition-colors text-[15px] tracking-[0.12em] py-1.5 ${
+                      className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[15px] tracking-[0.12em] py-1.5 ${
                         isActive ? "text-[#1a1a1a]" : "text-slate-400 hover:text-slate-800"
                       }`}
                       title={tab.label}
@@ -567,12 +567,12 @@ export default function TextilePage() {
             </div>
           </div>
 
-          {/* Mobile: dropdown “Menu” */}
+          {/* Mobile: dropdown “Menu” (animasyonlu) */}
           <div className="lg:hidden">
             <MobileDropdown open={open} setOpen={setOpen} active={active} setActive={setActive} />
           </div>
         </div>
-        <div className="h-px w-full bg-black/10" />
+        <div className="h-px w-full bg-black/10 " />
       </nav>
 
       {/* CONTENT — tüm sekmeler Overview ile aynı düzen (3 blok) */}
@@ -604,7 +604,7 @@ export default function TextilePage() {
 }
 
 /* =========================
-   MOBILE DROPDOWN
+   MOBILE DROPDOWN (animated)
 ========================= */
 function MobileDropdown({
   open,
@@ -624,20 +624,27 @@ function MobileDropdown({
         aria-expanded={open}
         aria-controls="textile-mobile-submenu"
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between py-5 px-6 text-slate-700 hover:text-slate-900 hover:cursor-pointer border-b border-black/5"
+        className="flex w-full items-center justify-start py-5 px-6 text-slate-700 hover:text-slate-900 hover:cursor-pointer border-b border-black/5"
       >
-        <span className="text-[13px] tracking-[0.16em] uppercase font-bold">Menu</span>
         <svg
-          className={`h-4 w-4 shrink-0 transition-transform ${open ? "rotate-180" : "rotate-0"}`}
+          className={`h-4 w-4 shrink-0 transition-transform duration-300 mr-2 ${open ? "rotate-180" : "rotate-0"}`}
           viewBox="0 0 12 6"
           aria-hidden="true"
         >
           <path d="M.3.3a1 1 0 011.4 0L5.4 4h1.2L10.3.3a1 1 0 011.4 0 1 1 0 010 1.4L7.4 6H4.6L.3 1.7A.9.9 0 010 1 .9.9 0 01.3.3z" />
         </svg>
+        <span className="text-[16px] tracking-[0.16em] uppercase font-bold text-center">Menu</span>
+
       </button>
 
-      {open && (
-        <ul id="textile-mobile-submenu" className="m-0 list-none p-0 pb-4 flex flex-col gap-3 px-6">
+      {/* Açılır/kapanır animasyon: max-height + opacity + translate-y */}
+      <div
+        id="textile-mobile-submenu"
+        className={`transition-all duration-500 ease-in-out overflow-hidden ${
+          open ? "max-h-[1000px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"
+        }`}
+      >
+        <ul className="m-0 list-none p-0 pb-4 flex flex-col gap-3 px-6">
           {TABS.map((tab) => {
             const isActiveTab = tab.key === active;
             return (
@@ -650,7 +657,7 @@ function MobileDropdown({
                   className={[
                     "text-left",
                     "text-[13px] tracking-[0.14em] uppercase font-semibold",
-                    "hover:text-slate-900 text-slate-600 hover:cursor-pointer py-2",
+                    "hover:text-slate-900 text-slate-600 hover:cursor-pointer py-2 transition-colors",
                     isActiveTab ? "text-[#1a1a1a]" : "",
                   ].join(" ")}
                 >
@@ -660,7 +667,7 @@ function MobileDropdown({
             );
           })}
         </ul>
-      )}
+      </div>
     </>
   );
 }
@@ -703,7 +710,7 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
         <div className="hidden md:block md:col-span-1" />
 
         {/* Text (dikey ortalı, başlık ortada, paragraf sol) */}
-        <div className="md:col-span-6 [direction:ltr] flex items-center">
+        <div className="md:col-span-6 [direction:ltr] flex items-center md:pt-[6%] lg:pt-[25%]">
           <div className="w-full">
             <Heading
               className="uppercase font-[300] text-[2.4rem] leading-[3rem] text-slate-700 text-center"
