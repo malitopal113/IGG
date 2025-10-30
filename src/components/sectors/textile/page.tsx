@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import Image from "next/image";
+import OverviewHero from "./overview/OverviewHero";
+import CategoriesTextile from "./overview/CategoriesTextile";
+
 
 /* =========================
    TABS
@@ -14,6 +17,7 @@ type TabKey =
   | "corporate-wear-uniforms"
   | "promotional-wear-accessories"
   | "sports-teamwear";
+
 
 type Tab = { key: TabKey; label: string; image?: string; alt?: string };
 
@@ -29,6 +33,7 @@ const TABS: Tab[] = [
 
 const DEFAULT_TAB: TabKey = "overview";
 
+
 /* Her sekme için “Next chapter” arkaplan görseli */
 const NEXT_BG: Record<TabKey, string> = {
   overview: "/assets/sectors/textile/next/overview.jpg",
@@ -39,6 +44,7 @@ const NEXT_BG: Record<TabKey, string> = {
   "promotional-wear-accessories": "/assets/sectors/textile/next/promotional-wear-accessories.jpg",
   "sports-teamwear": "/assets/sectors/textile/next/sports-teamwear.jpg",
 };
+
 
 /* =========================
    TAB STATE (URL hash ile)
@@ -71,6 +77,7 @@ function useTabState() {
   return { active, setActive };
 }
 
+
 /* =========================
    CORNER CAP (diagonal)
 ========================= */
@@ -87,6 +94,7 @@ function CornerCap() {
   );
 }
 
+
 /* =========================
    CONTENT TYPES
 ========================= */
@@ -99,49 +107,21 @@ type ContentBlock = {
   level?: 2 | 3;
 };
 
+
 type TabContent = {
   intro: string[];
   blocks: ContentBlock[];
 };
+
 
 /* =========================
    CONTENT BY TAB
 ========================= */
 const CONTENT: Record<TabKey, TabContent> = {
   overview: {
-    intro: [
-      "Designed by a team of visionary engineers and designers, IGG Textile Division represents a new standard in fabric innovation — precise, sustainable, and built for performance. Modern yet timeless, it unites craftsmanship with advanced technology under one purpose: redefining textile excellence.",
-      "Innovative yet practical. Every process is optimized for quality, efficiency, and environmental responsibility... creating the ideal environment for producing high-performance fabrics that empower industries worldwide. The division perfectly embodies IGG’s commitment to progress without compromise.",
-    ],
-    blocks: [
-      {
-        title: "Innovation and craftsmanship in harmony",
-        body:
-          "The collaboration between IGG’s global design experts and advanced textile engineers has created a production environment that blends precision with creativity. Within IGG’s Textile Division, every stage — from material research to final fabrication — reflects the same dedication to perfection. It’s a seamless harmony between technology and craftsmanship that defines the spirit of IGG.",
-        image: "/assets/sectors/textile/overview/mtc-hero.png",
-        alt: "Innovation harmony",
-        level: 2,
-      },
-      {
-        title: "Where innovation takes shape",
-        body:
-          "Producing advanced textiles is a meticulous and demanding process. Yet inside IGG’s state-of-the-art facilities, there’s an atmosphere of calm precision and purpose. Every roll of fabric follows a carefully optimized path through technology-driven production lines. Each material is crafted with exceptional attention to detail — engineered, tested, and refined by our skilled team using the latest innovations to ensure unmatched quality and performance.",
-        image: "/assets/sectors/textile/overview/mpc.png",
-        alt: "Production line",
-        reverse: true,
-        level: 3,
-      },
-      {
-        title: "Redefining perfection",
-        body:
-          "Perfection often begins with challenging convention. At IGG Textile Division, our engineers and designers constantly question the ordinary to achieve the extraordinary. When a process or pattern doesn’t meet our exacting standards, we don’t compromise — we reinvent. From rethinking fabric structures to recalibrating production techniques, every refinement is made to ensure flawless symmetry, efficiency, and quality. Because at IGG, perfection is never an accident — it’s a decision.",
-        image: "/assets/sectors/textile/overview/blueprint.png",
-        alt: "Blueprint",
-        level: 3,
-      },
-    ],
+    intro: [],
+    blocks: [],
   },
-
   "racing-merchandise": {
     intro: [
       "Built around speed, precision and brand passion, our Racing & Merchandise program blends technical fabrics with premium finishing for teams and fans alike.",
@@ -152,7 +132,7 @@ const CONTENT: Record<TabKey, TabContent> = {
         title: "Engineered for performance",
         body:
           "Moisture management, breathability and lightweight strength come standard. We leverage advanced yarn blends and ergonomic patterning to keep comfort and mobility at the forefront — from pit lane to podium.",
-        image: "/assets/sectors/textile/racing/engineered.jpg",
+        image: "/assets/sectors/textile/racing/engineered.png",
         alt: "Engineered performance",
         level: 2,
       },
@@ -160,7 +140,7 @@ const CONTENT: Record<TabKey, TabContent> = {
         title: "Bold identity, crisp details",
         body:
           "Sponsor palettes and team marks are reproduced with exacting fidelity across batches. Heat-transfer, silicone, puff and high-density techniques are matched to fabric behavior for sharp, enduring detail.",
-        image: "/assets/sectors/textile/racing/identity.jpg",
+        image: "/assets/sectors/textile/racing/identity.png",
         alt: "Identity details",
         reverse: true,
         level: 3,
@@ -169,7 +149,7 @@ const CONTENT: Record<TabKey, TabContent> = {
         title: "From limited drops to full scale",
         body:
           "Whether it’s a capsule drop or a season-long program, our planning and QA frameworks keep quality stable at speed — forecasting, sampling and inline testing at each stage.",
-        image: "/assets/sectors/textile/racing/scale.jpg",
+        image: "/assets/sectors/textile/racing/scale.png",
         alt: "Scale",
         level: 3,
       },
@@ -210,6 +190,7 @@ const CONTENT: Record<TabKey, TabContent> = {
     ],
   },
 
+
   "military-police-security-wear": {
     intro: [
       "Mission-ready apparel systems designed for reliability, mobility and discretion.",
@@ -243,6 +224,7 @@ const CONTENT: Record<TabKey, TabContent> = {
       },
     ],
   },
+
 
   "corporate-wear-uniforms": {
     intro: [
@@ -278,6 +260,7 @@ const CONTENT: Record<TabKey, TabContent> = {
     ],
   },
 
+
   "promotional-wear-accessories": {
     intro: [
       "Giveaways and retail-ready promos that feel premium and last longer.",
@@ -311,6 +294,7 @@ const CONTENT: Record<TabKey, TabContent> = {
       },
     ],
   },
+
 
   "sports-teamwear": {
     intro: [
@@ -346,6 +330,7 @@ const CONTENT: Record<TabKey, TabContent> = {
     ],
   },
 };
+
 
 /* =========================
    NEXT CHAPTER
@@ -423,6 +408,9 @@ function NextChapter({
   );
 }
 
+
+
+
 /* =========================
    PAGE
 ========================= */
@@ -486,7 +474,6 @@ export default function TextilePage() {
   const [open, setOpen] = useState(false);
   useEffect(() => setOpen(false), [active]);
 
-  /* Aktif sekmenin içerik kaynağı */
   const content = CONTENT[active];
 
   return (
@@ -494,7 +481,7 @@ export default function TextilePage() {
       {/* header boşluğu */}
       <div style={{ height: `var(--header-h, ${headerH}px)` }} />
 
-      {/* HERO */}
+      {/* HERO: Overview üst kısım sabit */}
       {isOverview ? (
         <section className="relative isolate">
           <CornerCap />
@@ -522,7 +509,7 @@ export default function TextilePage() {
           <CornerCap />
           <div className="relative w-full bg-[linear-gradient(232deg,#181c20,#363f44)]">
             <div className="mx-auto max-w-[1200px] px-6 py-14 md:py-20">
-              <p className="text-sm sm:text-base text-white/85">We are IGG.</p>
+              <p className="text-sm  ml-5 sm:text-base text-white/85">We are IGG.</p>
               <h1 className="mt-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase">
                 {activeTab.label}
               </h1>
@@ -531,18 +518,20 @@ export default function TextilePage() {
         </section>
       )}
 
-      {/* SUB MENU (sticky + YATAY SCROLL) */}
+      {/* SUB MENU (sticky + horizontal scroll) */}
       <nav
         aria-label="Textile sub navigation"
         className="sticky z-30 bg-white text-[#1a1a1a] shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.06)]"
         style={{ top: "var(--subnav-top, var(--header-h, 80px))" }}
       >
         <div className="mx-auto w-full xl:max-w-[1200px] xl:px-6">
-          {/* Desktop: tek satır, taşarsa yatay scroll */}
           <div className="hidden lg:block py-5">
             <div
               className="w-full overflow-x-auto overflow-y-hidden pb-4.5"
-              style={{ WebkitOverflowScrolling: "touch", scrollBehavior: "smooth" }}
+              style={{
+                WebkitOverflowScrolling: "touch",
+                scrollBehavior: "smooth",
+              }}
             >
               <div className="w-max flex flex-nowrap items-center gap-6 pr-6">
                 {TABS.map((tab) => {
@@ -552,7 +541,9 @@ export default function TextilePage() {
                       key={tab.key}
                       onClick={() => setActive(tab.key)}
                       className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[15px] tracking-[0.12em] py-1.5 ${
-                        isActive ? "text-[#1a1a1a]" : "text-slate-400 hover:text-slate-800"
+                        isActive
+                          ? "text-[#1a1a1a]"
+                          : "text-slate-400 hover:text-slate-800"
                       }`}
                       title={tab.label}
                     >
@@ -566,29 +557,41 @@ export default function TextilePage() {
               </div>
             </div>
           </div>
-
-          {/* Mobile: dropdown “Menu” (animasyonlu) */}
           <div className="lg:hidden">
-            <MobileDropdown open={open} setOpen={setOpen} active={active} setActive={setActive} />
+            <MobileDropdown
+              open={open}
+              setOpen={setOpen}
+              active={active}
+              setActive={setActive}
+            />
           </div>
         </div>
         <div className="h-px w-full bg-black/10 " />
       </nav>
 
-      {/* CONTENT — tüm sekmeler Overview ile aynı düzen (3 blok) */}
+      {/* CONTENT AREA - Overview da yeni özel içerik */}
       <section id={`panel-${active}`}>
-        <IntroText paragraphs={content.intro} />
-        {content.blocks.map((b, i) => (
-          <ParagraphAsset key={`${active}-${i}`} block={b} />
-        ))}
+        {isOverview ? (
+          <>
+            <OverviewHero />
+            <CategoriesTextile />
+            {/* Overview'a özel başka bileşenler buraya eklenebilir */}
+          </>
+        ) : (
+          <>
+            <IntroText paragraphs={content.intro} />
+            {content.blocks.map((b, i) => (
+              <ParagraphAsset key={`${active}-${i}`} block={b} />
+            ))}
+          </>
+        )}
       </section>
 
       {/* NEXT CHAPTER */}
       <NextChapter active={active} setActive={setActive} />
 
-      {/* Global helpers */}
+      {/* Global CSS */}
       <style jsx global>{`
-        /* Header'ı yumuşakça yukarı sakla/göster */
         header[role="banner"],
         header {
           transition: transform 280ms ease;
@@ -603,9 +606,11 @@ export default function TextilePage() {
   );
 }
 
-/* =========================
-   MOBILE DROPDOWN (animated)
-========================= */
+/* OverviewHero component */
+
+
+/* MobileDropdown ve diğer yardımcı fonksiyonları orijinal kodunla aynı şekilde eklemelisin */
+
 function MobileDropdown({
   open,
   setOpen,
@@ -627,17 +632,19 @@ function MobileDropdown({
         className="flex w-full items-center justify-start py-5 px-6 text-slate-700 hover:text-slate-900 hover:cursor-pointer border-b border-black/5"
       >
         <svg
-          className={`h-4 w-4 shrink-0 transition-transform duration-300 mr-2 ${open ? "rotate-180" : "rotate-0"}`}
+          className={`h-4 w-4 shrink-0 transition-transform duration-300 mr-2 ${
+            open ? "rotate-180" : "rotate-0"
+          }`}
           viewBox="0 0 12 6"
           aria-hidden="true"
         >
           <path d="M.3.3a1 1 0 011.4 0L5.4 4h1.2L10.3.3a1 1 0 011.4 0 1 1 0 010 1.4L7.4 6H4.6L.3 1.7A.9.9 0 010 1 .9.9 0 01.3.3z" />
         </svg>
-        <span className="text-[16px] tracking-[0.16em] uppercase font-bold text-center">Menu</span>
-
+        <span className="text-[16px] tracking-[0.16em] uppercase font-bold text-center">
+          Menu
+        </span>
       </button>
 
-      {/* Açılır/kapanır animasyon: max-height + opacity + translate-y */}
       <div
         id="textile-mobile-submenu"
         className={`transition-all duration-500 ease-in-out overflow-hidden ${
@@ -672,9 +679,6 @@ function MobileDropdown({
   );
 }
 
-/* =========================
-   CONTENT RENDERERS
-========================= */
 function IntroText({ paragraphs }: { paragraphs: string[] }) {
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-10">
@@ -699,17 +703,12 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
           block.reverse ? "md:[direction:rtl]" : "md:[direction:ltr]"
         }`}
       >
-        {/* Image */}
         <div className="md:col-span-5 [direction:ltr] md:flex md:justify-end">
           <div className="relative w-full h-[420px] md:w-[512px] md:h-[700px] overflow-hidden rounded-sm">
             <Image src={block.image} alt={block.alt} fill className="object-cover" />
           </div>
         </div>
-
-        {/* Spacer */}
         <div className="hidden md:block md:col-span-1" />
-
-        {/* Text (dikey ortalı, başlık ortada, paragraf sol) */}
         <div className="md:col-span-6 [direction:ltr] flex items-center md:pt-[6%] lg:pt-[25%]">
           <div className="w-full">
             <Heading

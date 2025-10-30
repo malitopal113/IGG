@@ -11,7 +11,6 @@ const IDLE_HIDE_MS = 5000;    // aktif/hover yoksa 5 sn sonra butonu gizle
 
 const ITEMS = [
   { label: "Lead Stories", targetId: "heroSlider" },
-  { label: "Sectors", targetId: "homepage-info" },
   { label: "Activity Fields", targetId: "sectors" },
   { label: "Scale", targetId: "activity-countries" },
   { label: "Abilities", targetId: "abilities" },
