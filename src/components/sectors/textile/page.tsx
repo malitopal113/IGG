@@ -17,7 +17,9 @@ type TabKey =
   | "military-police-security-wear"
   | "corporate-wear-uniforms"
   | "promotional-wear-accessories"
+  | "e-gaming"
   | "sports-teamwear";
+
 
 type Tab = { key: TabKey; label: string; image?: string; alt?: string };
 
@@ -28,6 +30,7 @@ const TABS: Tab[] = [
   { key: "military-police-security-wear", label: "Military, Police & Security" },
   { key: "corporate-wear-uniforms", label: "Corporate & Uniforms" },
   { key: "promotional-wear-accessories", label: "Promotional & Accessories" },
+  { key: "e-gaming", label: "E-Gaming" },
   { key: "sports-teamwear", label: "Sports & Teamwear" },
 ];
 
