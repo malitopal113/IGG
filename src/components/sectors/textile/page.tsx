@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import Image from "next/image";
 import OverviewHero from "./overview/OverviewHero";
 import CategoriesTextile from "./overview/CategoriesTextile";
+import IGGExplore from "./overview/explore";
 
 
 /* =========================
@@ -18,23 +19,20 @@ type TabKey =
   | "promotional-wear-accessories"
   | "sports-teamwear";
 
-
 type Tab = { key: TabKey; label: string; image?: string; alt?: string };
 
 const TABS: Tab[] = [
   { key: "overview", label: "Overview", image: "/assets/sectors/textile/overview.png", alt: "Overview" },
   { key: "racing-merchandise", label: "Racing & Merchandise" },
   { key: "workwear", label: "Workwear" },
-  { key: "military-police-security-wear", label: "Military, Police & Security Wear" },
-  { key: "corporate-wear-uniforms", label: "Corporate Wear & Uniforms" },
-  { key: "promotional-wear-accessories", label: "Promotional Wear & Accessories" },
+  { key: "military-police-security-wear", label: "Military, Police & Security" },
+  { key: "corporate-wear-uniforms", label: "Corporate & Uniforms" },
+  { key: "promotional-wear-accessories", label: "Promotional & Accessories" },
   { key: "sports-teamwear", label: "Sports & Teamwear" },
 ];
 
 const DEFAULT_TAB: TabKey = "overview";
 
-
-/* Her sekme için “Next chapter” arkaplan görseli */
 const NEXT_BG: Record<TabKey, string> = {
   overview: "/assets/sectors/textile/next/overview.jpg",
   "racing-merchandise": "/assets/sectors/textile/next/racing-merchandise.jpg",
@@ -44,7 +42,6 @@ const NEXT_BG: Record<TabKey, string> = {
   "promotional-wear-accessories": "/assets/sectors/textile/next/promotional-wear-accessories.jpg",
   "sports-teamwear": "/assets/sectors/textile/next/sports-teamwear.jpg",
 };
-
 
 /* =========================
    TAB STATE (URL hash ile)
@@ -77,7 +74,6 @@ function useTabState() {
   return { active, setActive };
 }
 
-
 /* =========================
    CORNER CAP (diagonal)
 ========================= */
@@ -94,7 +90,6 @@ function CornerCap() {
   );
 }
 
-
 /* =========================
    CONTENT TYPES
 ========================= */
@@ -107,12 +102,10 @@ type ContentBlock = {
   level?: 2 | 3;
 };
 
-
 type TabContent = {
   intro: string[];
   blocks: ContentBlock[];
 };
-
 
 /* =========================
    CONTENT BY TAB
@@ -335,13 +328,7 @@ const CONTENT: Record<TabKey, TabContent> = {
 /* =========================
    NEXT CHAPTER
 ========================= */
-function NextChapter({
-  active,
-  setActive,
-}: {
-  active: TabKey;
-  setActive: (k: TabKey) => void;
-}) {
+function NextChapter({ active, setActive }: { active: TabKey; setActive: (k: TabKey) => void; }) {
   const idx = TABS.findIndex((t) => t.key === active);
   const nextIdx = (idx + 1) % TABS.length;
   const next = TABS[nextIdx];
@@ -371,45 +358,28 @@ function NextChapter({
       aria-label={`Next chapter: ${next.label}`}
     >
       <div className="absolute inset-0">
-        <Image
-          src={bg}
-          alt={next.alt ?? next.label}
-          fill
-          sizes="100vw"
-          className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-        />
+        <Image src={bg} alt={next.alt ?? next.label} fill sizes="100vw" className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]" />
       </div>
-
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/0" />
-
       <div className="relative z-10 flex w-full items-center justify-center sm:justify-start px-6 sm:px-10 md:px-16 lg:px-24 py-16 sm:py-20 lg:py-24 text-white">
         <div className="flex flex-col items-start gap-3 pr-8">
-          <span className="text-2xl sm:text-3xl md:text-4xl leading-none transition-transform duration-300 group-hover:translate-x-1">
-            →
-          </span>
-          <p className="text-sm sm:text-base  md:text-2xl font-medium tracking-wide">Next chapter</p>
+          <span className="text-2xl sm:text-3xl md:text-4xl leading-none transition-transform duration-300 group-hover:translate-x-1">→</span>
+          <p className="text-sm sm:text-base md:text-2xl font-medium tracking-wide">Next chapter</p>
           <p className="mt-1 text-sm text-white/80 sm:hidden">{next.label}</p>
         </div>
-
         <div className="relative hidden sm:block mr-8">
           <div className="h-28 w-px bg-white/30 origin-top transition-transform duration-500 group-hover:scale-y-110" />
         </div>
-
         <div className="hidden sm:block flex-1 min-w-0">
           <div className="flex items-center gap-4">
             <span className="block h-px w-8 bg-white/40 transition-all duration-500 group-hover:w-24" />
-            <h3 className="truncate text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-light tracking-widest uppercase">
-              {next.label}
-            </h3>
+            <h3 className="truncate text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-light tracking-widest uppercase">{next.label}</h3>
           </div>
         </div>
       </div>
     </section>
   );
 }
-
-
-
 
 /* =========================
    PAGE
@@ -419,12 +389,9 @@ export default function TextilePage() {
   const activeTab = useMemo(() => TABS.find((t) => t.key === active)!, [active]);
   const isOverview = active === "overview";
 
-  /* Header hide on scroll (>50) + offsets */
   const [headerH, setHeaderH] = useState<number>(80);
-
   useEffect(() => {
     if (typeof window === "undefined") return;
-
     const hdr =
       (document.querySelector('header[role="banner"]') as HTMLElement) ||
       (document.querySelector("header") as HTMLElement);
@@ -433,7 +400,6 @@ export default function TextilePage() {
       const h = hdr ? hdr.getBoundingClientRect().height : 80;
       setHeaderH(h);
       document.documentElement.style.setProperty("--header-h", `${h}px`);
-
       const y = window.scrollY || 0;
       document.documentElement.classList.toggle("igg-header-hidden", y > 50);
       const topPx = y > 50 ? 0 : h;
@@ -459,7 +425,6 @@ export default function TextilePage() {
     };
   }, [headerH]);
 
-  /* Preload hero (safe) */
   useEffect(() => {
     if (typeof window !== "undefined" && "Image" in window) {
       const t = TABS.find((x) => x.key === "overview");
@@ -470,7 +435,6 @@ export default function TextilePage() {
     }
   }, []);
 
-  /* Mobile dropdown */
   const [open, setOpen] = useState(false);
   useEffect(() => setOpen(false), [active]);
 
@@ -478,22 +442,14 @@ export default function TextilePage() {
 
   return (
     <main className="w-full bg-white text-white">
-      {/* header boşluğu */}
       <div style={{ height: `var(--header-h, ${headerH}px)` }} />
 
-      {/* HERO: Overview üst kısım sabit */}
       {isOverview ? (
         <section className="relative isolate">
           <CornerCap />
           <div className="relative w-full overflow-hidden">
             <div className="relative h-[60vh] min-h-[460px] lg:h-[54vh]">
-              <Image
-                src={activeTab.image!}
-                alt={activeTab.alt || "Overview"}
-                fill
-                sizes="100vw"
-                className="object-cover object-[50%_88%]"
-              />
+              <Image src={activeTab.image!} alt={activeTab.alt || "Overview"} fill sizes="100vw" className="object-cover object-[50%_88%]" />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/65 via-black/40 to-transparent" />
               <div className="relative z-20 mx-auto max-w-[1200px] px-6 pt-40">
                 <p className="text-lg sm:text-xl md:text-2xl text-white/90">We are IGG.</p>
@@ -509,7 +465,7 @@ export default function TextilePage() {
           <CornerCap />
           <div className="relative w-full bg-[linear-gradient(232deg,#181c20,#363f44)]">
             <div className="mx-auto max-w-[1200px] px-6 py-14 md:py-20">
-              <p className="text-sm  ml-5 sm:text-base text-white/85">We are IGG.</p>
+              <p className="text-sm ml-5 sm:text-base text-white/85">We are IGG.</p>
               <h1 className="mt-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase">
                 {activeTab.label}
               </h1>
@@ -519,63 +475,108 @@ export default function TextilePage() {
       )}
 
       {/* SUB MENU (sticky + horizontal scroll) */}
-      <nav
-        aria-label="Textile sub navigation"
-        className="sticky z-30 bg-white text-[#1a1a1a] shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.06)]"
-        style={{ top: "var(--subnav-top, var(--header-h, 80px))" }}
+<nav
+  aria-label="Textile sub navigation"
+  className="sticky z-30 bg-white text-[#1a1a1a] shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.06)]"
+  style={{ top: "var(--subnav-top, var(--header-h, 80px))" }}
+>
+  <div className="w-full">
+    <div className="hidden lg:block py-5">
+      <div
+        className="subnav-tabs-container"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "nowrap",
+          overflowX: "auto",
+          paddingBottom: "18px",
+          gap: "34px",
+        }}
       >
-        <div className="mx-auto w-full xl:max-w-[1200px] xl:px-6">
-          <div className="hidden lg:block py-5">
-            <div
-              className="w-full overflow-x-auto overflow-y-hidden pb-4.5"
+        {TABS.map((tab) => {
+          const isActive = tab.key === active;
+          return (
+            <button
+              key={tab.key}
+              onClick={() => setActive(tab.key)}
+              className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[15px] tracking-[0.12em] py-1.5 ${
+                isActive
+                  ? "text-[#1a1a1a]"
+                  : "text-slate-400 hover:text-slate-800"
+              }`}
+              title={tab.label}
               style={{
-                WebkitOverflowScrolling: "touch",
-                scrollBehavior: "smooth",
+                flex: "1 1 0",
+                minWidth: "0",
+                textAlign: "center"
               }}
             >
-              <div className="w-max flex flex-nowrap items-center gap-6 pr-6">
-                {TABS.map((tab) => {
-                  const isActive = tab.key === active;
-                  return (
-                    <button
-                      key={tab.key}
-                      onClick={() => setActive(tab.key)}
-                      className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[15px] tracking-[0.12em] py-1.5 ${
-                        isActive
-                          ? "text-[#1a1a1a]"
-                          : "text-slate-400 hover:text-slate-800"
-                      }`}
-                      title={tab.label}
-                    >
-                      {tab.label}
-                      {isActive && (
-                        <span className="absolute inset-x-0 -bottom-[10px] mx-auto h-[2px] w-full max-w-[96px] bg-[#1a1a1a]" />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <div className="lg:hidden">
-            <MobileDropdown
-              open={open}
-              setOpen={setOpen}
-              active={active}
-              setActive={setActive}
-            />
-          </div>
-        </div>
-        <div className="h-px w-full bg-black/10 " />
-      </nav>
+              {tab.label}
+              {isActive && (
+                <span className="absolute inset-x-0 -bottom-[10px] mx-auto h-[2px] w-full max-w-[96px] bg-[#1a1a1a]" />
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+    <div className="lg:hidden">
+      <MobileDropdown
+        open={open}
+        setOpen={setOpen}
+        active={active}
+        setActive={setActive}
+      />
+    </div>
+  </div>
+  <div className="h-px w-full bg-black/10 " />
+  <style jsx global>{`
+    header[role="banner"], header { transition: transform 280ms ease; will-change: transform;}
+    html.igg-header-hidden header[role="banner"], html.igg-header-hidden header {transform: translateY(-100%);}
+    @media (min-width: 1920px) {
+      .subnav-tabs-container {
+        width: 100vw;
+        max-width: 100vw;
+        margin-left: calc(-1 * ((100vw - 100%) / 2));
+        margin-right: 0;
+        overflow-x: visible !important;
+        justify-content: space-between !important;
+        gap: 28px !important;
+        padding-left: 32px;
+        padding-right: 32px;
+      }
+      .subnav-tabs-container button {
+        flex: 1 1 0;
+        min-width: 0;
+        text-align: center;
+      }
+    }
+    @media (max-width: 1919.98px) {
+      .subnav-tabs-container {
+        max-width: 100%;
+        overflow-x: auto !important;
+        justify-content: flex-start !important;
+        gap: 34px !important;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+    @media (min-width: 1920px) {
+      .subnav-tabs-container::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  `}</style>
+</nav>
 
-      {/* CONTENT AREA - Overview da yeni özel içerik */}
       <section id={`panel-${active}`}>
         {isOverview ? (
           <>
             <OverviewHero />
             <CategoriesTextile />
-            {/* Overview'a özel başka bileşenler buraya eklenebilir */}
+            <IGGExplore />
+            
+
           </>
         ) : (
           <>
@@ -587,29 +588,12 @@ export default function TextilePage() {
         )}
       </section>
 
-      {/* NEXT CHAPTER */}
       <NextChapter active={active} setActive={setActive} />
-
-      {/* Global CSS */}
-      <style jsx global>{`
-        header[role="banner"],
-        header {
-          transition: transform 280ms ease;
-          will-change: transform;
-        }
-        html.igg-header-hidden header[role="banner"],
-        html.igg-header-hidden header {
-          transform: translateY(-100%);
-        }
-      `}</style>
     </main>
   );
 }
 
-/* OverviewHero component */
-
-
-/* MobileDropdown ve diğer yardımcı fonksiyonları orijinal kodunla aynı şekilde eklemelisin */
+/* MobileDropdown ve diğer yardımcı fonksiyonlar aşağıda aynen bırak */
 
 function MobileDropdown({
   open,
@@ -644,7 +628,6 @@ function MobileDropdown({
           Menu
         </span>
       </button>
-
       <div
         id="textile-mobile-submenu"
         className={`transition-all duration-500 ease-in-out overflow-hidden ${
@@ -712,7 +695,7 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
         <div className="md:col-span-6 [direction:ltr] flex items-center md:pt-[6%] lg:pt-[25%]">
           <div className="w-full">
             <Heading
-              className="uppercase font-[300] text-[2.4rem] leading-[3rem] text-slate-700 text-center"
+              className="uppercase font-[100] text-[2.8rem] leading-[3rem] text-slate-700 text-center"
               style={{ fontFamily: "mclaren-bespoke, Courier New, Arial" }}
             >
               {block.title}

@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 /* ---------- NAV DATA ---------- */
-/* ---------- NAV DATA (EN) ---------- */
 type NavLink = { label: string; href: string };
 type NavItem = {
   label: string;
@@ -85,16 +84,27 @@ export default function Header() {
     }, 450);
   };
 
-  // scroll state
+  // Force white header ONLY on this route
+  const forceWhiteHeader =
+    pathname?.startsWith("/sectors/textile/overview/igg-explore") ?? false;
+
+  // scroll state: If we're on the igg-explore page, don't attach the listener and force scrolled = true
   React.useEffect(() => {
     if (typeof window === "undefined") return;
+
+    if (forceWhiteHeader) {
+      // ensure header appears scrolled (white) when on igg-explore
+      setScrolled(true);
+      return; // don't attach scroll listener
+    }
+
     const onScroll = () => setScrolled(window.scrollY > 10);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [forceWhiteHeader]); // re-run if route changes
 
-  // route change -> close
+  // route change -> close menus/panels
   React.useEffect(() => {
     setMobileOpen(false);
     setOpenIndex(null);
@@ -134,12 +144,16 @@ export default function Header() {
     });
   };
 
-  /** 🔸 Textile sayfasında mıyız? */
+  /** 🔸 Textile sayfasında mıyız? (genel textile behavior) */
   const isTextilePage = pathname?.startsWith("/sectors/textile") ?? false;
 
   /** 🔸 Link rengi: Textile sayfasında her zaman siyah.
-   *  Onun dışında: panel açıkken siyah; scroll'da koyu; değilse beyaz. */
-  const linkColor = isTextilePage
+   *  Onun dışında: panel açıkken siyah; scroll'da koyu; değilse beyaz.
+   *  But: if forceWhiteHeader => always use scrolled styling (dark links).
+   */
+  const linkColor = forceWhiteHeader
+    ? "text-gray-900 hover:text-gray-700"
+    : isTextilePage
     ? "text-black hover:text-gray-800"
     : openIndex !== null
     ? "text-black hover:text-gray-800"
@@ -154,7 +168,7 @@ export default function Header() {
         ref={headerRef}
         className={classNames(
           "fixed inset-x-0 top-0 z-[50] transition-all",
-          scrolled || openIndex !== null
+          scrolled || openIndex !== null || forceWhiteHeader
             ? "backdrop-blur bg-white shadow-sm"
             : "bg-transparent"
         )}
@@ -179,7 +193,9 @@ export default function Header() {
                 onClick={() => setMobileOpen((s) => !s)}
                 className={classNames(
                   "lg:hidden inline-flex items-center justify-center rounded-md border px-3 py-2 text-sm cursor-pointer",
-                  scrolled || openIndex !== null ? "border-black/10" : "border-white/30",
+                  scrolled || openIndex !== null || forceWhiteHeader
+                    ? "border-black/10"
+                    : "border-white/30",
                   linkColor
                 )}
                 aria-expanded={mobileOpen}
@@ -203,7 +219,6 @@ export default function Header() {
                 return (
                   <li key={item.label} className="relative">
                     {hasPanel ? (
-                      // MEGA MENÜLÜ ÖĞELER (About Us, Activity Fields)
                       <button
                         className={classNames(
                           "inline-flex items-center gap-1 text-base font-medium focus:outline-none cursor-pointer",
@@ -228,20 +243,12 @@ export default function Header() {
                           height="15"
                           viewBox="0 0 20 20"
                           aria-hidden="true"
-                          className={classNames(
-                            active ? "text-[#FFBF00]" : "text-[#FFBF00]"
-                          )}
+                          className={classNames(active ? "text-[#FFBF00]" : "text-[#FFBF00]")}
                         >
-                          <path
-                            d="M5 7l5 5 5-5"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          />
+                          <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
                         </svg>
                       </button>
                     ) : (
-                      // PANELSİZ ÖĞE (Contact Us → direkt sayfaya gider)
                       <Link
                         href={item.banner.href}
                         className={classNames(
@@ -263,16 +270,9 @@ export default function Header() {
                           height="15"
                           viewBox="0 0 20 20"
                           aria-hidden="true"
-                          className={classNames(
-                            active ? "text-[#FFBF00]" : "text-[#FFBF00]"
-                          )}
+                          className={classNames(active ? "text-[#FFBF00]" : "text-[#FFBF00]")}
                         >
-                          <path
-                            d="M5 7l5 5 5-5"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          />
+                          <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
                         </svg>
                       </Link>
                     )}
@@ -291,16 +291,7 @@ export default function Header() {
                 aria-label="Open search"
                 className="inline-flex items-center justify-center rounded-full p-2 hover:bg-[#F9423A]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9423A]/40 transition cursor-pointer"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  className="h-9 w-9"
-                  fill="none"
-                  stroke="#FFBF00"
-                  strokeWidth="1"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="#FFBF00" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="7" />
                   <path d="M20 20L16.8 16.8" />
                 </svg>
@@ -310,13 +301,9 @@ export default function Header() {
         </div>
       </header>
 
-      {/* FULL-WIDTH MEGA PANEL (header ALTINDA, en üstten aşağı açılır) */}
+      {/* FULL-WIDTH MEGA PANEL */}
       {openIndex !== null && (
-        <MegaPanelTop
-          key={`panel-${openIndex}-${animSeed}`}
-          item={NAV[openIndex]}
-          onClose={() => setOpenIndex(null)}
-        />
+        <MegaPanelTop key={`panel-${openIndex}-${animSeed}`} item={NAV[openIndex]} onClose={() => setOpenIndex(null)} />
       )}
 
       {/* MOBILE OFF-CANVAS */}
@@ -325,135 +312,55 @@ export default function Header() {
       {/* SEARCH POPUP (desktop) */}
       {(searchOpen || isSearchClosing) && (
         <>
-          {/* Dışarı tıkla-kapat scrim (tam ekran) */}
-          <button
-            aria-label="Kapat"
-            onClick={closeSearch}
-            className={classNames(
-              "fixed inset-0 z-[75] hidden lg:block",
-              isSearchClosing ? "scrim-out" : "scrim-in"
-            )}
-          />
+          <button aria-label="Kapat" onClick={closeSearch} className={classNames("fixed inset-0 z-[75] hidden lg:block", isSearchClosing ? "scrim-out" : "scrim-in")} />
 
-          {/* Üstten açılan KISMİ panel (header'ı örter, mega menü yüksekliğinde) */}
-          <div
-            className={classNames(
-              "fixed inset-x-0 top-0 z-[80] hidden lg:block",
-              "h-[420px] md:h-[460px] lg:h-[520px] xl:h-[560px]",
-              isSearchClosing ? "search-slide-out" : "search-slide-in"
-            )}
-          >
-            {/* kırmızı arka plan */}
+          <div className={classNames("fixed inset-x-0 top-0 z-[80] hidden lg:block", "h-[420px] md:h-[460px] lg:h-[520px] xl:h-[560px]", isSearchClosing ? "search-slide-out" : "search-slide-in")}>
             <div className="absolute inset-0 bg-[#FFBF00]" />
 
-            {/* içerik */}
             <div className="relative h-full w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 lg:pt-20">
               <div className="flex items-start justify-between">
-                <h2 className="text-white text-4xl sm:text-5xl font-extrabold">
-                  Search now...
-                </h2>
-                <button
-                  onClick={closeSearch}
-                  aria-label="Kapat"
-                  className="fixed top-15 right-15 text-white/90 hover:text-white inline-flex items-center gap-2 text-xl font-bold tracking-wide cursor-pointer"
-                >
+                <h2 className="text-white text-4xl sm:text-5xl font-extrabold">Search now...</h2>
+                <button onClick={closeSearch} aria-label="Kapat" className="fixed top-15 right-15 text-white/90 hover:text-white inline-flex items-center gap-2 text-xl font-bold tracking-wide cursor-pointer">
                   CLOSE <span className="text-base font-bold leading-none">✕</span>
                 </button>
               </div>
 
-              {/* arama kutusu */}
               <form action="/arama" method="get" className="mt-8">
                 <label className="flex items-center bg-white rounded-2xl shadow-xl h-[72px] pl-5 pr-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    className="h-5 w-5 mr-2"
-                    fill="none"
-                    stroke="#FFBF00"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5 mr-2" fill="none" stroke="#FFBF00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <circle cx="11" cy="11" r="7" />
                     <path d="M20 20L16.8 16.8" />
                   </svg>
 
-                  <input
-                    type="text"
-                    name="keyword"
-                    className="flex-1 h-full bg-transparent outline-none text-lg placeholder:text-gray-400"
-                    placeholder="Type the word you want to search for"
-                  />
+                  <input type="text" name="keyword" className="flex-1 h-full bg-transparent outline-none text-lg placeholder:text-gray-400" placeholder="Type the word you want to search for" />
 
-                  <button
-                    type="submit"
-                    className="ml-2 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[#FFBF00] hover:bg-[#F9423A]/10 cursor-pointer"
-                  >
+                  <button type="submit" className="ml-2 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[#FFBF00] hover:bg-[#F9423A]/10 cursor-pointer">
                     SEARCH
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="#FFBF00"
-                      strokeWidth="2"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#FFBF00" strokeWidth="2">
                       <path d="M7 5l6 5-6 5" />
                     </svg>
                   </button>
                 </label>
               </form>
 
-              {/* Popüler aramalar (opsiyonel) */}
               <div className="mt-10">
                 <p className="text-white text-xl font-semibold">Popular searches:</p>
                 <div className="mt-4 flex flex-wrap gap-3 cursor-pointer">
-                  <a
-                    href="/arama?keyword=faaliyet%20raporu"
-                    className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow"
-                  >
+                  <a href="/arama?keyword=faaliyet%20raporu" className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow">
                     ACTIVITY REPORT
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="#FFBF00"
-                      strokeWidth="2"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#FFBF00" strokeWidth="2">
                       <path d="M7 5l6 5-6 5" />
                     </svg>
                   </a>
-                  <a
-                    href="/arama?keyword=s%C3%BCrd%C3%BCr%C3%BClebilirlik"
-                    className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow"
-                  >
+                  <a href="/arama?keyword=s%C3%BCrd%C3%BCr%C3%BClebilirlik" className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow">
                     SUSTAINABILITY
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="#FFBF00"
-                      strokeWidth="2"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#FFBF00" strokeWidth="2">
                       <path d="M7 5l6 5-6 5" />
                     </svg>
                   </a>
-                  <a
-                    href="/arama?keyword=%C5%9Firketler"
-                    className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow"
-                  >
+                  <a href="/arama?keyword=%C5%9Firketler" className="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 text-xs font-semibold hover:shadow">
                     COMPANIES
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="#FFBF00"
-                      strokeWidth="2"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#FFBF00" strokeWidth="2">
                       <path d="M7 5l6 5-6 5" />
                     </svg>
                   </a>
@@ -497,9 +404,9 @@ export default function Header() {
         @keyframes scrimOut {
           from {
             opacity: 1;
-          }
-          to {
-            opacity: 0;
+            to {
+              opacity: 0;
+            }
           }
         }
 
@@ -522,103 +429,42 @@ export default function Header() {
   );
 }
 
-/* ---------- FULL-WIDTH MEGA PANEL (TOP: 0 — header z-[60] üstte kalır) ---------- */
-function MegaPanelTop({
-  item,
-  onClose,
-}: {
-  item: (typeof NAV)[number];
-  onClose: () => void;
-}) {
+/* ---------- FULL-WIDTH MEGA PANEL (TOP) ---------- */
+function MegaPanelTop({ item, onClose }: { item: (typeof NAV)[number]; onClose: () => void }) {
   return (
     <>
-      {/* SCRIM */}
-      <button
-        aria-label="Kapat"
-        onClick={onClose}
-        className="fixed inset-0 z-[40] bg-black/40"
-      />
+      <button aria-label="Kapat" onClick={onClose} className="fixed inset-0 z-[40] bg-black/40" />
 
-      {/* PANEL */}
-      <div
-        data-mega-panel="true"
-        className="fixed inset-x-0 top-25 z-[50] origin-top animate-[megaslideTop_700ms_ease-out_forwards]"
-      >
+      <div data-mega-panel="true" className="fixed inset-x-0 top-25 z-[50] origin-top animate-[megaslideTop_700ms_ease-out_forwards]">
         <div className="w-full bg-white border-t border-black/10 shadow-[0_20px_40px_rgba(0,0,0,.08)]">
           <div className="w-full max-w-none pl-0 pr-4 sm:pr-6 lg:pr-8 xl:pr-12 2xl:pr-16 py-8">
             <div className="grid grid-cols-12 gap-8">
-              {/* Sol: büyük görsel + başlık */}
-              <Link
-                href={item.banner.href}
-                className="col-span-12 lg:col-span-4 xl:col-span-5 overflow-hidden group"
-                onClick={onClose}
-              >
+              <Link href={item.banner.href} className="col-span-12 lg:col-span-4 xl:col-span-5 overflow-hidden group" onClick={onClose}>
                 <div className="relative h-[300px] lg:h-[380px] w-full">
-                  <div
-                    className="absolute inset-0 bg-center bg-cover"
-                    style={{ backgroundImage: `url(${item.banner.image})` }}
-                    aria-hidden
-                  />
-                  <div
-                    className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent"
-                    aria-hidden
-                  />
+                  <div className="absolute inset-0 bg-center bg-cover" style={{ backgroundImage: `url(${item.banner.image})` }} aria-hidden />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" aria-hidden />
                   <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8">
-                    <h3 className="text-white text-4xl lg:text-5xl font-extrabold drop-shadow-md">
-                      {item.banner.title}
-                    </h3>
+                    <h3 className="text-white text-4xl lg:text-5xl font-extrabold drop-shadow-md">{item.banner.title}</h3>
 
                     <span className="relative mt-3 inline-flex items-center gap-2 text-white/95 text-sm lg:text-md group/daha">
                       Daha fazla bilgi
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 20 20"
-                        aria-hidden="true"
-                        className="shrink-0 transition-transform duration-200 group-hover/daha:translate-x-1"
-                      >
-                        <path
-                          d="M7 5l6 5-6 5"
-                          fill="none"
-                          stroke="#FFBF00"
-                          strokeWidth="2"
-                        />
+                      <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" className="shrink-0 transition-transform duration-200 group-hover/daha:translate-x-1">
+                        <path d="M7 5l6 5-6 5" fill="none" stroke="#FFBF00" strokeWidth="2" />
                       </svg>
-                      <span
-                        aria-hidden
-                        className="pointer-events-none absolute -bottom-2 left-0 h-[2px] w-[450px] lg:w-[500px] bg-[#FFBF00]"
-                      />
+                      <span aria-hidden className="pointer-events-none absolute -bottom-2 left-0 h-[2px] w-[450px] lg:w-[500px] bg-[#FFBF00]" />
                     </span>
                   </div>
                 </div>
               </Link>
 
-              {/* Sağ: link sütunları */}
               <div className="col-span-12 lg:col-span-8 xl:col-span-7">
                 <div className="columns-1 md:columns-3 xl:columns-1 gap-x-10 [column-fill:_balance]">
                   {item.columns.flat().map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={onClose}
-                      className="group block py-3  transition-colors"
-                      style={{ breakInside: "avoid" }}
-                    >
+                    <Link key={link.href} href={link.href} onClick={onClose} className="group block py-3  transition-colors" style={{ breakInside: "avoid" }}>
                       <span className="flex items-center justify-between">
                         <span className="text-gray-900">{link.label}</span>
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 20 20"
-                          aria-hidden="true"
-                          className="ml-3 text-gray-300 group-hover:text-[#FFBF00] transition-colors"
-                        >
-                          <path
-                            d="M7 5l6 5-6 5"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          />
+                        <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true" className="ml-3 text-gray-300 group-hover:text-[#FFBF00] transition-colors">
+                          <path d="M7 5l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2" />
                         </svg>
                       </span>
                       <span className="block h-px bg-gray-200 mt-3 group-hover:bg-[#FFBF00] transition-colors" />
@@ -635,13 +481,7 @@ function MegaPanelTop({
 }
 
 /* ---------- MOBILE OFF-CANVAS ---------- */
-function MobileOffCanvas({
-  open,
-  onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
+function MobileOffCanvas({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
     <>
       <div
@@ -654,12 +494,7 @@ function MobileOffCanvas({
         aria-modal="true"
       >
         <div className="flex items-center justify-between px-4 h-16 border-b border-black/10">
-          <Link
-            href="/"
-            className="flex items-center"
-            aria-label="IGG anasayfa"
-            onClick={onClose}
-          >
+          <Link href="/" className="flex items-center" aria-label="IGG anasayfa" onClick={onClose}>
             <img src="/assets/menu/logo.svg" alt="IGG" className="h-7 w-auto" />
           </Link>
         </div>
@@ -667,16 +502,8 @@ function MobileOffCanvas({
         <div className="overflow-y-auto p-4">
           <form action="/arama" method="get" className="mb-4">
             <label className="flex items-stretch gap-2 border rounded-lg p-2">
-              <input
-                type="text"
-                name="keyword"
-                placeholder="Aramak istediğiniz kelimeyi yazın"
-                className="flex-1 outline-none"
-              />
-              <button
-                type="submit"
-                className="px-3 py-1 rounded-md border text-sm cursor-pointer"
-              >
+              <input type="text" name="keyword" placeholder="Aramak istediğiniz kelimeyi yazın" className="flex-1 outline-none" />
+              <button type="submit" className="px-3 py-1 rounded-md border text-sm cursor-pointer">
                 ARA
               </button>
             </label>
@@ -695,11 +522,7 @@ function MobileOffCanvas({
                       <ul key={ci} className="mb-3 space-y-1">
                         {col.map((link) => (
                           <li key={link.href}>
-                            <Link
-                              href={link.href}
-                              onClick={onClose}
-                              className="block rounded px-2 py-1 text-sm hover:bg.black/5"
-                            >
+                            <Link href={link.href} onClick={onClose} className="block rounded px-2 py-1 text-sm hover:bg.black/5">
                               {link.label}
                             </Link>
                           </li>
@@ -711,11 +534,7 @@ function MobileOffCanvas({
               </li>
             ))}
             <li>
-              <Link
-                href="/en"
-                onClick={onClose}
-                className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-black/5"
-              >
+              <Link href="/en" onClick={onClose} className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-black/5">
                 EN
               </Link>
             </li>
@@ -724,11 +543,7 @@ function MobileOffCanvas({
       </div>
 
       {open && (
-        <button
-          className="fixed inset-0 z-[60] bg-black/40 lg:hidden"
-          aria-label="Kapat"
-          onClick={onClose}
-        />
+        <button className="fixed inset-0 z-[60] bg-black/40 lg:hidden" aria-label="Kapat" onClick={onClose} />
       )}
     </>
   );
