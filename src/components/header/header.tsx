@@ -4,8 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-
-/* ---------- NAV DATA ---------- */
+import logoNormal from "@/public/assets/menu/logo-igg.svg";
+import logoAlt from "@/public/assets/menu/logo-2.png";
 type NavLink = { label: string; href: string };
 type NavItem = {
   label: string;
@@ -57,14 +57,12 @@ const NAV: NavItem[] = [
     },
     columns: [],
   },
-] as const;
+];
 
-/* ---------- UTILS ---------- */
 function classNames(...arr: Array<string | false | null | undefined>) {
   return arr.filter(Boolean).join(" ");
 }
 
-/* ---------- COMPONENT ---------- */
 export default function Header() {
   const [scrolled, setScrolled] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -93,16 +91,15 @@ export default function Header() {
     if (typeof window === "undefined") return;
 
     if (forceWhiteHeader) {
-      // ensure header appears scrolled (white) when on igg-explore
       setScrolled(true);
-      return; // don't attach scroll listener
+      return;
     }
 
     const onScroll = () => setScrolled(window.scrollY > 10);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, [forceWhiteHeader]); // re-run if route changes
+  }, [forceWhiteHeader]);
 
   // route change -> close menus/panels
   React.useEffect(() => {
@@ -135,7 +132,7 @@ export default function Header() {
     };
   }, [openIndex]);
 
-  // tıklayınca aç/kapa + her açılışta animasyon seed yükselt
+  // menu toggle + animation seed
   const toggleMenu = (idx: number) => {
     setOpenIndex((s) => {
       const next = s === idx ? null : idx;
@@ -144,13 +141,19 @@ export default function Header() {
     });
   };
 
-  /** 🔸 Textile sayfasında mıyız? (genel textile behavior) */
+  // Logo resimleri
+  const logoNormal = "/assets/menu/logo-igg.svg";
+  const logoAlt = "/assets/menu/logo-2.png";
+
+  // Logo değişimi: About Us veya Activity Fields linklerinde logoyu değiştir
+  const isAltLogo =
+    pathname?.startsWith("/about-us") || pathname?.startsWith("/activity-fields");
+
+  const currentLogo = isAltLogo ? logoAlt : logoNormal;
+
+  // Link rengi yönetimi
   const isTextilePage = pathname?.startsWith("/sectors/textile") ?? false;
 
-  /** 🔸 Link rengi: Textile sayfasında her zaman siyah.
-   *  Onun dışında: panel açıkken siyah; scroll'da koyu; değilse beyaz.
-   *  But: if forceWhiteHeader => always use scrolled styling (dark links).
-   */
   const linkColor = forceWhiteHeader
     ? "text-gray-900 hover:text-gray-700"
     : isTextilePage
@@ -180,7 +183,7 @@ export default function Header() {
             <div className="flex items-center gap-3">
               <Link href="/" className="flex items-center" aria-label="IGG anasayfa">
                 <Image
-                  src="/assets/menu/logo-igg.svg"
+                  src={currentLogo}
                   alt="IGG"
                   width={120}
                   height={32}
@@ -243,7 +246,9 @@ export default function Header() {
                           height="15"
                           viewBox="0 0 20 20"
                           aria-hidden="true"
-                          className={classNames(active ? "text-[#FFBF00]" : "text-[#FFBF00]")}
+                          className={classNames(
+                            active ? "text-[#FFBF00]" : "text-[#FFBF00]"
+                          )}
                         >
                           <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
                         </svg>
@@ -270,9 +275,11 @@ export default function Header() {
                           height="15"
                           viewBox="0 0 20 20"
                           aria-hidden="true"
-                          className={classNames(active ? "text-[#FFBF00]" : "text-[#FFBF00]")}
+                          className={classNames(
+                            active ? "text-[#FFBF00]" : "text-[#FFBF00]"
+                          )}
                         >
-                          <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
+                          <path d="M5 7l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2" />
                         </svg>
                       </Link>
                     )}
@@ -336,9 +343,6 @@ export default function Header() {
 
                   <button type="submit" className="ml-2 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[#FFBF00] hover:bg-[#F9423A]/10 cursor-pointer">
                     SEARCH
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="#FFBF00" strokeWidth="2">
-                      <path d="M7 5l6 5-6 5" />
-                    </svg>
                   </button>
                 </label>
               </form>
@@ -542,9 +546,8 @@ function MobileOffCanvas({ open, onClose }: { open: boolean; onClose: () => void
         </div>
       </div>
 
-      {open && (
-        <button className="fixed inset-0 z-[60] bg-black/40 lg:hidden" aria-label="Kapat" onClick={onClose} />
-      )}
+      {open && <button className="fixed inset-0 z-[60] bg-black/40 lg:hidden" aria-label="Kapat" onClick={onClose} />}
     </>
   );
 }
+
