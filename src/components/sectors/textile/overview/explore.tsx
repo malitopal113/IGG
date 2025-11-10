@@ -5,10 +5,10 @@ export default function IGGExplore() {
   return (
     <section className="flex flex-col lg:flex-row items-center justify-center w-full max-w-[1500px] mx-auto mt-24 py-8 px-4">
       {/* Görsel */}
-      <div className="w-full lg:w-1/2 flex-shrink-0 mb-10 lg:mb-0">
+      <div className=" lg:w-1/2 flex-shrink-0 mb-10 lg:mb-0 ">
         <picture className="block w-full">
           <img
-            src="/assets/images/igg-brand-badge.jpg"
+            src="/assets/sectors/textile-explore.png"
             alt="IGG Brand"
             loading="lazy"
             className="w-full h-auto object-cover rounded"

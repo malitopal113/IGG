@@ -17,20 +17,23 @@ type TabKey =
   | "military-police-security-wear"
   | "corporate-wear-uniforms"
   | "promotional-wear-accessories"
-  | "promotional-wear-accessories"
-  | "sports-teamwear";
+  | "sports-teamwear"
+  | "e-gaming"
+  | "towel-home";
 
 
 type Tab = { key: TabKey; label: string; image?: string; alt?: string };
 
 const TABS: Tab[] = [
-  { key: "overview", label: "Overview", image: "/assets/sectors/textile/overview.png", alt: "Overview" },
-  { key: "racing-merchandise", label: "Racing & Merchandise" },
-  { key: "workwear", label: "Workwear" },
-  { key: "military-police-security-wear", label: "Military, Police & Security" },
-  { key: "corporate-wear-uniforms", label: "Corporate & Uniforms" },
-  { key: "promotional-wear-accessories", label: "Promotional & Accessories" },
-  { key: "sports-teamwear", label: "Sports & Teamwear" },
+  { key: "overview", label: "Overview", image: "/assets/sectors/textile/overview.png", alt: "Overview hero image" },
+  { key: "racing-merchandise", label: "Racing & Merchandise", alt: "Racing merchandise" },
+  { key: "workwear", label: "Workwear", alt: "Workwear" },
+  { key: "military-police-security-wear", label: "Military, Police & Security", alt: "Military police security" },
+  { key: "corporate-wear-uniforms", label: "Corporate & Uniforms", alt: "Corporate uniforms" },
+  { key: "promotional-wear-accessories", label: "Promotional & Accessories", alt: "Promotional accessories" },
+  { key: "sports-teamwear", label: "Sports & Teamwear", alt: "Sports teamwear" },
+  { key: "e-gaming", label: "E-Gaming", alt: "E-Gaming apparel" },
+  { key: "towel-home", label: "Towel & Home", alt: "Towel and home textiles" },
 ];
 
 const DEFAULT_TAB: TabKey = "overview";
@@ -43,6 +46,8 @@ const NEXT_BG: Record<TabKey, string> = {
   "corporate-wear-uniforms": "/assets/sectors/textile/next/corporate-wear-uniforms.jpg",
   "promotional-wear-accessories": "/assets/sectors/textile/next/promotional-wear-accessories.jpg",
   "sports-teamwear": "/assets/sectors/textile/next/sports-teamwear.jpg",
+  "e-gaming": "/assets/sectors/textile/next/racing-merchandise.jpg",
+  "towel-home": "/assets/sectors/textile/next/workwear.jpg",
 };
 
 /* =========================
@@ -126,15 +131,15 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Engineered for performance",
         body:
-          "Moisture management, breathability and lightweight strength come standard. We leverage advanced yarn blends and ergonomic patterning to keep comfort and mobility at the forefront — from pit lane to podium.",
-        image: "/assets/sectors/textile/racing/engineered.png",
+          "In racing apparel, speed, flexibility, and strong design are at the forefront. In every project, we bring unique styles to life, incorporating sponsor logos and specialized printing techniques. Our production process is managed with discipline and precision, even within short time frames, ensuring that every product captures the true spirit and excitement of racing.",
+        image: "/assets/sectors/textile/racing/racing1.png",
         alt: "Engineered performance",
         level: 2,
       },
       {
         title: "Bold identity, crisp details",
         body:
-          "Sponsor palettes and team marks are reproduced with exacting fidelity across batches. Heat-transfer, silicone, puff and high-density techniques are matched to fabric behavior for sharp, enduring detail.",
+          "Consistency and quality are core values in our work. From small local events to major international competitions, we approach every project with the same attention to detail. Every aspect, from fabric selection to printing methods, is carefully defined to ensure that each product clearly reflects the brand’s identity on the track.",
         image: "/assets/sectors/textile/racing/identity.png",
         alt: "Identity details",
         reverse: true,
@@ -143,8 +148,8 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "From limited drops to full scale",
         body:
-          "Whether it’s a capsule drop or a season-long program, our planning and QA frameworks keep quality stable at speed — forecasting, sampling and inline testing at each stage.",
-        image: "/assets/sectors/textile/racing/scale.png",
+          "Our focus on variety and technical details is what sets us apart in the racing category. Flexible patterns, functional fabrics, and modern designs allow us to deliver projects seamlessly. Throughout the process, we maintain transparent communication with our clients. In the end, the final product is more than just apparel – it is a tangible expression of speed and passion.",
+        image: "/assets/sectors/textile/racing/racing3.png",
         alt: "Scale",
         level: 3,
       },
@@ -160,16 +165,16 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Built to last",
         body:
-          "Reinforced seams, ripstop panels and durable hardware extend lifecycle in high-wear zones. Garments are lab-tested for tear strength and colorfastness to meet daily use.",
-        image: "/assets/sectors/textile/workwear/durable.jpg",
+          "With our wide range of products in the workwear category, we deliver tailored solutions for the needs of diverse industries. Protection, durability, and functionality are at the heart of every design. Our production process goes beyond manufacturing; we integrate logistics planning to ensure reliable and sustainable outcomes.",
+        image: "/assets/sectors/textile/workwear/workwear1.png",
         alt: "Durable workwear",
         level: 2,
       },
       {
         title: "Utility with comfort",
         body:
-          "Stretch zones and articulated knees increase range of motion. Breathable back yokes and mesh linings regulate temperature across shifts and seasons.",
-        image: "/assets/sectors/textile/workwear/utility.jpg",
+          "We recognize that each industry has its own specific requirements. That’s why we incorporate features such as high visibility, heat resistance, or chemical resistance into our designs on a project-by-project basis. This approach allows us to maximize workplace safety and efficiency, while maintaining strict standards at every stage through robust quality control mechanisms.",
+        image: "/assets/sectors/textile/workwear/workwear2.png",
         alt: "Utility",
         reverse: true,
         level: 3,
@@ -177,8 +182,8 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Simple care, fast turnaround",
         body:
-          "Easy-care coatings reduce shrink and wrinkle. Our modular patterns and color libraries shorten sampling and reorder lead times across sizes.",
-        image: "/assets/sectors/textile/workwear/care.jpg",
+          "To respond quickly to demand, we operate with a large production capacity. Our flexible stock solutions allow us to meet needs within short timeframes. Through planned process management, we consistently provide our customers with dependable results. In this way, our workwear stands out not only in the field but also in production and delivery.",
+        image: "/assets/sectors/textile/workwear/workwear3.png",
         alt: "Care",
         level: 3,
       },
@@ -324,6 +329,76 @@ const CONTENT: Record<TabKey, TabContent> = {
       },
     ],
   },
+
+  // E-Gaming uses same content as racing-merchandise
+  "e-gaming": JSON.parse(JSON.stringify({
+    intro: [
+      "Built around speed, precision and brand passion, our Racing & Merchandise program blends technical fabrics with premium finishing for teams and fans alike.",
+      "From track-ready layers to collectible lifestyle apparel, we deliver consistent fit, rich color accuracy and durable prints for elite partners.",
+    ],
+    blocks: [
+      {
+        title: "Engineered for performance",
+        body:
+          "Moisture management, breathability and lightweight strength come standard. We leverage advanced yarn blends and ergonomic patterning to keep comfort and mobility at the forefront — from pit lane to podium.",
+        image: "/assets/sectors/textile/racing/engineered.png",
+        alt: "Engineered performance",
+        level: 2,
+      },
+      {
+        title: "Bold identity, crisp details",
+        body:
+          "Sponsor palettes and team marks are reproduced with exacting fidelity across batches. Heat-transfer, silicone, puff and high-density techniques are matched to fabric behavior for sharp, enduring detail.",
+        image: "/assets/sectors/textile/racing/identity.png",
+        alt: "Identity details",
+        reverse: true,
+        level: 3,
+      },
+      {
+        title: "From limited drops to full scale",
+        body:
+          "Whether it’s a capsule drop or a season-long program, our planning and QA frameworks keep quality stable at speed — forecasting, sampling and inline testing at each stage.",
+        image: "/assets/sectors/textile/racing/scale.png",
+        alt: "Scale",
+        level: 3,
+      },
+    ],
+  })),
+
+  // Towel & Home uses same content as workwear
+  "towel-home": JSON.parse(JSON.stringify({
+    intro: [
+      "Workwear that stands up to demanding environments without compromising comfort or brand standards.",
+      "We combine abrasion resistance, smart storage and easy-care finishes to keep teams productive and presentable.",
+    ],
+    blocks: [
+      {
+        title: "Built to last",
+        body:
+          "Reinforced seams, ripstop panels and durable hardware extend lifecycle in high-wear zones. Garments are lab-tested for tear strength and colorfastness to meet daily use.",
+        image: "/assets/sectors/textile/workwear/durable.jpg",
+        alt: "Durable workwear",
+        level: 2,
+      },
+      {
+        title: "Utility with comfort",
+        body:
+          "Stretch zones and articulated knees increase range of motion. Breathable back yokes and mesh linings regulate temperature across shifts and seasons.",
+        image: "/assets/sectors/textile/workwear/utility.jpg",
+        alt: "Utility",
+        reverse: true,
+        level: 3,
+      },
+      {
+        title: "Simple care, fast turnaround",
+        body:
+          "Easy-care coatings reduce shrink and wrinkle. Our modular patterns and color libraries shorten sampling and reorder lead times across sizes.",
+        image: "/assets/sectors/textile/workwear/care.jpg",
+        alt: "Care",
+        level: 3,
+      },
+    ],
+  })),
 };
 
 
@@ -493,6 +568,7 @@ export default function TextilePage() {
           overflowX: "auto",
           paddingBottom: "18px",
           gap: "34px",
+          paddingRight: "10px",
         }}
       >
         {TABS.map((tab) => {
@@ -534,7 +610,7 @@ export default function TextilePage() {
   <div className="h-px w-full bg-black/10 " />
   <style jsx global>{`
     header[role="banner"], header { transition: transform 280ms ease; will-change: transform;}
-    html.igg-header-hidden header[role="banner"], html.igg-header-hidden header {transform: translateY(-100%);}
+    html.igg-header-hidden header[role="banner"], html.igg-header-hidden header {transform: translateY(-100%);} 
     @media (min-width: 1920px) {
       .subnav-tabs-container {
         width: 100vw;
@@ -645,7 +721,7 @@ function MobileDropdown({
                   role="tab"
                   aria-selected={isActiveTab}
                   aria-controls={`panel-${tab.key}`}
-                  onClick={() => setActive(tab.key)}
+                  onClick={() => { setActive(tab.key); setOpen(false); }}
                   className={[
                     "text-left",
                     "text-[13px] tracking-[0.14em] uppercase font-semibold",
@@ -702,7 +778,7 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
             >
               {block.title}
             </Heading>
-            <p className="mt-15 text-[1.4rem] leading-[2rem] break-words text-zinc-700 text-start">
+            <p className="mt-6 text-[1.4rem] leading-[2rem] break-words text-zinc-700 text-start">
               {block.body}
             </p>
           </div>

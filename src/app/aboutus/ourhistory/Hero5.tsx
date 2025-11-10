@@ -6,7 +6,7 @@ export default function HeroVideo() {
   const rootRef = React.useRef<HTMLDivElement | null>(null);
 
   return (
-    <section id="heroSlider" className="relative w-screen overflow-hidden">
+    <section id="heroSlider5" className="relative w-screen overflow-hidden">
       <div id="heroCarousel" className="carousel" ref={rootRef}>
         <div className="carousel-inner">
           <div className="carousel-item active">

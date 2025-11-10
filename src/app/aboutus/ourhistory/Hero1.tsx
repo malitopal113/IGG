@@ -25,7 +25,7 @@ export default function Hero1() {
   const rootRef = React.useRef<HTMLDivElement | null>(null);
 
   return (
-    <section id="heroSlider" className="relative w-screen overflow-hidden">
+    <section id="heroSlider1" className="relative w-screen overflow-hidden">
       <div id="heroCarousel" className="carousel" ref={rootRef}>
         <div className="carousel-inner">
           <div className="carousel-item active">

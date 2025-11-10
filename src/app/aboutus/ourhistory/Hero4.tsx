@@ -25,7 +25,7 @@ export default function Hero1() {
   const rootRef = React.useRef<HTMLDivElement | null>(null);
 
   return (
-    <section id="heroSlider" className="relative w-screen overflow-hidden">
+    <section id="heroSlider4" className="relative w-screen overflow-hidden">
       <div id="heroCarousel" className="carousel" ref={rootRef}>
         <div className="carousel-inner">
           <div className="carousel-item active">
@@ -72,19 +72,7 @@ export default function Hero1() {
         </div>
 
         {/* Scroll Down Arrow */}
-        <div
-          className="arrowSection"
-          onClick={() => {
-            const el = rootRef.current;
-            if (!el) return;
-            const y = el.offsetTop + el.offsetHeight;
-            window.scrollTo({ top: y, behavior: "smooth" });
-          }}
-        >
-          <div className="arrowContainer">
-            <span></span><span></span><span></span><span></span>
-          </div>
-        </div>
+        
       </div>
 
       {/* ---- Scoped CSS ---- */}
