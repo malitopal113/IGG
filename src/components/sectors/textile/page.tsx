@@ -200,16 +200,16 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Mobility under load",
         body:
-          "Gusseted constructions and 4-way stretch panels maintain movement with gear. Reinforced belt paths and bar-tacks resist stress over time.",
-        image: "/assets/sectors/textile/mps/mobility.jpg",
+          "We have been providing solutions in the military and security sector for many years. In uniforms, boots, and technical equipment, we prioritize high standards and durability. All materials are carefully selected to withstand harsh conditions, ensuring that our products consistently represent reliability.",
+        image: "/assets/sectors/textile/military/military1.png",
         alt: "Mobility",
         level: 2,
       },
       {
         title: "Low-profile, high control",
         body:
-          "Quiet hook-and-loop, covered zips and matte snaps reduce signature. Fabric options include NIR-aware shades and quick-dry knits for extended wear.",
-        image: "/assets/sectors/textile/mps/lowprofile.jpg",
+          "We apply strict quality control procedures, leaving nothing to chance. It is well known that a fully equipped soldier carries a very heavy load during operational duties. Under such demanding conditions, the lightness, breathability, and comfort of clothing become vital. For this reason, we design our products to be not only durable, but also ergonomic and user-friendly. This enables us to balance functionality and aesthetics while maximizing safety and mobility for personnel in the field.",
+        image: "/assets/sectors/textile/military/military2.png",
         alt: "Low profile",
         reverse: true,
         level: 3,
@@ -217,8 +217,8 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Standardized, then specialized",
         body:
-          "A common fit block ensures consistency; add-on modules adapt garments to role-specific carry and climate without redesign.",
-        image: "/assets/sectors/textile/mps/modular.jpg",
+          "Our capacity planning is managed flexibly according to the scale of each project. We maintain the same discipline in small orders as we do in large-scale productions. With our wide product range, we can easily respond to the needs of different institutions, while regular updates throughout the process ensure that expectations are fully met.",
+        image: "/assets/sectors/textile/military/military3.png",
         alt: "Modular",
         level: 3,
       },
@@ -235,16 +235,16 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Consistent fit at scale",
         body:
-          "We maintain size grids with graded ease for different roles — front-of-house, back-office and field teams — to keep silhouettes aligned across sites.",
-        image: "/assets/sectors/textile/corporate/fit.jpg",
+          "We strengthen the outward identity of brands in the corporate apparel sector. We know how important first impressions are for professionalism and prestige, and we support this perception with our corporate solutions. With our wide range of products, we serve different industries and meet all organizational needs from a single point. We manage every step, from design to logistics, in a planned way. This makes processes easier and more manageable.",
+        image: "/assets/sectors/textile/corporate/corporate1.png",
         alt: "Fit",
         level: 2,
       },
       {
         title: "Fabric that works",
         body:
-          "Wrinkle-resistant blends with mechanical stretch, stain shields and anti-pilling finishes keep garments neat with minimal care.",
-        image: "/assets/sectors/textile/corporate/fabric.jpg",
+          "In corporate clothing, we bring functionality and consistency together. With our experience across multiple industries, Info Group Global adapts its designs to the unique needs of each sector, offering solutions that reflect both practicality and style. We enrich projects with a variety of fabric, model, and accessory options. We carry out the delivery process in full compliance with the planned schedule.",
+        image: "/assets/sectors/textile/corporate/corporate2.png",
         alt: "Fabric",
         reverse: true,
         level: 3,
@@ -252,8 +252,8 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Identity in the details",
         body:
-          "Piping, contrast plackets and custom hardware express brand language subtly. Embroidery and transfer options are tuned to each fabric.",
-        image: "/assets/sectors/textile/corporate/details.jpg",
+          "The corporate clothing solutions we provide can be applied across different sectors. Managing the process from a single center gives organizations both time and cost advantages. With our post-production logistics support, we complete the process as a whole. The result creates added value for brands, both visually and functionally.",
+        image: "/assets/sectors/textile/corporate/corporate3.png",
         alt: "Details",
         level: 3,
       },
@@ -270,16 +270,16 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Premium basics, better prints",
         body:
-          "Ring-spun cottons and combed blends improve drape and softness. Discharge, water-based and hybrid inks deliver color without heavy hand.",
-        image: "/assets/sectors/textile/promo/basics.jpg",
+          "In the promotional category, we offer solutions that enhance brand visibility. We customize products such as T-shirts, polo shirts, hats, and bags for specific campaigns. Through our printing and embroidery applications, we transform each item into a distinctive design. We also manage delivery processes in line with the planned schedule.",
+        image: "/assets/sectors/textile/promotional/promotional5555.png",
         alt: "Basics",
         level: 2,
       },
       {
         title: "Accessories that travel",
         body:
-          "Structured caps, panels and brims maintain form; woven labels and jacquard tapes add perceived value while withstanding daily wear.",
-        image: "/assets/sectors/textile/promo/accessories.jpg",
+          "Diversity and speed are the most prominent features of our promotional projects. The wide range of models we prepare can be adapted to the needs of different campaigns. We provide solutions for every scale, from short-term events to long-term projects, creating a powerful communication tool for brands.",
+        image: "/assets/sectors/textile/promotional/promotional2.png",
         alt: "Accessories",
         reverse: true,
         level: 3,
@@ -287,8 +287,8 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Fast campaigns, low MOQs",
         body:
-          "Modular color sets and ready trims support quick campaign launches with controlled unit cost — ideal for events and seasonal spikes.",
-        image: "/assets/sectors/textile/promo/fast.jpg",
+          "The customizability of our promotional products is our most significant advantage. We design colors, textures, and printing techniques in harmony with the brand’s identity. Throughout the process, we prioritize timing and feasibility as key criteria. Ultimately, we deliver unique visibility and lasting impact for brands.",
+        image: "/assets/sectors/textile/promotional/promotional3.png",
         alt: "Fast",
         level: 3,
       },
@@ -305,16 +305,16 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Move, breathe, repeat",
         body:
-          "Mapped ventilation and knit structures enhance airflow where it counts. Lightweight blends wick fast and dry quicker between sessions.",
-        image: "/assets/sectors/textile/sports/breathe.jpg",
+          "Ergonomics and comfort are top priorities in our sportswear projects. Using technical fabrics, we design products that emphasize freedom of movement and high performance. Through print and logo applications, we bring brand identity to the field. Our solutions serve a wide audience, from professional clubs to educational institutions.",
+        image: "/assets/sectors/textile/sports/sports1.png",
         alt: "Breathability",
         level: 2,
       },
       {
         title: "Precision patterns",
         body:
-          "Ergonomic pattern blocks, raglan/saddle sleeves and split hems reduce restriction — tested with feedback loops from squads.",
-        image: "/assets/sectors/textile/sports/pattern.jpg",
+          "In sportswear, visual unity is just as important as performance. With uniforms that embody team spirit, we deliver designs that are both aesthetic and practical. Each project is brought to life with models and application techniques tailored to specific needs. Thanks to regular communication, we ensure transparency at every stage of the process.",
+        image: "/assets/sectors/textile/sports/sports2.png",
         alt: "Pattern",
         reverse: true,
         level: 3,
@@ -322,8 +322,8 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Unified identity",
         body:
-          "Crest, numbering and league marks are color-matched and wash-tested across sets to keep squads looking consistent home and away.",
-        image: "/assets/sectors/textile/sports/identity.jpg",
+          "The variety of our products and the emphasis we place on technical details set us apart. Across all sports disciplines, our designs provide long-lasting wear and deliver solutions that fully meet expectations. The result is apparel that satisfies both visually and functionally.",
+        image: "/assets/sectors/textile/sports/sports3.png",
         alt: "Identity",
         level: 3,
       },
@@ -375,16 +375,16 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Built to last",
         body:
-          "Reinforced seams, ripstop panels and durable hardware extend lifecycle in high-wear zones. Garments are lab-tested for tear strength and colorfastness to meet daily use.",
-        image: "/assets/sectors/textile/workwear/durable.jpg",
+          "We take pride in delivering hospitality-grade textile solutions that blend comfort, sophistication, and resilience. Specialising in luxury bath towels, spa towels, pool towels, and bed and bath linens, we partner with hotels, resorts, and spas to elevate every guest experience.  Each product is designed to withstand frequent washing—colourfast, absorbent, and quick‑drying—ensuring enduring quality and performance. Our textiles redefine luxury by combining plush softness with practical design, enhancing both relaxation and durability.",
+        image: "/assets/sectors/textile/towel/towel1.png",
         alt: "Durable workwear",
         level: 2,
       },
       {
         title: "Utility with comfort",
         body:
-          "Stretch zones and articulated knees increase range of motion. Breathable back yokes and mesh linings regulate temperature across shifts and seasons.",
-        image: "/assets/sectors/textile/workwear/utility.jpg",
+          "Our home textile offerings are crafted with the same attention to detail and durability found in our hospitality line. Whether it's towels for the bathroom or textiles for the bed, every fibre is selected to deliver elegance and ease of care. High-quality weaving, precise stitching, and design excellence are woven into each product, guaranteeing consistent performance across everyday use. With our home collection, you bring a touch of hotel-style refinement into your daily life.",
+        image: "/assets/sectors/textile/towel/towel2.png",
         alt: "Utility",
         reverse: true,
         level: 3,
@@ -392,8 +392,8 @@ const CONTENT: Record<TabKey, TabContent> = {
       {
         title: "Simple care, fast turnaround",
         body:
-          "Easy-care coatings reduce shrink and wrinkle. Our modular patterns and color libraries shorten sampling and reorder lead times across sizes.",
-        image: "/assets/sectors/textile/workwear/care.jpg",
+          "Supported by advanced production techniques and a deep commitment to innovation, we continuously push the boundaries of home textile quality. From precision weaving and finishing to sustainable practices, every step of our process reflects operational excellence. We believe in enriching your living spaces with products that are not only beautiful but built to last, offering both utility and an elevated sense of luxury.",
+        image: "/assets/sectors/textile/towel/towel3.png",
         alt: "Care",
         level: 3,
       },
@@ -794,7 +794,15 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
             padding-left: 1rem !important;
             padding-right: 1rem !important;
           }
+
         }
+          @media (min-width: 1600px) {
+          section[data-paragraphasset] {
+            
+            padding-left: 9rem !important;
+            padding-right: 9rem !important;
+            gap: 17rem !important;
+          }
       `}</style>
       <section
         data-paragraphasset
