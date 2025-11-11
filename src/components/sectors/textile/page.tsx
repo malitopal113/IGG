@@ -801,7 +801,7 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
             
             padding-left: 9rem !important;
             padding-right: 9rem !important;
-            gap: 17rem !important;
+            gap: 12rem !important;
           }
       `}</style>
       <section
