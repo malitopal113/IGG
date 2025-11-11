@@ -4,8 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import logoNormal from "@/public/assets/menu/logo-igg.svg";
-import logoAlt from "@/public/assets/menu/logo-2.png";
+
 type NavLink = { label: string; href: string };
 type NavItem = {
   label: string;
@@ -143,7 +142,7 @@ export default function Header() {
 
   // Logo resimleri
   const logoNormal = "/assets/menu/logo-igg.svg";
-  const logoAlt = "/assets/menu/logo-2.png";
+  const logoAlt = "/assets/menu/logo2.png";
 
   // Logo değişimi: About Us veya Activity Fields linklerinde logoyu değiştir
   const isAltLogo =

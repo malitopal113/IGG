@@ -754,36 +754,138 @@ function IntroText({ paragraphs }: { paragraphs: string[] }) {
     </section>
   );
 }
+   
 
 function ParagraphAsset({ block }: { block: ContentBlock }) {
   const Heading = (block.level === 3 ? "h3" : "h2") as "h2" | "h3";
+  const isReverse = block.reverse || false;
+
   return (
-    <section className="mx-auto max-w-[1200px] px-6 py-10 md:py-14">
-      <div
-        className={`grid md:grid-cols-12 items-start gap-6 md:min-h-[700px] ${
-          block.reverse ? "md:[direction:rtl]" : "md:[direction:ltr]"
-        }`}
+    <>
+      <style jsx>{`
+        @media (max-width: 768px) {
+          section[data-paragraphasset] {
+            flex-direction: column !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            gap: 1rem !important;
+          }
+          div[data-img-container] {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: 1 / 1;
+            max-width: 100% !important;
+            border-radius: 4px;
+          }
+          div[data-text-container] {
+            width: 100% !important;
+            padding-top: 1rem;
+            justify-content: flex-start !important;
+          }
+          h2, h3 {
+            font-size: 2rem !important;
+            line-height: 2.4rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+          }
+          p {
+            font-size: 1rem !important;
+            line-height: 1.6rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+          }
+        }
+      `}</style>
+      <section
+        data-paragraphasset
+        style={{
+          WebkitTextSizeAdjust: "100%",
+          lineHeight: 1.15,
+          WebkitFontSmoothing: "antialiased",
+          WebkitTapHighlightColor: "rgba(0,0,0,0)",
+          fontFamily: "Arial, 'Helvetica Neue', Helvetica, sans-serif",
+          fontSize: "10px",
+          textRendering: "optimizeLegibility",
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: isReverse ? "row-reverse" : "row",
+          flexWrap: "wrap",
+          paddingLeft: "8.5rem",
+          paddingRight: "8.5rem",
+          width: "100%",
+          gap: "9.5rem",
+          marginTop: "2rem",
+          marginBottom: "2rem",
+        }}
       >
-        <div className="md:col-span-5 [direction:ltr] md:flex md:justify-end">
-          <div className="relative w-full h-[420px] md:w-[512px] md:h-[700px] overflow-hidden rounded-sm">
-            <Image src={block.image} alt={block.alt} fill className="object-cover" />
-          </div>
+        {/* Görsel alanı */}
+        <div
+          data-img-container
+          style={{
+            flex: "0 0 auto",
+            width: "577px",
+            height: "700px",
+            position: "relative",
+            overflow: "hidden",
+            borderRadius: "4px",
+            maxWidth: "100%",
+          }}
+        >
+          <Image
+            src={block.image}
+            alt={block.alt}
+            fill
+            style={{ objectFit: "cover" }}
+            sizes="(max-width: 768px) 100vw, 577px"
+            priority
+          />
         </div>
-        <div className="hidden md:block md:col-span-1" />
-        <div className="md:col-span-6 [direction:ltr] flex items-center md:pt-[6%] lg:pt-[25%]">
-          <div className="w-full">
-            <Heading
-              className="uppercase font-[100] text-[2.8rem] leading-[3rem] text-slate-700 text-center"
-              style={{ fontFamily: "mclaren-bespoke, Courier New, Arial" }}
-            >
-              {block.title}
-            </Heading>
-            <p className="mt-6 text-[1.4rem] leading-[2rem] break-words text-zinc-700 text-start">
-              {block.body}
-            </p>
-          </div>
+
+        {/* Yazı alanı */}
+        <div
+          data-text-container
+          style={{
+            flex: "1 1 0",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            minWidth: 0,
+          }}
+        >
+          <Heading
+            style={{
+              textTransform: "uppercase",
+              fontWeight: 300,
+              fontSize: "2.8rem",
+              lineHeight: "3rem",
+              color: "#363f44",
+              fontFamily: "'mclaren-bespoke', Courier New, Arial",
+              marginBottom: "1.5rem",
+              textAlign: "left",
+              
+            }}
+          >
+            {block.title}
+          </Heading>
+          <p
+            style={{
+              fontSize: "1.4rem",
+              lineHeight: "2.5rem",
+              color: "#363f44",
+              textAlign: "left",
+              marginTop: 0,
+              marginBottom: 0,
+              overflowWrap: "break-word",
+              fontFamily: "Noto-Sans, source-han-sans, sans-serif",
+              paddingTop: "0.5rem",
+            }}
+          >
+            {block.body}
+          </p>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
+
+
