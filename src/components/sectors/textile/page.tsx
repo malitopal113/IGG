@@ -174,7 +174,7 @@ const CONTENT: Record<TabKey, TabContent> = {
         title: "Utility with comfort",
         body:
           "We recognize that each industry has its own specific requirements. That’s why we incorporate features such as high visibility, heat resistance, or chemical resistance into our designs on a project-by-project basis. This approach allows us to maximize workplace safety and efficiency, while maintaining strict standards at every stage through robust quality control mechanisms.",
-        image: "/assets/sectors/textile/workwear/workwear2.png",
+        image: "/assets/sectors/textile/workwear/workwear22.png",
         alt: "Utility",
         reverse: true,
         level: 3,
