@@ -140,7 +140,7 @@ const CONTENT: Record<TabKey, TabContent> = {
         title: "Bold identity, crisp details",
         body:
           "Consistency and quality are core values in our work. From small local events to major international competitions, we approach every project with the same attention to detail. Every aspect, from fabric selection to printing methods, is carefully defined to ensure that each product clearly reflects the brand’s identity on the track.",
-        image: "/assets/sectors/textile/racing/identity.png",
+        image: "/assets/sectors/textile/racing/racing2.png",
         alt: "Identity details",
         reverse: true,
         level: 3,
