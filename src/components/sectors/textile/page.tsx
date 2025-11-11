@@ -271,7 +271,7 @@ const CONTENT: Record<TabKey, TabContent> = {
         title: "Premium basics, better prints",
         body:
           "In the promotional category, we offer solutions that enhance brand visibility. We customize products such as T-shirts, polo shirts, hats, and bags for specific campaigns. Through our printing and embroidery applications, we transform each item into a distinctive design. We also manage delivery processes in line with the planned schedule.",
-        image: "/assets/sectors/textile/promotional/promotional5555.png",
+        image: "/assets/sectors/textile/promotional/promotional1.png",
         alt: "Basics",
         level: 2,
       },
