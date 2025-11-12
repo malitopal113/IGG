@@ -558,7 +558,7 @@ export default function TextilePage() {
   style={{ top: "var(--subnav-top, var(--header-h, 80px))" }}
 >
   <div className="w-full">
-    <div className="hidden lg:block py-5">
+    <div className="hidden lg:block py-3">
       <div
         className="subnav-tabs-container"
         style={{
@@ -566,27 +566,35 @@ export default function TextilePage() {
           alignItems: "center",
           flexWrap: "nowrap",
           overflowX: "auto",
-          paddingBottom: "18px",
+          
           gap: "34px",
           paddingRight: "10px",
         }}
       >
-        {TABS.map((tab) => {
+        {TABS.filter(tab => tab.key !== "overview").map((tab) => {
           const isActive = tab.key === active;
           return (
             <button
               key={tab.key}
               onClick={() => setActive(tab.key)}
-              className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[15px] tracking-[0.12em] py-1.5 ${
+              className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[12px] tracking-[0.12em] py-1.5 line-clamp-none ${
                 isActive
                   ? "text-[#1a1a1a]"
                   : "text-slate-400 hover:text-slate-800"
               }`}
               title={tab.label}
               style={{
-                flex: "1 1 0",
+                flex: "1 1 auto",
                 minWidth: "0",
-                textAlign: "center"
+                textAlign: "center",
+                fontFamily: "Noto-Sans, source-han-sans, sans-serif",
+                fontWeight: 800,
+                letterSpacing: "2px",
+                whiteSpace: "nowrap",
+                // lineHeight: "2rem",
+    //             font-weight: 500;
+    // letter-spacing: 2px;
+    // line-height: 2rem;
               }}
             >
               {tab.label}
@@ -622,6 +630,7 @@ export default function TextilePage() {
         gap: 28px !important;
         padding-left: 32px;
         padding-right: 32px;
+        justifyContent: "space-between",
       }
       .subnav-tabs-container button {
         flex: 1 1 0;
@@ -818,10 +827,10 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
           display: "flex",
           flexDirection: isReverse ? "row-reverse" : "row",
           flexWrap: "wrap",
-          paddingLeft: "8.5rem",
-          paddingRight: "8.5rem",
+          paddingLeft: "5rem",
+          paddingRight: "5rem",
           width: "100%",
-          gap: "9.5rem",
+          gap: "8.2rem",
           marginTop: "2rem",
           marginBottom: "2rem",
         }}
@@ -864,12 +873,14 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
             style={{
               textTransform: "uppercase",
               fontWeight: 300,
-              fontSize: "2.8rem",
+              fontSize: "44px",
               lineHeight: "3rem",
               color: "#363f44",
               fontFamily: "'mclaren-bespoke', Courier New, Arial",
               marginBottom: "1.5rem",
               textAlign: "left",
+              letterSpacing: "0.0rem",
+              wordSpacing: "-0.9rem",
               
             }}
           >
@@ -877,8 +888,8 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
           </Heading>
           <p
             style={{
-              fontSize: "1.4rem",
-              lineHeight: "2.5rem",
+              fontSize: "20px",
+              lineHeight: "1.8rem",
               color: "#363f44",
               textAlign: "left",
               marginTop: 0,
@@ -886,6 +897,7 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
               overflowWrap: "break-word",
               fontFamily: "Noto-Sans, source-han-sans, sans-serif",
               paddingTop: "0.5rem",
+              fontWeight: 200,
             }}
           >
             {block.body}
