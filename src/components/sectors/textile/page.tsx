@@ -577,8 +577,10 @@ export default function TextilePage() {
                 display: "flex",
                 alignItems: "center",
                 flexWrap: "nowrap",
+                overflowX: "hidden" ,
                 gap: "34px",
                 paddingRight: "10px",
+                paddingLeft: "10px",
               }}
             >
               {TABS.filter(tab => tab.key !== "overview").map((tab) => {
@@ -594,12 +596,12 @@ export default function TextilePage() {
                     }`}
                     title={tab.label}
                     style={{
-                      flex: "1 1 auto",
-                      minWidth: "0",
+                      flex: "1 1 0",
+                      whiteSpace: "nowrap",
                       textAlign: "center",
                       fontFamily: "Noto-Sans, source-han-sans, sans-serif",
                       fontWeight: 800,
-                      letterSpacing: "2px",
+                      letterSpacing: "1px",
                     }}
                   >
                     {tab.label}
@@ -638,7 +640,7 @@ export default function TextilePage() {
           @media (max-width: 1919.98px) {
             .subnav-tabs-container {
               max-width: 100%;
-              overflow-x: auto !important;
+              overflow-x: hidden !important;
               justify-content: flex-start !important;
               gap: 34px !important;
               padding-left: 0;
