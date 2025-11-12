@@ -565,7 +565,7 @@ export default function TextilePage() {
           display: "flex",
           alignItems: "center",
           flexWrap: "nowrap",
-          overflowX: "auto",
+          // overflowX: "auto",
           
           gap: "34px",
           paddingRight: "10px",
