@@ -579,7 +579,7 @@ export default function TextilePage() {
                 flexWrap: "nowrap",
                 overflowX: "hidden" ,
                 gap: "34px",
-                paddingRight: "10px",
+                paddingRight: "15px",
                 paddingLeft: "10px",
               }}
             >
@@ -645,6 +645,7 @@ export default function TextilePage() {
               gap: 34px !important;
               padding-left: 0;
               padding-right: 0;
+              
             }
           }
           @media (min-width: 1920px) {
