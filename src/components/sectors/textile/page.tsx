@@ -563,98 +563,102 @@ export default function TextilePage() {
         </section>
       )}
 
-      {/* SUB MENU (sticky + horizontal scroll) */}
-      <nav
-        aria-label="Textile sub navigation"
-        className="sticky z-30 bg-white text-[#1a1a1a] shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.06)]"
-        style={{ top: "var(--subnav-top, var(--header-h, 80px))" }}
+{/* SUB MENU (sticky + horizontal scroll kapalı, tam görünür ve sığan linkler) */}
+<nav
+  aria-label="Textile sub navigation"
+  className="sticky z-30 bg-white text-[#1a1a1a] shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.06)]"
+  style={{ top: "var(--subnav-top, var(--header-h, 80px))" }}
+>
+  <div className="w-full">
+    <div className="hidden lg:block py-3">
+      <div
+        className="subnav-tabs-container"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "nowrap",
+          overflowX: "visible",  // Yatay scroll kapalı
+          gap: "clamp(15px, 1.5vw, 28px)",  // Daha küçük min gap, responsive artış
+          paddingRight: "clamp(12px, 2vw, 32px)",  // Responsive padding
+          paddingLeft: "clamp(12px, 2vw, 32px)",   // Responsive padding
+          justifyContent: "space-between",  // Linkler geniş ekranda eşit boşlukta
+        }}
       >
-        <div className="w-full">
-          <div className="hidden lg:block py-3">
-            <div
-              className="subnav-tabs-container"
+        {TABS.filter(tab => tab.key !== "overview").map((tab) => {
+          const isActive = tab.key === active;
+          return (
+            <button
+              key={tab.key}
+              onClick={() => setActive(tab.key)}
+              className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[12px] tracking-[0.12em] pb-2.5 pt-3.5 line-clamp-none ${
+                isActive ? "text-[#1a1a1a]" : "text-slate-400 hover:text-slate-800"
+              }`}
+              title={tab.label}
               style={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "nowrap",
-                overflowX: "hidden" ,
-                gap: "34px",
-                paddingRight: "15px",
-                paddingLeft: "10px",
+                flex: "1 1 auto",   // Butonlar orantılı büyüyüp küçülebilir
+                minWidth: "60px",   // Minimum makul genişlik
+                whiteSpace: "nowrap",
+                textAlign: "center",
+                fontFamily: "Noto-Sans, source-han-sans, sans-serif",
+                fontWeight: 800,
+                letterSpacing: "1px",
+                overflow: "visible",
+                textOverflow: "clip",  // Yazı kesilmez
               }}
             >
-              {TABS.filter(tab => tab.key !== "overview").map((tab) => {
-                const isActive = tab.key === active;
-                return (
-                  <button
-                    key={tab.key}
-                    onClick={() => setActive(tab.key)}
-                    className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[12px] tracking-[0.12em] pb-2.5 pt-3.5 line-clamp-none ${
-                      isActive
-                        ? "text-[#1a1a1a]"
-                        : "text-slate-400 hover:text-slate-800"
-                    }`}
-                    title={tab.label}
-                    style={{
-                      flex: "1 1 0",
-                      whiteSpace: "nowrap",
-                      textAlign: "center",
-                      fontFamily: "Noto-Sans, source-han-sans, sans-serif",
-                      fontWeight: 800,
-                      letterSpacing: "1px",
-                    }}
-                  >
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-          <div className="lg:hidden">
-            <MobileDropdown open={open} setOpen={setOpen} active={active} setActive={setActive} />
-          </div>
-        </div>
-        <div className="h-px w-full bg-black/10 " />
-        <style jsx global>{`
-          header[role="banner"], header { transition: transform 280ms ease; will-change: transform;}
-          html.igg-header-hidden header[role="banner"], html.igg-header-hidden header {transform: translateY(-100%);} 
-          @media (min-width: 1920px) {
-            .subnav-tabs-container {
-              width: 100vw;
-              max-width: 100vw;
-              margin-left: calc(-1 * ((100vw - 100%) / 2));
-              margin-right: 0;
-              overflow-x: visible !important;
-              justify-content: space-between !important;
-              gap: 28px !important;
-              padding-left: 32px;
-              padding-right: 32px;
-              justifyContent: "space-between",
-            }
-            .subnav-tabs-container button {
-              flex: 1 1 0;
-              min-width: 0;
-              text-align: center;
-            }
-          }
-          @media (max-width: 1919.98px) {
-            .subnav-tabs-container {
-              max-width: 100%;
-              overflow-x: hidden !important;
-              justify-content: flex-start !important;
-              gap: 34px !important;
-              padding-left: 0;
-              padding-right: 0;
-              
-            }
-          }
-          @media (min-width: 1920px) {
-            .subnav-tabs-container::-webkit-scrollbar {
-              display: none;
-            }
-          }
-        `}</style>
-      </nav>
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+    <div className="lg:hidden">
+      <MobileDropdown open={open} setOpen={setOpen} active={active} setActive={setActive} />
+    </div>
+  </div>
+  <div className="h-px w-full bg-black/10 " />
+  <style jsx global>{`
+    header[role="banner"], header {
+      transition: transform 280ms ease;
+      will-change: transform;
+    }
+    html.igg-header-hidden header[role="banner"],
+    html.igg-header-hidden header {
+      transform: translateY(-100%);
+    }
+    @media (min-width: 1000px) {
+      .subnav-tabs-container {
+        overflow-x: visible !important;  /* Hem tablet hem desktop’ta scroll yok*/
+        justify-content: space-between !important;
+        gap: clamp(15px, 1.5vw, 28px) !important;
+        padding-left: clamp(12px, 2vw, 32px) !important;
+        padding-right: clamp(12px, 2vw, 32px) !important;
+      }
+        
+      .subnav-tabs-container button {
+        flex: 1 1 auto !important;
+        min-width: 60px !important;
+        max-width: none !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+      }
+    }
+    @media (max-width: 999px) {
+      .subnav-tabs-container {
+        overflow-x: visible !important; /* Mobilde de scroll kapalı */
+        justify-content: flex-start !important;
+        gap: 23px !important;
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+      }
+      .subnav-tabs-container button {
+        max-width: none !important;
+        flex: 0 0 auto !important;
+      }
+    }
+  `}</style>
+</nav>
+
 
       <section id={`panel-${active}`}>
         {isOverview ? (
