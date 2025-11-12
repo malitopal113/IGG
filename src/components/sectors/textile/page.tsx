@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import OverviewHero from "./overview/OverviewHero";
 import CategoriesTextile from "./overview/CategoriesTextile";
@@ -20,7 +20,6 @@ type TabKey =
   | "sports-teamwear"
   | "e-gaming"
   | "towel-home";
-
 
 type Tab = { key: TabKey; label: string; image?: string; alt?: string };
 
@@ -118,15 +117,10 @@ type TabContent = {
    CONTENT BY TAB
 ========================= */
 const CONTENT: Record<TabKey, TabContent> = {
-  overview: {
-    intro: [],
-    blocks: [],
-  },
+  overview: { intro: [], blocks: [] },
+
   "racing-merchandise": {
-    intro: [
-      "Built around speed, precision and brand passion, our Racing & Merchandise program blends technical fabrics with premium finishing for teams and fans alike.",
-      "From track-ready layers to collectible lifestyle apparel, we deliver consistent fit, rich color accuracy and durable prints for elite partners.",
-    ],
+    intro: [],
     blocks: [
       {
         title: "Engineered for performance",
@@ -157,10 +151,7 @@ const CONTENT: Record<TabKey, TabContent> = {
   },
 
   workwear: {
-    intro: [
-      "Workwear that stands up to demanding environments without compromising comfort or brand standards.",
-      "We combine abrasion resistance, smart storage and easy-care finishes to keep teams productive and presentable.",
-    ],
+    intro: [],
     blocks: [
       {
         title: "Built to last",
@@ -190,12 +181,8 @@ const CONTENT: Record<TabKey, TabContent> = {
     ],
   },
 
-
   "military-police-security-wear": {
-    intro: [
-      "Mission-ready apparel systems designed for reliability, mobility and discretion.",
-      "We integrate near-infrared (NIR) considerations, low-noise trims and adaptive pocketing to support diverse missions.",
-    ],
+    intro: [],
     blocks: [
       {
         title: "Mobility under load",
@@ -225,12 +212,8 @@ const CONTENT: Record<TabKey, TabContent> = {
     ],
   },
 
-
   "corporate-wear-uniforms": {
-    intro: [
-      "Brand-right, comfortable uniforms that scale across roles and regions.",
-      "Color accuracy, consistent fit and easy maintenance make daily wear effortless for teams and operations.",
-    ],
+    intro: [],
     blocks: [
       {
         title: "Consistent fit at scale",
@@ -260,12 +243,8 @@ const CONTENT: Record<TabKey, TabContent> = {
     ],
   },
 
-
   "promotional-wear-accessories": {
-    intro: [
-      "Giveaways and retail-ready promos that feel premium and last longer.",
-      "From tees to caps and totes, we prioritize hand-feel, color and print durability to elevate brand perception.",
-    ],
+    intro: [],
     blocks: [
       {
         title: "Premium basics, better prints",
@@ -295,12 +274,8 @@ const CONTENT: Record<TabKey, TabContent> = {
     ],
   },
 
-
   "sports-teamwear": {
-    intro: [
-      "Athlete-led performance wear for training, travel and matchday.",
-      "Moisture-wicking meshes, zoned ventilation and bonded seams keep athletes moving in comfort.",
-    ],
+    intro: [],
     blocks: [
       {
         title: "Move, breathe, repeat",
@@ -332,10 +307,7 @@ const CONTENT: Record<TabKey, TabContent> = {
 
   // E-Gaming uses same content as racing-merchandise
   "e-gaming": JSON.parse(JSON.stringify({
-    intro: [
-      "Built around speed, precision and brand passion, our Racing & Merchandise program blends technical fabrics with premium finishing for teams and fans alike.",
-      "From track-ready layers to collectible lifestyle apparel, we deliver consistent fit, rich color accuracy and durable prints for elite partners.",
-    ],
+    intro: [],
     blocks: [
       {
         title: "Engineered for performance",
@@ -365,17 +337,14 @@ const CONTENT: Record<TabKey, TabContent> = {
     ],
   })),
 
-  // Towel & Home uses same content as workwear
+  // Towel & Home uses same content as workwear (customized)
   "towel-home": JSON.parse(JSON.stringify({
-    intro: [
-      "Workwear that stands up to demanding environments without compromising comfort or brand standards.",
-      "We combine abrasion resistance, smart storage and easy-care finishes to keep teams productive and presentable.",
-    ],
+    intro: [],
     blocks: [
       {
         title: "Built to last",
         body:
-          "We take pride in delivering hospitality-grade textile solutions that blend comfort, sophistication, and resilience. Specialising in luxury bath towels, spa towels, pool towels, and bed and bath linens, we partner with hotels, resorts, and spas to elevate every guest experience.  Each product is designed to withstand frequent washing—colourfast, absorbent, and quick‑drying—ensuring enduring quality and performance. Our textiles redefine luxury by combining plush softness with practical design, enhancing both relaxation and durability.",
+          "We take pride in delivering hospitality-grade textile solutions that blend comfort, sophistication, and resilience. Specialising in luxury bath towels, spa towels, pool towels, and bed and bath linens, we partner with hotels, resorts, and spas to elevate every guest experience.  Each product is designed to withstand frequent washing—colourfast, absorbent, and quick-drying—ensuring enduring quality and performance. Our textiles redefine luxury by combining plush softness with practical design, enhancing both relaxation and durability.",
         image: "/assets/sectors/textile/towel/towel1.png",
         alt: "Durable workwear",
         level: 2,
@@ -466,28 +435,68 @@ export default function TextilePage() {
   const activeTab = useMemo(() => TABS.find((t) => t.key === active)!, [active]);
   const isOverview = active === "overview";
 
+  /* Header hide/show (scroll YÖNÜNE DUYARLI) + offsets */
   const [headerH, setHeaderH] = useState<number>(80);
+  const lastYRef = useRef<number>(0);
+  const rafRef = useRef<number | null>(null);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
+
     const hdr =
       (document.querySelector('header[role="banner"]') as HTMLElement) ||
       (document.querySelector("header") as HTMLElement);
+
+    const writeVars = (y: number, showHeader: boolean, headerHeight: number) => {
+      // header görünür/gizli sınıfı
+      document.documentElement.classList.toggle("igg-header-hidden", !showHeader && y > 50);
+      // subnav top
+      const topPx = showHeader ? headerHeight : (y > 50 ? 0 : headerHeight);
+      document.documentElement.style.setProperty("--subnav-top", `${topPx}px`);
+    };
 
     const measure = () => {
       const h = hdr ? hdr.getBoundingClientRect().height : 80;
       setHeaderH(h);
       document.documentElement.style.setProperty("--header-h", `${h}px`);
+
       const y = window.scrollY || 0;
-      document.documentElement.classList.toggle("igg-header-hidden", y > 50);
-      const topPx = y > 50 ? 0 : h;
-      document.documentElement.style.setProperty("--subnav-top", `${topPx}px`);
+      // ilk ölçümde: 50 altındaysa göster, üstündeyse aşağı mı yukarı mı bilmiyoruz → varsayılan: aşağı kabul etme, görünür tut
+      const showHeader = y <= 50; 
+      writeVars(y, showHeader, h);
+      lastYRef.current = y;
     };
 
     const onScroll = () => {
-      const y = window.scrollY || 0;
-      document.documentElement.classList.toggle("igg-header-hidden", y > 50);
-      const topPx = y > 50 ? 0 : headerH;
-      document.documentElement.style.setProperty("--subnav-top", `${topPx}px`);
+      const exec = () => {
+        const y = window.scrollY || 0;
+        const prev = lastYRef.current;
+        const goingDown = y > prev + 2;   // küçük jitter filtre
+        const goingUp = y < prev - 2;
+
+        let showHeader: boolean;
+        if (y <= 50) {
+          // eşik altında her zaman görünür
+          showHeader = true;
+        } else {
+          // eşik üstünde yön tabanlı
+          if (goingUp) showHeader = true;
+          else if (goingDown) showHeader = false;
+          else {
+            // hareket çok küçükse mevcut durumu koru
+            const currentlyHidden = document.documentElement.classList.contains("igg-header-hidden");
+            showHeader = !currentlyHidden;
+          }
+        }
+
+        writeVars(y, showHeader, hdr ? hdr.getBoundingClientRect().height : headerH);
+        lastYRef.current = y;
+        rafRef.current = null;
+      };
+
+      if (rafRef.current == null) {
+        rafRef.current = window.requestAnimationFrame(exec);
+      }
     };
 
     measure();
@@ -499,9 +508,11 @@ export default function TextilePage() {
       window.removeEventListener("load", measure);
       window.removeEventListener("resize", measure);
       window.removeEventListener("scroll", onScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, [headerH]);
 
+  /* Preload hero (safe) */
   useEffect(() => {
     if (typeof window !== "undefined" && "Image" in window) {
       const t = TABS.find((x) => x.key === "overview");
@@ -512,6 +523,7 @@ export default function TextilePage() {
     }
   }, []);
 
+  /* Mobile dropdown */
   const [open, setOpen] = useState(false);
   useEffect(() => setOpen(false), [active]);
 
@@ -552,109 +564,94 @@ export default function TextilePage() {
       )}
 
       {/* SUB MENU (sticky + horizontal scroll) */}
-<nav
-  aria-label="Textile sub navigation"
-  className="sticky z-30 bg-white text-[#1a1a1a] shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.06)]"
-  style={{ top: "var(--subnav-top, var(--header-h, 80px))" }}
->
-  <div className="w-full">
-    <div className="hidden lg:block py-3">
-      <div
-        className="subnav-tabs-container"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flexWrap: "nowrap",
-          //  overflowX: "hidden",
-          
-          gap: "34px",
-          paddingRight: "10px",
-        }}
+      <nav
+        aria-label="Textile sub navigation"
+        className="sticky z-30 bg-white text-[#1a1a1a] shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.06)]"
+        style={{ top: "var(--subnav-top, var(--header-h, 80px))" }}
       >
-        {TABS.filter(tab => tab.key !== "overview").map((tab) => {
-          const isActive = tab.key === active;
-          return (
-            <button
-              key={tab.key}
-              onClick={() => setActive(tab.key)}
-              className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[12px] tracking-[0.12em] pb-2.5 pt-3.5 line-clamp-none ${
-                isActive
-                  ? "text-[#1a1a1a]"
-                  : "text-slate-400 hover:text-slate-800"
-              }`}
-              title={tab.label}
+        <div className="w-full">
+          <div className="hidden lg:block py-3">
+            <div
+              className="subnav-tabs-container"
               style={{
-                flex: "1 1 auto",
-                minWidth: "0",
-                textAlign: "center",
-                fontFamily: "Noto-Sans, source-han-sans, sans-serif",
-                fontWeight: 800,
-                letterSpacing: "2px",
-                whiteSpace: "nowrap",
-                // lineHeight: "2rem",
-    //             font-weight: 500;
-    // letter-spacing: 2px;
-    // line-height: 2rem;
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "nowrap",
+                gap: "34px",
+                paddingRight: "10px",
               }}
             >
-              {tab.label}
-              {isActive && (
-                <span className="absolute inset-x-0 -bottom-[10px] mx-auto h-[2px] w-full max-w-[96px] bg-[#1a1a1a]" />
-              )}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-    <div className="lg:hidden">
-      <MobileDropdown
-        open={open}
-        setOpen={setOpen}
-        active={active}
-        setActive={setActive}
-      />
-    </div>
-  </div>
-  <div className="h-px w-full bg-black/10 " />
-  <style jsx global>{`
-    header[role="banner"], header { transition: transform 280ms ease; will-change: transform;}
-    html.igg-header-hidden header[role="banner"], html.igg-header-hidden header {transform: translateY(-100%);} 
-    @media (min-width: 1920px) {
-      .subnav-tabs-container {
-        width: 100vw;
-        max-width: 100vw;
-        margin-left: calc(-1 * ((100vw - 100%) / 2));
-        margin-right: 0;
-        overflow-x: visible !important;
-        justify-content: space-between !important;
-        gap: 28px !important;
-        padding-left: 32px;
-        padding-right: 32px;
-        justifyContent: "space-between",
-      }
-      .subnav-tabs-container button {
-        flex: 1 1 0;
-        min-width: 0;
-        text-align: center;
-      }
-    }
-    @media (max-width: 1919.98px) {
-      .subnav-tabs-container {
-        max-width: 100%;
-        overflow-x: auto !important;
-        justify-content: flex-start !important;
-        gap: 34px !important;
-        padding-left: 0;
-        padding-right: 0;
-      }
-    }
-    @media (min-width: 1920px) {
-      .subnav-tabs-container::-webkit-scrollbar {
-        display: none;
-      }
-    }
-  `}</style>
-</nav>
+              {TABS.filter(tab => tab.key !== "overview").map((tab) => {
+                const isActive = tab.key === active;
+                return (
+                  <button
+                    key={tab.key}
+                    onClick={() => setActive(tab.key)}
+                    className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[12px] tracking-[0.12em] pb-2.5 pt-3.5 line-clamp-none ${
+                      isActive
+                        ? "text-[#1a1a1a]"
+                        : "text-slate-400 hover:text-slate-800"
+                    }`}
+                    title={tab.label}
+                    style={{
+                      flex: "1 1 auto",
+                      minWidth: "0",
+                      textAlign: "center",
+                      fontFamily: "Noto-Sans, source-han-sans, sans-serif",
+                      fontWeight: 800,
+                      letterSpacing: "2px",
+                    }}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className="lg:hidden">
+            <MobileDropdown open={open} setOpen={setOpen} active={active} setActive={setActive} />
+          </div>
+        </div>
+        <div className="h-px w-full bg-black/10 " />
+        <style jsx global>{`
+          header[role="banner"], header { transition: transform 280ms ease; will-change: transform;}
+          html.igg-header-hidden header[role="banner"], html.igg-header-hidden header {transform: translateY(-100%);} 
+          @media (min-width: 1920px) {
+            .subnav-tabs-container {
+              width: 100vw;
+              max-width: 100vw;
+              margin-left: calc(-1 * ((100vw - 100%) / 2));
+              margin-right: 0;
+              overflow-x: visible !important;
+              justify-content: space-between !important;
+              gap: 28px !important;
+              padding-left: 32px;
+              padding-right: 32px;
+              justifyContent: "space-between",
+            }
+            .subnav-tabs-container button {
+              flex: 1 1 0;
+              min-width: 0;
+              text-align: center;
+            }
+          }
+          @media (max-width: 1919.98px) {
+            .subnav-tabs-container {
+              max-width: 100%;
+              overflow-x: auto !important;
+              justify-content: flex-start !important;
+              gap: 34px !important;
+              padding-left: 0;
+              padding-right: 0;
+            }
+          }
+          @media (min-width: 1920px) {
+            .subnav-tabs-container::-webkit-scrollbar {
+              display: none;
+            }
+          }
+        `}</style>
+      </nav>
 
       <section id={`panel-${active}`}>
         {isOverview ? (
@@ -662,12 +659,9 @@ export default function TextilePage() {
             <OverviewHero />
             <CategoriesTextile />
             <IGGExplore />
-            
-
           </>
         ) : (
           <>
-            <IntroText paragraphs={content.intro} />
             {content.blocks.map((b, i) => (
               <ParagraphAsset key={`${active}-${i}`} block={b} />
             ))}
@@ -680,8 +674,7 @@ export default function TextilePage() {
   );
 }
 
-/* MobileDropdown ve diğer yardımcı fonksiyonlar aşağıda aynen bırak */
-
+/* MobileDropdown ve diğer yardımcı fonksiyonlar */
 function MobileDropdown({
   open,
   setOpen,
@@ -703,9 +696,7 @@ function MobileDropdown({
         className="flex w-full items-center justify-start py-5 px-6 text-slate-700 hover:text-slate-900 hover:cursor-pointer border-b border-black/5"
       >
         <svg
-          className={`h-4 w-4 shrink-0 transition-transform duration-300 mr-2 ${
-            open ? "rotate-180" : "rotate-0"
-          }`}
+          className={`h-4 w-4 shrink-0 transition-transform duration-300 mr-2 ${open ? "rotate-180" : "rotate-0"}`}
           viewBox="0 0 12 6"
           aria-hidden="true"
         >
@@ -717,9 +708,7 @@ function MobileDropdown({
       </button>
       <div
         id="textile-mobile-submenu"
-        className={`transition-all duration-500 ease-in-out overflow-hidden ${
-          open ? "max-h-[1000px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"
-        }`}
+        className={`transition-all duration-500 ease-in-out overflow-hidden ${open ? "max-h-[1000px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"}`}
       >
         <ul className="m-0 list-none p-0 pb-4 flex flex-col gap-3 px-6">
           {TABS.map((tab) => {
@@ -763,7 +752,6 @@ function IntroText({ paragraphs }: { paragraphs: string[] }) {
     </section>
   );
 }
-   
 
 function ParagraphAsset({ block }: { block: ContentBlock }) {
   const Heading = (block.level === 3 ? "h3" : "h2") as "h2" | "h3";
@@ -803,15 +791,14 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
             padding-left: 1rem !important;
             padding-right: 1rem !important;
           }
-
         }
-          @media (min-width: 1600px) {
+        @media (min-width: 1600px) {
           section[data-paragraphasset] {
-            
             padding-left: 9rem !important;
             padding-right: 9rem !important;
             gap: 12rem !important;
           }
+        }
       `}</style>
       <section
         data-paragraphasset
@@ -833,6 +820,7 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
           gap: "8.2rem",
           marginTop: "2rem",
           marginBottom: "2rem",
+          paddingTop: "4rem",
         }}
       >
         {/* Görsel alanı */}
@@ -881,7 +869,6 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
               textAlign: "left",
               letterSpacing: "0.0rem",
               wordSpacing: "-0.9rem",
-              
             }}
           >
             {block.title}
@@ -907,5 +894,3 @@ function ParagraphAsset({ block }: { block: ContentBlock }) {
     </>
   );
 }
-
-
