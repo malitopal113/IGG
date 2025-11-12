@@ -565,7 +565,7 @@ export default function TextilePage() {
           display: "flex",
           alignItems: "center",
           flexWrap: "nowrap",
-          // overflowX: "auto",
+          //  overflowX: "hidden",
           
           gap: "34px",
           paddingRight: "10px",
@@ -577,7 +577,7 @@ export default function TextilePage() {
             <button
               key={tab.key}
               onClick={() => setActive(tab.key)}
-              className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[12px] tracking-[0.12em] py-1.5 line-clamp-none ${
+              className={`shrink-0 relative uppercase hover:cursor-pointer font-bold transition-colors text-[12px] tracking-[0.12em] pb-2.5 pt-3.5 line-clamp-none ${
                 isActive
                   ? "text-[#1a1a1a]"
                   : "text-slate-400 hover:text-slate-800"
