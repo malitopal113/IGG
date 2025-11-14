@@ -10,6 +10,11 @@ interface HomePageItemProps {
   scale?: number; // initial scale (0..1)
   titleTranslateX?: number; // percent
   pinDurationMultiplier?: number;
+  imageTargetScale?: number;   // final büyüklük (default 1.10 gibi)
+  imageGrowthStart?: number;   // büyümenin başladığı progress (0..1)
+  imageGrowthEnd?: number;     // büyümenin bittiği progress (0..1)
+  imageGrowthCurve?: number;
+  imageOffsetY?: number;   // eğri (1 düz, >1 daha yavaş başlar)
 }
 
 const clamp = (v: number, min = 0, max = 1) => Math.max(min, Math.min(max, v));
@@ -23,6 +28,12 @@ export default function HomePageItem({
   scale = 0.5,
   titleTranslateX = 84,
   pinDurationMultiplier = 1.6,
+  imageTargetScale = 1.12,   // daha fazla yanlara genişlesin
+  imageGrowthStart = 0.00,   // hemen başlasın
+  imageGrowthEnd = 0.80,     // biraz daha uzun sürsün
+  imageGrowthCurve = 1.25,
+  imageOffsetY = -20  // büyüme ilk kısımda yavaş, sonra hızlanır
+
 }: HomePageItemProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
@@ -64,7 +75,9 @@ export default function HomePageItem({
   const eased = easeOutCubic(progress);
 
   // image zoom
-  const imageScale = scale + eased * (1 - scale);
+  const norm = clamp((eased - imageGrowthStart) / (imageGrowthEnd - imageGrowthStart));
+const curve = Math.pow(norm, imageGrowthCurve); // 1: lineer, >1: başta yavaş
+const imageScale = scale + curve * (imageTargetScale - scale);
   const imageStyle: React.CSSProperties = {
     transform: `scale(${imageScale})`,
     willChange: "transform",
@@ -104,7 +117,7 @@ export default function HomePageItem({
     <section
       ref={containerRef}
       className="relative w-full bg-[#0b0b0b] text-white"
-      style={{ height: "170vh" }}
+      style={{ height: "300vh" }}
     >
       {/* Sticky animation layer */}
       <div

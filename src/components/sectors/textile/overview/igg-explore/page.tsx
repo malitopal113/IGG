@@ -8,59 +8,76 @@ export default function Page() {
       
         <MainIntro  />
        <HomePageItem
-        image="https://asl.partners/view/uploads/2024/01/image-3.jpeg"
+        image="/assets/sectors/textile/explore/1.png"
         titleLeft="TRANSFER"
         titleRight="SERVICES"
         desc="International chauffeurs for a Premium service - airports, hotels, venues … business or leisure"
-        scale={0.6}
-        titleTranslateX={84}
+        scale={0.7}
+        titleTranslateX={44}
         pinDurationMultiplier={1.6}
+        imageTargetScale = {1.12}   // daha fazla yanlara genişlesin
+        imageGrowthStart = {0.00}   // hemen başlasın
+        imageGrowthEnd = {1.00}     // biraz daha uzun sürsün
+        imageGrowthCurve = {1.25}
+        imageOffsetY = {-20}
       />
        <HomePageItem
-        image="https://asl.partners/view/uploads/2024/01/image-3.jpeg"
+        image="/assets/sectors/textile/explore/2.png"
         titleLeft="TRANSFER"
         titleRight="SERVICES"
         desc="International chauffeurs for a Premium service - airports, hotels, venues … business or leisure"
         scale={0.6}
         titleTranslateX={84}
         pinDurationMultiplier={1.6}
+         imageTargetScale = {1.12}   
+        imageGrowthStart = {0.00}   
+        imageGrowthEnd = {1.00}     
+        imageGrowthCurve = {1.25}
+        imageOffsetY = {-20}
         />
          <HomePageItem
-        image="https://asl.partners/view/uploads/2024/01/image-3.jpeg"
+        image="/assets/sectors/textile/explore/3.png"
         titleLeft="TRANSFER"
         titleRight="SERVICES"
         desc="International chauffeurs for a Premium service - airports, hotels, venues … business or leisure"
         scale={0.6}
         titleTranslateX={84}
         pinDurationMultiplier={1.6}
+         imageTargetScale = {1.12}   
+        imageGrowthStart = {0.00}   
+        imageGrowthEnd = {0.80}     
+        imageGrowthCurve = {1.25}
+        imageOffsetY = {-20}
         />
          <HomePageItem
-        image="https://asl.partners/view/uploads/2024/01/image-3.jpeg"
+        image="/assets/sectors/textile/explore/4.png"
         titleLeft="TRANSFER"
         titleRight="SERVICES"
         desc="International chauffeurs for a Premium service - airports, hotels, venues … business or leisure"
         scale={0.6}
         titleTranslateX={84}
         pinDurationMultiplier={1.6}
+         imageTargetScale = {1.12}   
+        imageGrowthStart = {0.00}   
+        imageGrowthEnd = {0.80}     
+        imageGrowthCurve = {1.25}
+        imageOffsetY = {-20}
         />
          <HomePageItem
-        image="https://asl.partners/view/uploads/2024/01/image-3.jpeg"
+        image="/assets/sectors/textile/explore/5.png"
         titleLeft="TRANSFER"
         titleRight="SERVICES"
         desc="International chauffeurs for a Premium service - airports, hotels, venues … business or leisure"
         scale={0.6}
         titleTranslateX={84}
         pinDurationMultiplier={1.6}
+         imageTargetScale = {1.12}   
+        imageGrowthStart = {0.00}   
+        imageGrowthEnd = {0.80}     
+        imageGrowthCurve = {1.25}
+        imageOffsetY = {-20}
         />
-         <HomePageItem
-        image="https://asl.partners/view/uploads/2024/01/image-3.jpeg"
-        titleLeft="TRANSFER"
-        titleRight="SERVICES"
-        desc="International chauffeurs for a Premium service - airports, hotels, venues … business or leisure"
-        scale={0.6}
-        titleTranslateX={84}
-        pinDurationMultiplier={1.6}
-        />
+        
     </div>
   );
 }
